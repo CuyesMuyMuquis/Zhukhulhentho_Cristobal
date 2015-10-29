@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import Controlador.GestorMapas;
 import Controlador.InterpreteComandos;
@@ -22,6 +25,7 @@ public class Juego implements Renderizador{
 	private GestorMapas gestorMapa ;
 	private InterpreteComandos interpreteComando ; 
 	private Mapa  mapaActual ; 
+	private JFrame ventana; 
 
 	private static int pantallaActual = 0 ;
 	
@@ -35,24 +39,24 @@ public class Juego implements Renderizador{
 		FinDelJuego();
 	}
 
+	public void setearVentana(JFrame ventana){
+		this.ventana = ventana ; 
+	}
 	public Juego(int numeroMapas , int numerosDeObjetos , int numPersSecund){
 		 nextLevel =  0  ;
 		 listObjetos  = new  ArrayList <Objeto>(numerosDeObjetos) ; 
 		 listPersonajesSecundarios = new ArrayList <PersonajeSecundario>(numPersSecund) ;
-		 listMapas = new ArrayList <Mapa>(numeroMapas) ;
-		 interpreteComando = new InterpreteComandos() ;		 		 				 	
-		 gestorMapa = new GestorMapas();		 		
+		 setListMapas(new ArrayList <Mapa>(numeroMapas)) ;
+		 setInterpreteComando(new InterpreteComandos()) ;		 		 				 	
+		 gestorMapa = new GestorMapas();		
 		 
-	
-		
-		 
-		 
+		 //Le pasamos el nivel del mapa --0. tutorial -- 1. nivel 1 -- 2. nivel 2
 		 for(int i = 0 ; i <3 ; i++ ){ //Crea los mapas a utilizar
-			 listMapas.add(new Mapa());			 
+			 getListMapas().add(new Mapa(i));			 
 		 }	
 		 
 		 int indice = 0 ;
-		 for (Mapa miMapa : listMapas){
+		 for (Mapa miMapa : getListMapas()){
 			 try {
 				gestorMapa.crearMapa(miMapa, indice);
 			} catch (IOException e) {
@@ -66,9 +70,9 @@ public class Juego implements Renderizador{
 
 		 mapaActual = new Mapa();
 		 //gestorMapa.crearMapa(mapaActual, 0);
-		 mapaActual =  listMapas.get(0);  // puede ser no necesario		 
+		 mapaActual =  getListMapas().get(0);  // puede ser no necesario		 
 		 //	 mapaActual.ImprimirMapa();		 
-		 
+		iniciarPersonajes();
 		 // Prueba 
 		 /*personajeA = new PersonajePrincipal("Brayan", 22,22,2, 2, 'A', true, false) ; 
 		 personajeB = new PersonajePrincipal("Brando", 22,22,3,3, 'A', true, false) ;
@@ -94,16 +98,16 @@ public class Juego implements Renderizador{
 				// Fin de nivel
 				System.out.println("TU VIDA ES" + perA.getVida());
 				if (perA.getPosY() == 15 && perB.getPosY() == 15) break ;
-				ImprimirMapa(listMapas.get(2), perA, perB);
+				ImprimirMapa(getListMapas().get(2), perA, perB,ventana);
 				if (perA.getVida() <= 0 ) {
 				PerdisteElJuego();		
 				break ; 
 			}
 			entrada = teclado.next().charAt(0); 
-			direccion = interpreteComando.esTeclaValida(entrada);
+			direccion = getInterpreteComando().esTeclaValida(entrada);
 			System.out.println(direccion);
-				if (interpreteComando.movimientoValido(perA , perB , direccion , listMapas.get(2))){
-					interpreteComando.moverPersonajes(perA, perB, direccion);		
+				if (getInterpreteComando().movimientoValido(perA , perB , direccion , getListMapas().get(2))){
+					getInterpreteComando().moverPersonajes(perA, perB, direccion);		
 				}
 			}
 			if (perA.getVida() > 0 )Historia_3();
@@ -134,16 +138,16 @@ public class Juego implements Renderizador{
 				// Fin de nivel
 				System.out.println("TU VIDA ES" + perA.getVida());
 				if (perA.getPosY() == 15 && perB.getPosY() == 15) break ;
-				ImprimirMapa(listMapas.get(1), perA, perB);
+				ImprimirMapa(getListMapas().get(1), perA, perB,ventana);
 				if (perA.getVida() <= 0 ) {
 				PerdisteElJuego();		
 				break ; 
 			}
 			entrada = teclado.next().charAt(0); 
-			direccion = interpreteComando.esTeclaValida(entrada);
+			direccion = getInterpreteComando().esTeclaValida(entrada);
 			System.out.println(direccion);
-				if (interpreteComando.movimientoValido(perA , perB , direccion , listMapas.get(1))){
-					interpreteComando.moverPersonajes(perA, perB, direccion);		
+				if (getInterpreteComando().movimientoValido(perA , perB , direccion , getListMapas().get(1))){
+					getInterpreteComando().moverPersonajes(perA, perB, direccion);		
 				}
 			}
 			if (perA.getVida() > 0 )							
@@ -154,7 +158,7 @@ public class Juego implements Renderizador{
 		}
 	}
 	
-	public void Tutorial(PersonajePrincipal perA , PersonajePrincipal perB){
+	public int Tutorial(PersonajePrincipal perA , PersonajePrincipal perB, char letra, JFrame vent){
 		int entero, direccion;
 		char entrada ; 
 		System.out.println("Movimientos Jugador1 - Movimientos Jugador2");
@@ -167,29 +171,38 @@ public class Juego implements Renderizador{
 		System.out.println("");
 		System.out.println("Al llegar a D, aparecera los comandos que debe presionar\nLuego dar enter para activar la acción especial");
 		System.out.println("Cualquier numero y enter para continuar ");
-		entero = teclado.nextInt();
-		if(entero != nextLevel){
-			while(true){
-				// Fin de nivel
-				System.out.println("VIDA " + perA.getVida());
-				if (perA.getPosY() == 15 && perB.getPosY() == 15) break ;
-				ImprimirMapa(listMapas.get(0), perA, perB);
-				if (perA.getVida() <= 0 ) {
-				PerdisteElJuego();		
-				break ; 
-			}
-			entrada = teclado.next().charAt(0); 
-			direccion = interpreteComando.esTeclaValida(entrada);
-			System.out.println(direccion);
-				if (interpreteComando.movimientoValido(perA , perB , direccion , listMapas.get(0))){
-					interpreteComando.moverPersonajes(perA, perB, direccion);		
-				}
-			}
-			if (perA.getVida() > 0 ) Nivel_1(perA, perB);
+		
+		entrada = letra; 				
+		direccion = getInterpreteComando().esTeclaValida(entrada);
+		System.out.println(direccion);
+		if (getInterpreteComando().movimientoValido(perA , perB , direccion , getListMapas().get(0))){
+			getInterpreteComando().moverPersonajes(perA, perB, direccion);		
+		}		
+		
+		int flag = -1; // -1 -> no pasa nada. 0 -> duo. 1 -> accionEspecial. 2 -> acabo Nivel. 3 -> has perdido.
+		// Fin de nivel
+		System.out.println("VIDA " + perA.getVida());
+		
+		if (perA.getPosY() == 15 && perB.getPosY() == 15) {
+			flag =  2 ;
+			return flag;
 		}
-		else{
-			PerdisteElJuego();			 
+		if (perA.getVida() <= 0 ) {
+			PerdisteElJuego();		
+			flag = 3 ;
+			return flag;
 		}
+		
+		flag = getInterpreteComando().VerificaEstado(getListMapas().get(0), perA, perB);
+		if(flag == 0)
+			System.out.println("DUO 2");
+	
+		ImprimirMapa(getListMapas().get(0), perA, perB, vent);
+		
+		return flag;
+			
+			///if (perA.getVida() > 0 ) Nivel_1(perA, perB);
+	
 	}
 	public void Historia_1(PersonajePrincipal perA , PersonajePrincipal perB)	{		
 		String linea ; 
@@ -197,7 +210,7 @@ public class Juego implements Renderizador{
 		System.out.println("Cristobal y su hermana eran cuyes pequeños.\nSiempre se preguntaban para qué servían, si su existencia era valiosa.\nPara responder a sus incógnitas, fueron en busca de la llama Sabia.\nUn ser lleno de respuestas.");
 		System.out.println("( cualquier numero y enter para continuar )");
 		linea = teclado.next();
-		Tutorial(perA , perB);			
+		Tutorial(perA , perB,' ',ventana);			
 		
 	}
 	public void NuevoJuego(PersonajePrincipal perA, PersonajePrincipal perB){
@@ -224,7 +237,7 @@ public class Juego implements Renderizador{
 			opcion = teclado.nextInt();
 			
 			if(opcion == 1){
-				NuevoJuego(personajeA , personajeB);	
+				NuevoJuego(getPersonajeA() , getPersonajeB());	
 			}
 			else if(opcion == 2){
 				System.out.println("Seguro que quiere salir? ");
@@ -241,17 +254,23 @@ public class Juego implements Renderizador{
 	
 	
 	public void iniciarPersonajes(){
-		PersonajePrincipal cuy1 = new PersonajePrincipal("Cristobal", 10, 190, 10 , 0, 'A', true, false);
+		PersonajePrincipal cuy1 = new PersonajePrincipal("Cristobal", 10, 190, 4 , 0, 'A', true, false);
  	    //System.out.print(cuy1.getEstadoActual());
  	    
- 	    PersonajePrincipal cuy2 = new PersonajePrincipal("Hermana", 10, 190,5, 0, 'B', true, false);
+ 	    PersonajePrincipal cuy2 = new PersonajePrincipal("Hermana", 10, 190,9, 0, 'B', true, false);
  	    //System.out.print(cuy2.getEstadoActual());
  	    
-		personajeA = cuy1  ; //Xq igualamos aquí? si igual nunca usamos personajeA ni personajeB
-		personajeB = cuy2 ; 
+		setPersonajeA(cuy1)  ; //Xq igualamos aquí? si igual nunca usamos personajeA ni personajeB
+		setPersonajeB(cuy2) ; 
 		
 	}
-	public void ImprimirMapa(Mapa mapa, PersonajePrincipal cuy1, PersonajePrincipal cuy2){
+	
+	public void ActualizarMapa(Mapa mapa,PersonajePrincipal cuy1 ,PersonajePrincipal cuy2){
+		
+	}
+	
+	
+	public void ImprimirMapa(Mapa mapa, PersonajePrincipal cuy1, PersonajePrincipal cuy2, JFrame vent){
 		int flagDuo=0, flagAccA=0, flagAccB=0, flagNuevoEnemigo=0, esp=0;
 		
 		for(int fil=0;fil<12;fil++){
@@ -265,8 +284,7 @@ public class Juego implements Renderizador{
 						if(((cuy1.getPosX()==11 && cuy1.getPosY()==1)||(cuy1.getPosX()==10 && cuy1.getPosY()==0)) && esp>50){
 							flagNuevoEnemigo++;
 							mapa.establecerCaracter(fil, col+1, '@');
-							//Esto hace que el caracter del costado muestre al enemigo en la impresion
-							
+							//Esto hace que el caracter del costado muestre al enemigo en la impresion							
 						}
 						//if (mapa.obtenerCaracter(i,j)=='C') flagAccA++;
 					}					    
@@ -284,43 +302,50 @@ public class Juego implements Renderizador{
 		
 		//la verificacion del duo debe darse en el juego, ya que si la cadena es correcta debera
 				//mandar a otro método de impresión
-				if(flagDuo==2){
-					System.out.println("AMBOS HERMANOS PUEDEN HACER UN DUO");
-					if(mapa.getEstadoDuo() == 0){
-						ImprimirDuo(mapa, cuy1, cuy2);
-						if (cuy1.getVida() <= 0 ) return ;
-						
-					}else if (mapa.getEstadoDuo() == 1){
-						
-						if (mapa.getContador() == 0){
-							ImprimirDuo2(mapa, cuy1, cuy2);
-							mapa.setContador( mapa.getContador() + 1 );
-							}
-						else{ 
-							ImprimirDuo3(mapa, cuy1, cuy2);
-							}
-						if (cuy1.getVida() <= 0 ) return ;
-						
-					}else if (mapa.getEstadoDuo() == 2){
-						ImprimirDuo4(mapa, cuy1, cuy2);
-						if (cuy1.getVida() <= 0 ) return ;
-					}	
+		
+		
+		/*
+		if(flagDuo==2){
+			JOptionPane.showMessageDialog(null, "Mensaje", 
+					"Título del Mensaje", JOptionPane.INFORMATION_MESSAGE);
+			
+			System.out.println("AMBOS HERMANOS PUEDEN HACER UN DUO");
+			if(mapa.getEstadoDuo() == 0){
+				ImprimirDuo(mapa, cuy1, cuy2);
+				if (cuy1.getVida() <= 0 ) return ;
+
+			}else if (mapa.getEstadoDuo() == 1){
+
+				if (mapa.getContador() == 0){
+					ImprimirDuo2(mapa, cuy1, cuy2);
+					mapa.setContador( mapa.getContador() + 1 );
 				}
-				if(flagAccA>0){
-					System.out.println("CRISTOBAL PUEDE HACER UNA ACCION");
-					if(cuy1.getPosX()==9 && cuy1.getPosY()==11) AccionNivel2A(mapa, cuy1, cuy2);
-					else AccionTutorial(mapa, cuy1, cuy2);
+				else{ 
+					ImprimirDuo3(mapa, cuy1, cuy2);
 				}
-				if(flagAccB>0){
-					System.out.println("LA HERMANA PUEDE HACER UNA ACCION");
-					AccionNivel2B(mapa, cuy1, cuy2);
-				}
-				if(flagNuevoEnemigo>0 && esp> 50){
-					//ACA HAY UN NUEVO ENEMIGO ESO VALIDA QUE HAYA PISADO EL TRIGGER
-					System.out.println("UN NUEVO ENEMIGO HA APARECIDO");
-					cuy1.setPosY(3);
-					ImprimirAccionNUEVA(mapa, cuy1, cuy2);
-				}
+				if (cuy1.getVida() <= 0 ) return ;
+
+			}else if (mapa.getEstadoDuo() == 2){
+				ImprimirDuo4(mapa, cuy1, cuy2);
+				if (cuy1.getVida() <= 0 ) return ;
+			}	
+		}
+		if(flagAccA>0){
+			System.out.println("CRISTOBAL PUEDE HACER UNA ACCION");
+			if(cuy1.getPosX()==9 && cuy1.getPosY()==11) AccionNivel2A(mapa, cuy1, cuy2);
+			else AccionTutorial(mapa, cuy1, cuy2);
+		}
+		if(flagAccB>0){
+			System.out.println("LA HERMANA PUEDE HACER UNA ACCION");
+			AccionNivel2B(mapa, cuy1, cuy2);
+		}
+		if(flagNuevoEnemigo>0 && esp> 50){
+			//ACA HAY UN NUEVO ENEMIGO ESO VALIDA QUE HAYA PISADO EL TRIGGER
+			System.out.println("UN NUEVO ENEMIGO HA APARECIDO");
+			cuy1.setPosY(3);
+			ImprimirAccionNUEVA(mapa, cuy1, cuy2);
+		}
+		*/
 	}
 	
 	public void AccionTutorial(Mapa mapa, PersonajePrincipal cuy1, PersonajePrincipal  cuy2){
@@ -337,17 +362,17 @@ public class Juego implements Renderizador{
 		//ACCION - POSICION 1
 		cuy1.setPosY(11); ///
 		cuy1.setPosX(7);		
-		ImprimirMapa(mapa,cuy1,cuy2);
+		ImprimirMapa(mapa,cuy1,cuy2,ventana);
 		entrada = teclado.nextLine() ;
 		//ACCION - POSICION 2
 		cuy1.setPosY(13);
 		cuy1.setPosX(5);
-		ImprimirMapa(mapa,cuy1,cuy2);
+		ImprimirMapa(mapa,cuy1,cuy2,ventana);
 		entrada = teclado.nextLine() ;
 		//ACCION - POSICION 3
 		cuy1.setPosY(13);
 		cuy1.setPosX(8);
-		ImprimirMapa(mapa,cuy1,cuy2);
+		ImprimirMapa(mapa,cuy1,cuy2,ventana);
 		entrada = teclado.nextLine() ;
 		System.out.println("PUEDES MOVERTE Y CONTINUAR");
 
@@ -367,12 +392,12 @@ public class Juego implements Renderizador{
 		//ACCION - POSICION 1
 		cuy1.setPosY(4); ///
 		cuy1.setPosX(9);		
-		ImprimirMapa(mapa,cuy1,cuy2);
+		ImprimirMapa(mapa,cuy1,cuy2,ventana);
 		entrada = teclado.nextLine() ;
 		//ACCION - POSICION 2
 		cuy1.setPosY(5);
 		cuy1.setPosX(9);
-		ImprimirMapa(mapa,cuy1,cuy2);
+		ImprimirMapa(mapa,cuy1,cuy2,ventana);
 		entrada = teclado.nextLine() ;
 		System.out.println("PUEDES MOVERTE Y CONTINUAR");
 
@@ -392,12 +417,12 @@ public class Juego implements Renderizador{
 		//ACCION - POSICION 1
 		cuy2.setPosY(4); ///
 		cuy2.setPosX(3);		
-		ImprimirMapa(mapa,cuy1,cuy2);
+		ImprimirMapa(mapa,cuy1,cuy2,ventana);
 		entrada = teclado.nextLine() ;
 		//ACCION - POSICION 2
 		cuy2.setPosY(5);
 		cuy2.setPosX(3);
-		ImprimirMapa(mapa,cuy1,cuy2);
+		ImprimirMapa(mapa,cuy1,cuy2,ventana);
 		entrada = teclado.nextLine();
 		System.out.println("PUEDES MOVERTE Y CONTINUAR");
 
@@ -411,17 +436,17 @@ public class Juego implements Renderizador{
 			//ACCION - POSICION 1
 			cuy2.setPosY(4); ///
 			cuy2.setPosX(8);		
-			ImprimirMapa(mapa,cuy1,cuy2);
+			ImprimirMapa(mapa,cuy1,cuy2,ventana);
 			entrada = teclado.nextLine() ;
 			//ACCION - POSICION 2
 			cuy2.setPosY(3);
 			cuy2.setPosX(10);
-			ImprimirMapa(mapa,cuy1,cuy2);
+			ImprimirMapa(mapa,cuy1,cuy2,ventana);
 			entrada = teclado.nextLine() ;
 			//ACCION - POSICION 3
 			cuy2.setPosY(3);
 			cuy2.setPosX(8);
-			ImprimirMapa(mapa,cuy1,cuy2);
+			ImprimirMapa(mapa,cuy1,cuy2,ventana);
 			System.out.println("HAZ SALVADO A TU HERMANO! :D");
 			System.out.println("PUEDES MOVERTE Y CONTINUAR");
 			entrada = teclado.nextLine() ;	
@@ -461,14 +486,14 @@ public class Juego implements Renderizador{
 		cuy1.setPosY(10);
 		cuy2.setPosX(6);
 		cuy2.setPosY(9);		
-		ImprimirMapa(mapa,cuy1,cuy2);
+		ImprimirMapa(mapa,cuy1,cuy2,ventana);
 		entrada = teclado.nextLine() ;
 		//DUO - POSICION 2
 		cuy1.setPosX(6);
 		cuy1.setPosY(13);
 		cuy2.setPosX(5);
 		cuy2.setPosY(13);
-		ImprimirMapa(mapa,cuy1,cuy2);
+		ImprimirMapa(mapa,cuy1,cuy2,ventana);
 		entrada = teclado.nextLine() ;
 		System.out.println("PUEDES MOVERTE Y CONTINUAR");
 		
@@ -490,35 +515,35 @@ public class Juego implements Renderizador{
 		cuy1.setPosY(11);
 		cuy2.setPosX(9);
 		cuy2.setPosY(10);		
-		ImprimirMapa(mapa,cuy1,cuy2);
+		ImprimirMapa(mapa,cuy1,cuy2,ventana);
 		entrada = teclado.nextLine() ;
 		//DUO - POSICION 2
 		cuy1.setPosX(7);
 		cuy1.setPosY(11);
 		cuy2.setPosX(7);
 		cuy2.setPosY(10);
-		ImprimirMapa(mapa,cuy1,cuy2);
+		ImprimirMapa(mapa,cuy1,cuy2,ventana);
 		entrada = teclado.nextLine() ;
 		//DUO - POSICION 3
 		cuy1.setPosX(5);
 		cuy1.setPosY(11);		
 		cuy2.setPosX(6);
 		cuy2.setPosY(11);
-		ImprimirMapa(mapa,cuy1,cuy2);
+		ImprimirMapa(mapa,cuy1,cuy2,ventana);
 		entrada = teclado.nextLine() ;
 		//DUO - POSICION 4
 		cuy1.setPosX(2);
 		cuy1.setPosY(12);		
 		cuy2.setPosX(2);
 		cuy2.setPosY(13);
-		ImprimirMapa(mapa,cuy1,cuy2);
+		ImprimirMapa(mapa,cuy1,cuy2,ventana);
 		entrada = teclado.nextLine() ;
 		//DUO - POSICION 5
 		cuy1.setPosX(0);
 		cuy1.setPosY(12);		
 		cuy2.setPosX(4);
 		cuy2.setPosY(12);
-		ImprimirMapa(mapa,cuy1,cuy2);
+		ImprimirMapa(mapa,cuy1,cuy2,ventana);
 		entrada = teclado.nextLine() ;
 
 		System.out.println("PUEDES MOVERTE Y CONTINUAR");
@@ -540,21 +565,21 @@ public class Juego implements Renderizador{
 		cuy1.setPosY(4);
 		cuy2.setPosX(9);
 		cuy2.setPosY(5);		
-		ImprimirMapa(mapa,cuy1,cuy2);
+		ImprimirMapa(mapa,cuy1,cuy2,ventana);
 		entrada = teclado.nextLine() ;
 		//DUO - POSICION 2
 		cuy1.setPosX(9);
 		cuy1.setPosY(7);
 		cuy2.setPosX(9);
 		cuy2.setPosY(8);
-		ImprimirMapa(mapa,cuy1,cuy2);
+		ImprimirMapa(mapa,cuy1,cuy2,ventana);
 		entrada = teclado.nextLine() ;
 		//DUO - POSICION 3
 		cuy1.setPosX(11);
 		cuy1.setPosY(7);		
 		cuy2.setPosX(7);
 		cuy2.setPosY(7);
-		ImprimirMapa(mapa,cuy1,cuy2);
+		ImprimirMapa(mapa,cuy1,cuy2,ventana);
 		entrada = teclado.nextLine() ;
 		
 		//DUO - POSICION 3
@@ -572,7 +597,8 @@ public class Juego implements Renderizador{
 		System.out.println("DEBE PRESIONAR WSIKDDLL");
 		String duo1 = "WSIKDDLL" ;
 		String entrada = teclado.nextLine() ;
-		while ( !duo1.equals(entrada))  {
+		
+		while ( !duo1.equals(entrada))  {			
 			System.out.println("DEBE PRESIONAR WSIKDDLL");
 			cuy1.setVida(cuy1.getVida() -1) ;
 			if (cuy1.getVida() <= 0 ) return ; 
@@ -583,21 +609,21 @@ public class Juego implements Renderizador{
 		cuy2.setPosY(4);
 		cuy1.setPosX(8);
 		cuy1.setPosY(4);		
-		ImprimirMapa(mapa,cuy1,cuy2);
+		ImprimirMapa(mapa,cuy1,cuy2,ventana);
 		entrada = teclado.nextLine() ;
 		//DUO - POSICION 2
 		cuy2.setPosX(7);
 		cuy2.setPosY(4);
 		cuy1.setPosX(7);
 		cuy1.setPosY(5);
-		ImprimirMapa(mapa,cuy1,cuy2);
+		ImprimirMapa(mapa,cuy1,cuy2,ventana);
 		entrada = teclado.nextLine() ;
 		//DUO - POSICION 3
 		cuy2.setPosX(8);
 		cuy2.setPosY(7);		
 		cuy1.setPosX(8);
 		cuy1.setPosY(8);
-		ImprimirMapa(mapa,cuy1,cuy2);
+		ImprimirMapa(mapa,cuy1,cuy2,ventana);
 		entrada = teclado.nextLine() ;
 		
 		//DUO - POSICION 4
@@ -605,9 +631,33 @@ public class Juego implements Renderizador{
 		cuy1.setPosY(8);		
 		cuy2.setPosX(5);
 		cuy2.setPosY(8);
-		ImprimirMapa(mapa,cuy1,cuy2);
+		ImprimirMapa(mapa,cuy1,cuy2,ventana);
 		entrada = teclado.nextLine() ;
 		System.out.println("PUEDES MOVERTE Y CONTINUAR");
+	}
+	public PersonajePrincipal getPersonajeA() {
+		return personajeA;
+	}
+	public void setPersonajeA(PersonajePrincipal personajeA) {
+		this.personajeA = personajeA;
+	}
+	public PersonajePrincipal getPersonajeB() {
+		return personajeB;
+	}
+	public void setPersonajeB(PersonajePrincipal personajeB) {
+		this.personajeB = personajeB;
+	}
+	public InterpreteComandos getInterpreteComando() {
+		return interpreteComando;
+	}
+	public void setInterpreteComando(InterpreteComandos interpreteComando) {
+		this.interpreteComando = interpreteComando;
+	}
+	public ArrayList <Mapa> getListMapas() {
+		return listMapas;
+	}
+	public void setListMapas(ArrayList <Mapa> listMapas) {
+		this.listMapas = listMapas;
 	}
 	
 }

@@ -1,7 +1,11 @@
 package Controlador;
 
+import java.util.ArrayList;
+
+import Modelo.AccionesEspeciales;
 import Modelo.Mapa;
 import Modelo.Personaje;
+import Modelo.PersonajePrincipal;
 
 public class InterpreteComandos {
 	 public int esTeclaValida(char x){
@@ -18,6 +22,7 @@ public class InterpreteComandos {
 	    	if (x == 'L' || x == 'l') return 10;
 	    	if (x == 'U' || x == 'u') return 11;
 	    	if (x == 'O' || x == 'o') return 12;
+	    	
 	    	return -1;
 	    }
 	 
@@ -64,11 +69,37 @@ public class InterpreteComandos {
 				xx = 0 ; yy = 0;
 			}
 			if(direccion <=6 ){
-				a.setPosX( a.getPosX() + xx );
-				a.setPosY( a.getPosY() + yy );
+				int hh =  a.getPosX() + xx ;
+				int jj =  a.getPosY() + yy ;
+				a.setPosX(hh );
+				a.setPosY(jj);
 			}else {
 				b.setPosX( b.getPosX() + xx );
 				b.setPosY( b.getPosY() + yy );			
 			}
 		}
+	 
+	 public int VerificaEstado(Mapa mapaActual, PersonajePrincipal cuy1, PersonajePrincipal cuy2){
+		 int estado = -1;
+		 ArrayList<AccionesEspeciales> lista = mapaActual.getListaAcciones();
+		 for(int i = 0; i < lista.size(); i++){
+			 if ( lista.get(i).getTipo() == 0){
+				 if( cuy1.getPosX() == lista.get(i).getPosXCuy1() && cuy1.getPosY() == lista.get(i).getPosYCuy1() && cuy2.getPosX() == lista.get(i).getPosXCuy2() && cuy2.getPosY() == lista.get(i).getPosYCuy2())
+					 estado = 0;
+			 }
+			 else{
+				 if(cuy1.getPosX() == lista.get(i).getPosXCuy1() && cuy1.getPosY() == lista.get(i).getPosYCuy1() && cuy2.getPosX() == lista.get(i).getPosXCuy2() && cuy2.getPosY() == lista.get(i).getPosYCuy2())
+					 estado = 1;
+				 else{
+					 if(lista.get(i).getPosXCuy1() == -1 && lista.get(i).getPosYCuy1() == -1 && cuy2.getPosX() == lista.get(i).getPosXCuy2() && cuy2.getPosY() == lista.get(i).getPosYCuy2())
+						 estado = 1;
+					 else{
+						 if(cuy1.getPosX() == lista.get(i).getPosXCuy1() && cuy1.getPosY() == lista.get(i).getPosYCuy1() && lista.get(i).getPosXCuy2() == -1 && lista.get(i).getPosYCuy2() == -1)
+							 estado = 1;
+					 }
+				 }
+			 }
+		 }		 
+		 return estado;
+	 }
 }

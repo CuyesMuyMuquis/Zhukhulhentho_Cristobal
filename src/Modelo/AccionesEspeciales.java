@@ -1,42 +1,71 @@
 package Modelo;
 
 public class AccionesEspeciales {
-	private int numIndividuales;
-	private int numDuos;
+	private int posXCuy1;
+	private int posYCuy1;
+	private int posXCuy2;
+	private int posYCuy2;
+	private int tipo; // 0 -> duo y 1 -> especial cuy1 
+	
 //	individuales arreglo de combinaciones
-	private Combinaciones [] individuales;
-//	enconjunto   arreglo de combinaciones (la clase que est arriba )
-	private Combinaciones [] duo;
+	private String combinacion;
 	
-	public AccionesEspeciales(){
-		this.numIndividuales = 0;
-		this.numDuos = 0;
-		this.individuales = new Combinaciones[4];
-		this.duo = new Combinaciones[4];
+	public AccionesEspeciales(int tipo, int posXC1, int posYC1, int posXC2, int posYC2, String combinacion){
+		setTipo(tipo);
+		setPosXCuy1(posXC1);
+		setPosYCuy1(posYC1);
+		setPosXCuy2(posXC2);
+		setPosYCuy2(posYC2);
+		setCombinacion(combinacion);
+	}
+
+	public int getPosXCuy1() {
+		return posXCuy1;
+	}
+
+	public void setPosXCuy1(int posXCuy1) {
+		this.posXCuy1 = posXCuy1;
+	}
+
+	public int getPosYCuy1() {
+		return posYCuy1;
+	}
+
+	public void setPosYCuy1(int posYCuy1) {
+		this.posYCuy1 = posYCuy1;
+	}
+
+	public int getPosXCuy2() {
+		return posXCuy2;
+	}
+
+	public void setPosXCuy2(int posXCuy2) {
+		this.posXCuy2 = posXCuy2;
+	}
+
+	public int getPosYCuy2() {
+		return posYCuy2;
+	}
+
+	public void setPosYCuy2(int posYCuy2) {
+		this.posYCuy2 = posYCuy2;
+	}
+
+	public int getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(int tipo) {
+		this.tipo = tipo;
+	}
+
+	public String getCombinacion() {
+		return combinacion;
+	}
+
+	public void setCombinacion(String combinacion) {
+		this.combinacion = combinacion;
 	}
 	
-	public void setCadenasIndividuales(String cadena){
-		this.individuales[numIndividuales++].setLetrasEspeciales(cadena);
-	}
-	
-	public void setCadenasDuos(String cadena){
-		this.duo[numDuos++].setLetrasEspeciales(cadena);
-	}
-	
-	public void setIndividuales(char[] x){
-		this.numIndividuales++;
-	}
-	
-	public int getNumIndividuales() {
-		return numIndividuales;
-	}
-	public void setNumIndividuales(int numIndividuales) {
-		this.numIndividuales = numIndividuales;
-	}
-	public int getNumDuos() {
-		return numDuos;
-	}
-	public void setNumDuos(int numDuos) {
-		this.numDuos = numDuos;
-	}
+
 }

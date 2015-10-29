@@ -18,24 +18,39 @@ import java.io.File;
 import javax.imageio.ImageIO;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-public class Ventana extends JFrame {
+import com.sun.prism.Image;
+
+import java.awt.Toolkit;
+
+import Modelo.Mapa;
+import Modelo.Personaje;
+import Modelo.PersonajePrincipal;
+import Modelo.Posicion;
+
+public class Ventana extends JFrame implements Renderizador{
 	private static final long serialVersionUID = 1L;
-	private   Juego nuevoJuego ; 
-	
+	private static Toolkit tol = Toolkit.getDefaultToolkit ();
+	private static java.awt.Image gif = tol.getImage ("cuy_1.jpg");	
+	private static java.awt.Image gif2 = tol.getImage ("cuy_2.png");
+	private  Juego nuevoJuego ;
+	private static final int TILE = 64;
 	private static final int ANCHO_R = 1024 ;
 	private static final int ANCHO_L = 300 ;
 	private static final int ALTO_BARRA_MENU = 20  ;
 	private static final int ALTO = 768  ;
 	private boolean limpiar; 
 	private static int numeroPantalla = 0;
-	
+	private PersonajePrincipal per1 ;
+	private PersonajePrincipal per2 ; 
+
 	private enum pantallaActual {
-	    MENU, HISTORIA_1, NIVEL_1, HISTORIA_2,
-	    NIVEL_2, HISTORIA_3, NIVEL_3,FIN_DEL_JUEGO;
+	    MENU, HISTORIA_1, TUTORIAL, HISTORIA_2,
+	    NIVEL_1, HISTORIA_3, NIVEL_2,FIN_DEL_JUEGO;
 	}
 	
 	
@@ -47,19 +62,61 @@ public class Ventana extends JFrame {
 	private BufferedImage fondoHistoria;
 	
 	// Nivel1
-	private static Nivel_1 nivel_1 = new Nivel_1() ;
-	public BufferedImage Cuy_1,cuy_2;
+	private  Tutorial  tutorial = new Tutorial() ;
+	
 	 
+	
+	public void eventoTeclado(){
+	     this.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (numeroPantalla == pantallaActual.TUTORIAL.ordinal() ){
+				int Estado; // -1 -> no pasa nada. 0 -> duo. 1 -> accionEspecial. 2 -> acabo Nivel. 3 -> has perdido.
+				Estado = Ventana.this.nuevoJuego.Tutorial(per1 , per2,e.getKeyChar(), Ventana.this);
+				
+				if(Estado == 0)
+					System.out.println("DUO");
+
+				/*	
+					int direccion = Ventana.this.nuevoJuego.getInterpreteComando().esTeclaValida(e.getKeyChar());	
+					
+							System.out.println("Per1 FILA COLUMN A" +per1.getPosX() +" " +  per1.getPosY() + "\nPer2 FILA COLUMNA " + per2.getPosX() + " "+ per2.getPosY());
+						if (Ventana.this.nuevoJuego.getInterpreteComando().movimientoValido(per1 , per2 , direccion ,
+							Ventana.this.nuevoJuego.getListMapas().get(0))){
+							Ventana.this.nuevoJuego.getListMapas().get(0).ImprimirMapa();
+							Ventana.this.nuevoJuego.getInterpreteComando().moverPersonajes(per1 , per2, direccion);
+							System.out.println("Per1 FILA COLUMN A" +per1.getPosX() +" " +  per1.getPosY() + "\nPer2 FILA COLUMNA " + per2.getPosX() + " "+ per2.getPosY());
+						}
+					*/	
+					  //if(Ventana.this.nuevoJuego.getInterpreteComando().movimientoValido(per1, per2, direccion, mapa))
+					  repaint();
+				}				
+			}
+		});
+		
+	}
 	
 	public Ventana(){
 		
 		configuracionIniciales();		
-		cargarImagenes() ;
+		cargarImagenes(this) ;
+		eventoTeclado();
 		eventoMouse()  ; 		
 		createBufferStrategy(2);
 		bufferStrategy = getBufferStrategy();
 		repaint() ;
-		nuevoJuego = new Juego(10, 50,40);
+		
 	}
 	
 	private void Pantalla_0_Mensaje_Salida(){
@@ -85,7 +142,7 @@ public class Ventana extends JFrame {
 
 	private void IniciarPantalla() {	
 		limpiaPantallaLOL();
-		cargarImagenes() ;		
+		cargarImagenes(this) ;		
 		createBufferStrategy(2);
 		bufferStrategy = getBufferStrategy();		
 		repaint() ;
@@ -108,6 +165,11 @@ public class Ventana extends JFrame {
 							//ConfigurarTutorial();
 							numeroPantalla++;
 							IniciarPantalla();
+							nuevoJuego = new Juego(10, 50,40);
+							nuevoJuego.setearVentana(Ventana.this);
+							
+							per1 = nuevoJuego.getPersonajeA() ;
+							per2 = nuevoJuego.getPersonajeB() ; 
 							
 						}
 						if (e.getY() >= 400 && e.getY() <= 460 ){
@@ -125,7 +187,7 @@ public class Ventana extends JFrame {
 					IniciarPantalla();
 					
 					
-				}else if (numeroPantalla == pantallaActual.NIVEL_1.ordinal()){
+				}else if (numeroPantalla == pantallaActual.TUTORIAL.ordinal()){
 					
 					
 					
@@ -141,14 +203,14 @@ public class Ventana extends JFrame {
 
 	public void configuracionIniciales(){
 		if (numeroPantalla == pantallaActual.MENU.ordinal() ){
-			this.setSize(ANCHO_R+ ANCHO_L, ALTO + ALTO_BARRA_MENU);
+			this.setSize(ANCHO_R+ ANCHO_L, ALTO + ALTO_BARRA_MENU+8);
 			this.setVisible(true); 
 			this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 			this.setLocationRelativeTo(null);
 			repaint();
 		}
 	}
-	public  void cargarImagenes(){
+	public  void cargarImagenes(JFrame ventana){
 		try{
 				if (numeroPantalla == pantallaActual.MENU.ordinal()){	
 					//imgFondo = new BufferedImage(100,100, BufferedImage.TYPE_INT_RGB);
@@ -157,12 +219,12 @@ public class Ventana extends JFrame {
 				}else if (numeroPantalla == pantallaActual.HISTORIA_1.ordinal()){
 					fondoHistoria = ImageIO.read(new File("Historia.jpg"));	
 	
-				}else if (numeroPantalla == pantallaActual.NIVEL_1.ordinal()){
-					//nivel_1.cargarImagen();
-					
-					imgFondo = ImageIO.read(new File("mapa_nivel_1.jpg"));
+				}else if (numeroPantalla == pantallaActual.TUTORIAL.ordinal()){
+					 tutorial.cargarImagen(this);
+					/*
+					imgFondo = ImageIO.read(new File("mapa_tutorial.jpg"));
 					Cuy_1 = ImageIO.read(new File("cuy_1.gif"));
-					cuy_2 = ImageIO.read(new File("cuy_2.gif"));
+					cuy_2 = ImageIO.read(new File("cuy_2.gif"));*/
 					
 				}
 
@@ -173,7 +235,8 @@ public class Ventana extends JFrame {
 	}
 	
 	public void paint(Graphics g){		
-		super.paint(g);		
+		super.paint(g);	
+		Toolkit t = Toolkit.getDefaultToolkit ();
 		if(limpiar) {
 			Graphics2D graph2D = (Graphics2D)bufferStrategy.getDrawGraphics();			
 			graph2D.clearRect(0, 0, getWidth(), getHeight() );			
@@ -195,15 +258,26 @@ public class Ventana extends JFrame {
 				Graphics2D graph2D = (Graphics2D)bufferStrategy.getDrawGraphics();
 				graph2D.drawImage(fondoHistoria, 0, ALTO_BARRA_MENU , this); // Meto la imagen de fondo
 				bufferStrategy.show();		
-			}else if (numeroPantalla == pantallaActual.NIVEL_1.ordinal()){
+			}else if (numeroPantalla == pantallaActual.TUTORIAL.ordinal()){
 			
 				//nivel_1.bufferStrategy = bufferStrategy;
 				Graphics2D graph2D = (Graphics2D)bufferStrategy.getDrawGraphics();				
-				graph2D.drawImage(imgFondo ,0, ALTO_BARRA_MENU,this);
-				graph2D.drawImage(Cuy_1,30,40,this);
-				graph2D.drawImage(cuy_2,100,100,this);
-				bufferStrategy.show();
-	
+				graph2D.drawImage( tutorial.imgFondo ,0, ALTO_BARRA_MENU,this);
+				//graph2D.drawImage( tutorial.cuy_1  ,per1.getPosY()*TILE   ,ALTO_BARRA_MENU + per1.getPosX()*TILE,this);
+				//graph2D.drawImage( tutorial.cuy_2  ,per2.getPosY()*TILE   ,ALTO_BARRA_MENU + per2.getPosX()*TILE,this);
+			    
+				
+		        graph2D.drawImage ( gif ,per1.getPosY()*TILE   ,ALTO_BARRA_MENU + per1.getPosX()*TILE, this);		   
+		        graph2D.drawImage (gif2 ,per2.getPosY()*TILE   ,ALTO_BARRA_MENU + per2.getPosX()*TILE, this);
+		        
+		        
+		        
+				/*for(int j = 0 ; j<12; j++)
+				for(int i = 0 ; i<16; i++){
+					//graph2D.drawImage( tutorial.cuy_2,0,ALTO_BARRA_MENU + i*TILE,this);
+					graph2D.drawImage( tutorial.cuy_2, i*TILE,ALTO_BARRA_MENU + j*TILE,this);
+				}*/				
+				bufferStrategy.show();	
 			}
 
 		}catch(Exception e){
@@ -221,6 +295,13 @@ public class Ventana extends JFrame {
 
 	public static void setNumeroPatnalla(int numeroPantalla) {
 		Ventana.numeroPantalla = numeroPantalla;
+	}
+	
+	public void ImprimirMapa( Mapa mapa, PersonajePrincipal cuy1 ,PersonajePrincipal cuy2,JFrame vent){
+		
+	}
+	public void ActualizarMapa(Mapa mapa,PersonajePrincipal cuy1 ,PersonajePrincipal cuy2){
+		
 	}
 
 }
