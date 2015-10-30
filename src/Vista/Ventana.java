@@ -46,11 +46,12 @@ public class Ventana extends JFrame implements Renderizador{
 	private boolean limpiar; 
 	private static int numeroPantalla = 0;
 	private PersonajePrincipal per1 ;
-	private PersonajePrincipal per2 ; 
-
+	private PersonajePrincipal per2 ;
+	private int estado=-1;
+	//private string teclaPres="";
 	private enum pantallaActual {
 	    MENU, HISTORIA_1, TUTORIAL, HISTORIA_2,
-	    NIVEL_1, HISTORIA_3, NIVEL_2,FIN_DEL_JUEGO;
+	    NIVEL_1, HISTORIA_3, NIVEL_2,PERDIO_JUEGO,FIN_DEL_JUEGO;
 	}
 	
 	
@@ -82,12 +83,31 @@ public class Ventana extends JFrame implements Renderizador{
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (numeroPantalla == pantallaActual.TUTORIAL.ordinal() ){
-				int Estado; // -1 -> no pasa nada. 0 -> duo. 1 -> accionEspecial. 2 -> acabo Nivel. 3 -> has perdido.
-				Estado = Ventana.this.nuevoJuego.Tutorial(per1 , per2,e.getKeyChar(), Ventana.this);
-				
-				if(Estado == 0)
+					
+				// -1 -> no pasa nada. 0 -> duo. 1 -> accionEspecial. 2 -> acabo Nivel. 3 -> has perdido.
+				estado=Ventana.this.nuevoJuego.tutorial_recuperaEstActual(per1,per2,Ventana.this.nuevoJuego.getListMapas().get(0));
+				if(estado==-1){
+												//Estado = Ventana.this.nuevoJuego.Tutorial(per1 , per2,e.getKeyChar(), Ventana.this);
+					Ventana.this.nuevoJuego.realizaAccion(per1,per2,e.getKeyChar(),Ventana.this);
+					estado=Ventana.this.nuevoJuego.tutorial_recuperaEstActual(per1,per2,Ventana.this.nuevoJuego.getListMapas().get(0));
+				}
+				if(estado == 0){
 					System.out.println("DUO");
-
+					//imprimeEnPantallaLateral(estado) <------CARLO DE SHIT TU HACES ESTO
+					Ventana.this.nuevoJuego.tutorial_verficaCodigo(estado,e.getKeyChar(),per1,per2);
+					
+					
+					
+				}
+				if(estado==1){
+					//verficaCodigo(estado,e.getKeyChar(),per1,per2);
+				}
+				if(estado==2){
+					numeroPantalla++;
+				}
+				if(estado==3){
+					numeroPantalla = pantallaActual.PERDIO_JUEGO.ordinal();
+				}
 				/*	
 					int direccion = Ventana.this.nuevoJuego.getInterpreteComando().esTeclaValida(e.getKeyChar());	
 					

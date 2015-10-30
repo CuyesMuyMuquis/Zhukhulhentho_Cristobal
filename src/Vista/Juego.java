@@ -157,7 +157,30 @@ public class Juego implements Renderizador{
 			System.out.println("Game Over");			
 		}
 	}
-	
+	public int tutorial_recuperaEstActual(PersonajePrincipal perA,PersonajePrincipal perB,Mapa mapa){
+		int flag=-1;
+		if (perA.getPosY() == 15 && perB.getPosY() == 15) {
+			flag =  2 ;
+			return flag;
+		}
+		if(perA.getVida()<=0){
+			flag=3;
+			return flag;
+		}		
+		flag=interpreteComando.VerificaEstado(mapa, perA, perB);
+		return flag;
+	}
+	public void realizaAccion(PersonajePrincipal perA,PersonajePrincipal perB,char letra, JFrame vent){
+		int direccion,entero;
+		char entrada;
+		entrada = letra; 				
+		direccion = getInterpreteComando().esTeclaValida(entrada);
+		System.out.println(direccion);
+		if (getInterpreteComando().movimientoValido(perA , perB , direccion , getListMapas().get(0))){
+			getInterpreteComando().moverPersonajes(perA, perB, direccion);		
+		}		
+		ImprimirMapa(getListMapas().get(0), perA, perB, vent);
+	}
 	public int Tutorial(PersonajePrincipal perA , PersonajePrincipal perB, char letra, JFrame vent){
 		int entero, direccion;
 		char entrada ; 
@@ -196,7 +219,7 @@ public class Juego implements Renderizador{
 		flag = getInterpreteComando().VerificaEstado(getListMapas().get(0), perA, perB);
 		if(flag == 0)
 			System.out.println("DUO 2");
-	
+		
 		ImprimirMapa(getListMapas().get(0), perA, perB, vent);
 		
 		return flag;
