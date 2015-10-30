@@ -95,6 +95,7 @@ public class Ventana extends JFrame implements Renderizador{
 					System.out.println("DUO");
 					//imprimeEnPantallaLateral(estado) <------CARLO DE SHIT TU HACES ESTO
 					Ventana.this.nuevoJuego.tutorial_verficaCodigo(estado,e.getKeyChar(),per1,per2);
+					
 					teclaPres=teclaPres+e.getKeyChar();
 					JOptionPane.showMessageDialog(null,teclaPres);
 					////////////////////////////////////
