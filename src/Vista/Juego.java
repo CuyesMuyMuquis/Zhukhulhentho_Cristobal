@@ -683,5 +683,10 @@ public class Juego implements Renderizador{
 		this.listMapas = listMapas;
 	}
 	
+	public int tutorial_verficaCodigo(int estado,char tecla,PersonajePrincipal per1,PersonajePrincipal per2){
+			
+		
+		return 1;
+	}
 }
 

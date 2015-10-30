@@ -48,7 +48,7 @@ public class Ventana extends JFrame implements Renderizador{
 	private PersonajePrincipal per1 ;
 	private PersonajePrincipal per2 ;
 	private int estado=-1;
-	//private string teclaPres="";
+	private String teclaPres="";
 	private enum pantallaActual {
 	    MENU, HISTORIA_1, TUTORIAL, HISTORIA_2,
 	    NIVEL_1, HISTORIA_3, NIVEL_2,PERDIO_JUEGO,FIN_DEL_JUEGO;
@@ -95,8 +95,17 @@ public class Ventana extends JFrame implements Renderizador{
 					System.out.println("DUO");
 					//imprimeEnPantallaLateral(estado) <------CARLO DE SHIT TU HACES ESTO
 					Ventana.this.nuevoJuego.tutorial_verficaCodigo(estado,e.getKeyChar(),per1,per2);
-					
-					
+					teclaPres=teclaPres+e.getKeyChar();
+					JOptionPane.showMessageDialog(null,teclaPres);
+					////////////////////////////////////
+					////////////////////////////////////
+					////////////////////////////////////
+					////////////////FALTA FALTA FALTA
+					////////////////////////////////////
+					////////////////////////////////////
+					////////////////////////////////////
+					////////////////////////////////////
+					////////////////////////////////////
 					
 				}
 				if(estado==1){
