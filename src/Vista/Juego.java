@@ -634,13 +634,22 @@ public class Juego implements Renderizador{
 		cuy1.setPosX(8);
 		cuy1.setPosY(4);		
 		ImprimirMapa(mapa,cuy1,cuy2,ven);
-		ven.repaint();
+		
 	     try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			
 			e.printStackTrace();
 		}
+	     ven.repaint();
+	    ven.invalidate();
+	     JOptionPane.showMessageDialog(null, "Mensake");
+	     try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				
+				e.printStackTrace();
+			}
 		
 		
 		//DUO - POSICION 2
