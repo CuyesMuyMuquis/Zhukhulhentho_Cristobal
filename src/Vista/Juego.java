@@ -44,6 +44,49 @@ public class Juego implements Renderizador{
 	public void setearVentana(JFrame ventana){
 		this.ventana = ventana ; 
 	}
+	public Juego(StoredGame nuevoGame){
+		 nextLevel =  0  ;
+		 //listObjetos  = new  ArrayList <Objeto>(numerosDeObjetos) ; 
+		 //listPersonajesSecundarios = new ArrayList <PersonajeSecundario>(numPersSecund) ;
+		 setListMapas(new ArrayList <Mapa>(3)) ;
+		 setInterpreteComando(new InterpreteComandos()) ;		 		 				 	
+		 gestorMapa = new GestorMapas();		
+		 
+		 //Le pasamos el nivel del mapa --0. tutorial -- 1. nivel 1 -- 2. nivel 2
+		 for(int i = 0 ; i <3 ; i++ ){ //Crea los mapas a utilizar
+			 getListMapas().add(new Mapa(i));			 
+		 }	
+		 
+		 int indice = 0 ;
+		 for (Mapa miMapa : getListMapas()){
+			 try {
+				gestorMapa.crearMapa(miMapa, indice);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			 miMapa.setContador(0);
+			 miMapa.setEstadoDuo(indice);
+			 indice++ ; 
+		 }
+
+		 mapaActual = new Mapa();
+		 //gestorMapa.crearMapa(mapaActual, 0);
+		 mapaActual =  getListMapas().get(0);  // puede ser no necesario		 
+		 //	 mapaActual.ImprimirMapa();		 
+		//iniciarPersonajes();
+		 // Prueba 
+		 /*personajeA = new PersonajePrincipal("Brayan", 22,22,2, 2, 'A', true, false) ; 
+		 personajeB = new PersonajePrincipal("Brando", 22,22,3,3, 'A', true, false) ;
+		 ImprimirMapa(mapaActual, personajeA, personajeB);*/
+		 
+		 
+	  personajeA = new PersonajePrincipal(nuevoGame.personajeA.getNombre(), nuevoGame.personajeA.getAncho(), nuevoGame.personajeA.getAncho(), nuevoGame.personajeA.getPosX(), nuevoGame.personajeA.getPosY(), nuevoGame.personajeA.getLetraAsociada(), true, false);
+		personajeB = new PersonajePrincipal(nuevoGame.personajeB.getNombre(), nuevoGame.personajeB.getAncho(), nuevoGame.personajeB.getAncho(), nuevoGame.personajeB.getPosX(), nuevoGame.personajeB.getPosY(), nuevoGame.personajeB.getLetraAsociada(), true, false);
+		//System.out.println("Este es mapa Actual" + nuevoGame.numMapaActual);
+		
+		
+	}
 	public Juego(int numeroMapas , int numerosDeObjetos , int numPersSecund){
 		 nextLevel =  0  ;
 		 listObjetos  = new  ArrayList <Objeto>(numerosDeObjetos) ; 

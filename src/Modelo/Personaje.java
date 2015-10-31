@@ -1,17 +1,25 @@
 package Modelo;
 import java.util.ArrayList;
 
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
 public abstract class Personaje { //sin constructor
 
 	private  int ancho ; 
 	private int alto ; 
 	private Posicion posicion; //Sin set y get
+	@XStreamOmitField
 	private char letraAsociada ;
-	private boolean visible ; 
+	@XStreamOmitField
+	private boolean visible ;
+	@XStreamOmitField
 	private boolean atravesable ;
 	
+	@XStreamOmitField
 	private Sprite matriz[][] ; //Sin set y get
+	@XStreamOmitField
 	private ArrayList<Integer> estados ; //Sin set y get
+	@XStreamOmitField
 	private int estadoActual ;
 	
 	

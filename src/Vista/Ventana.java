@@ -31,6 +31,9 @@ import Modelo.Mapa;
 import Modelo.Personaje;
 import Modelo.PersonajePrincipal;
 import Modelo.Posicion;
+import Modelo.Serializar;
+import Modelo.Serializar2;
+import Modelo.StoredGame;
 
 public class Ventana extends JFrame implements Renderizador{
 	private static final long serialVersionUID = 1L;
@@ -80,7 +83,14 @@ public class Ventana extends JFrame implements Renderizador{
 			
 			@Override
 			public void keyPressed(KeyEvent e) {
-				if (numeroPantalla == pantallaActual.TUTORIAL.ordinal() ){
+				
+				if(e.getKeyChar() == 'g'){
+					StoredGame game = new StoredGame(Ventana.this.nuevoJuego.getPersonajeA(),Ventana.this.nuevoJuego.getPersonajeB(),getNumeroPantalla());
+					Serializar2 serial = new Serializar2();
+					serial.Guardar(game);
+				}
+				
+				if (getNumeroPantalla() == pantallaActual.TUTORIAL.ordinal() ){
 					
 				// -1 -> no pasa nada. 0 -> duo. 1 -> accionEspecial. 2 -> acabo Nivel. 3 -> has perdido.
 			    // SE DEBE CAMBIAR A:    -1 -> no pasa nada. 0 -> duo. 1 -> acciontriger. 2->accionEspecial 3 -> acabo Nivel. 4 -> has perdido.
@@ -162,10 +172,10 @@ public class Ventana extends JFrame implements Renderizador{
 					 
 				}
 				if(estado==2){
-					numeroPantalla++;
+					setNumeroPantalla(getNumeroPantalla() + 1);
 				}
 				if(estado==3){
-					numeroPantalla = pantallaActual.PERDIO_JUEGO.ordinal();
+					setNumeroPantalla(pantallaActual.PERDIO_JUEGO.ordinal());
 				}
 				estado=Ventana.this.nuevoJuego.tutorial_recuperaEstActual(nuevoJuego.getPersonajeA() ,nuevoJuego.getPersonajeB() ,Ventana.this.nuevoJuego.getListMapas().get(0));
 				/*	
@@ -238,12 +248,12 @@ public class Ventana extends JFrame implements Renderizador{
 		this.addMouseListener(new MouseAdapter() {
 
 			public void mouseClicked(MouseEvent e) {
-				if(numeroPantalla == 0){
+				if(getNumeroPantalla() == 0){
 					if(e.getX() >= 80 && e.getX() <= 248){
 						if (e.getY() >= 300 && e.getY() <= 360 ){
 							//Configurar para tutorial 1 e iniciar juego							
 							//ConfigurarTutorial();
-							numeroPantalla++;
+							setNumeroPantalla(getNumeroPantalla() + 1);
 							IniciarPantalla();
 							nuevoJuego = new Juego(10, 50,40);
 							nuevoJuego.setearVentana(Ventana.this);
@@ -252,7 +262,15 @@ public class Ventana extends JFrame implements Renderizador{
 							
 						}
 						if (e.getY() >= 400 && e.getY() <= 460 ){
-							//Configurar para cargar partida
+							
+							Serializar2 serie = new Serializar2();
+							StoredGame game = serie.DesGuardar();
+							nuevoJuego = new Juego(game);
+							Ventana.this.setNumeroPantalla(game.numMapaActual);
+							System.out.println(game.numMapaActual);
+							Ventana.this.IniciarPantalla();
+							
+							
 						}
 						if (e.getY() >= 500 && e.getY() <= 560 ){
 
@@ -261,12 +279,12 @@ public class Ventana extends JFrame implements Renderizador{
 						}
 					}
 
-				}else  if(numeroPantalla == pantallaActual.HISTORIA_1.ordinal()){ //1
-					numeroPantalla++ ;
+				}else  if(getNumeroPantalla() == pantallaActual.HISTORIA_1.ordinal()){ //1
+					setNumeroPantalla(getNumeroPantalla() + 1) ;
 					IniciarPantalla();
 					
 					
-				}else if (numeroPantalla == pantallaActual.TUTORIAL.ordinal()){
+				}else if (getNumeroPantalla() == pantallaActual.TUTORIAL.ordinal()){
 					
 					
 					
@@ -281,7 +299,7 @@ public class Ventana extends JFrame implements Renderizador{
 	}
 
 	public void configuracionIniciales(){
-		if (numeroPantalla == pantallaActual.MENU.ordinal() ){
+		if (getNumeroPantalla() == pantallaActual.MENU.ordinal() ){
 			this.setSize(ANCHO_R+ ANCHO_L, ALTO + ALTO_BARRA_MENU+8);
 			this.setVisible(true); 
 			this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -291,14 +309,14 @@ public class Ventana extends JFrame implements Renderizador{
 	}
 	public  void cargarImagenes(JFrame ventana){
 		try{
-				if (numeroPantalla == pantallaActual.MENU.ordinal()){	
+				if (getNumeroPantalla() == pantallaActual.MENU.ordinal()){	
 					//imgFondo = new BufferedImage(100,100, BufferedImage.TYPE_INT_RGB);
 					imgFondo = ImageIO.read(new File("Pantalla_inicio.jpg"));					
 	
-				}else if (numeroPantalla == pantallaActual.HISTORIA_1.ordinal()){
+				}else if (getNumeroPantalla() == pantallaActual.HISTORIA_1.ordinal()){
 					fondoHistoria = ImageIO.read(new File("Historia.jpg"));	
 	
-				}else if (numeroPantalla == pantallaActual.TUTORIAL.ordinal()){
+				}else if (getNumeroPantalla() == pantallaActual.TUTORIAL.ordinal()){
 					 tutorial.cargarImagen(this);
 					/*
 					imgFondo = ImageIO.read(new File("mapa_tutorial.jpg"));
@@ -323,7 +341,7 @@ public class Ventana extends JFrame implements Renderizador{
 			bufferStrategy.show();	
 		}
 		try{
-			if (numeroPantalla == pantallaActual.MENU.ordinal()){
+			if (getNumeroPantalla() == pantallaActual.MENU.ordinal()){
 
 				Graphics2D graph2D = (Graphics2D)bufferStrategy.getDrawGraphics(); 
 				// Extraigo el graphics de mi bufferStrategy pero lo casteo a Graphics3D
@@ -333,11 +351,11 @@ public class Ventana extends JFrame implements Renderizador{
 
 				bufferStrategy.show();					 // Lo muestro
 
-			}else if (numeroPantalla == pantallaActual.HISTORIA_1.ordinal()){
+			}else if (getNumeroPantalla() == pantallaActual.HISTORIA_1.ordinal()){
 				Graphics2D graph2D = (Graphics2D)bufferStrategy.getDrawGraphics();
 				graph2D.drawImage(fondoHistoria, 0, ALTO_BARRA_MENU , this); // Meto la imagen de fondo
 				bufferStrategy.show();		
-			}else if (numeroPantalla == pantallaActual.TUTORIAL.ordinal()){
+			}else if (getNumeroPantalla() == pantallaActual.TUTORIAL.ordinal()){
 			
 				//nivel_1.bufferStrategy = bufferStrategy;
 				Graphics2D graph2D = (Graphics2D)bufferStrategy.getDrawGraphics();				
@@ -368,12 +386,12 @@ public class Ventana extends JFrame implements Renderizador{
 
 
 	public static int getNumeroPatnalla() {
-		return numeroPantalla;
+		return getNumeroPantalla();
 	}
 
 
 	public static void setNumeroPatnalla(int numeroPantalla) {
-		Ventana.numeroPantalla = numeroPantalla;
+		Ventana.setNumeroPantalla(numeroPantalla);
 	}
 	
 	public void ImprimirMapa( Mapa mapa, PersonajePrincipal cuy1 ,PersonajePrincipal cuy2,JFrame vent){
@@ -381,6 +399,14 @@ public class Ventana extends JFrame implements Renderizador{
 	}
 	public void ActualizarMapa(Mapa mapa,PersonajePrincipal cuy1 ,PersonajePrincipal cuy2){
 		
+	}
+
+	public static int getNumeroPantalla() {
+		return numeroPantalla;
+	}
+
+	public static void setNumeroPantalla(int numeroPantalla) {
+		Ventana.numeroPantalla = numeroPantalla;
 	}
 
 }
