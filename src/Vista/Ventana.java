@@ -83,6 +83,7 @@ public class Ventana extends JFrame implements Renderizador{
 				if (numeroPantalla == pantallaActual.TUTORIAL.ordinal() ){
 					
 				// -1 -> no pasa nada. 0 -> duo. 1 -> accionEspecial. 2 -> acabo Nivel. 3 -> has perdido.
+			    // SE DEBE CAMBIAR A:    -1 -> no pasa nada. 0 -> duo. 1 -> acciontriger. 2->accionEspecial 3 -> acabo Nivel. 4 -> has perdido.
 				estado=Ventana.this.nuevoJuego.tutorial_recuperaEstActual(nuevoJuego.getPersonajeA() ,nuevoJuego.getPersonajeB() ,Ventana.this.nuevoJuego.getListMapas().get(0));
 				if(estado==-1){
 												//Estado = Ventana.this.nuevoJuego.Tutorial(per1 , per2,e.getKeyChar(), Ventana.this);
@@ -132,8 +133,53 @@ public class Ventana extends JFrame implements Renderizador{
 					
 					
 				}
-				if(estado==1){
-					//verficaCodigo(estado,e.getKeyChar(),per1,per2);
+				if(estado==1){//aqui es cuando pisa un tile ysale un enemigo que le va bajando vida
+					//funciones a crear:
+					  //PersonajePrincipal cuySinMoverse=inmoviliza_cuy(perA,perB);
+					  //activaTerrenoEspecial()
+					  //verifica que otro cuy llego a terreno especial
+					  //si verificacion es correcta->
+					/*
+					 * 
+					 * teclaPres=teclaPres+e.getKeyChar();					
+					String codigoExtraido = Ventana.this.nuevoJuego.buscaCodigo(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() ,  Ventana.this.nuevoJuego.getListMapas().get(0));
+					//JOptionPane.showMessageDialog(null,teclaPres);
+					int resultado = Ventana.this.nuevoJuego.estaCodigo(teclaPres,nuevoJuego.getPersonajeB() ,nuevoJuego.getPersonajeB() , codigoExtraido);
+					
+					//JOptionPane.showMessageDialog(null,codigoExtraido);
+					if(resultado !=-1){
+						if (teclaPres.equals(codigoExtraido)){							
+							
+							estado = -1 ; // Cambio el estado para salir del DUO o Accion.
+							teclaPres = "" ;
+							Ventana.this.nuevoJuego.ImprimirDuo(Ventana.this.nuevoJuego.getListMapas().get(0), nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() , Ventana.this);
+							Ventana.this.repaint();
+							/*
+							Ventana.this.nuevoJuego.ImprimirDuo_t_1(Ventana.this.nuevoJuego.getListMapas().get(0), nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() , Ventana.this);
+							Ventana.this.update((Graphics2D)Ventana.this.getGraphics());
+							try {
+								Thread.sleep(2000);
+							} catch (InterruptedException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							
+							Ventana.this.nuevoJuego.imprimirDuo_t_2(Ventana.this.nuevoJuego.getListMapas().get(0), nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() , Ventana.this);
+							Ventana.this.repaint();
+							try {
+								Thread.sleep(2000);
+							} catch (InterruptedException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+						}
+					}else 
+						teclaPres = "";
+					
+					//JOptionPane.showMessageDialog(null,estado);
+				
+					 */
+					 
 				}
 				if(estado==2){
 					numeroPantalla++;
