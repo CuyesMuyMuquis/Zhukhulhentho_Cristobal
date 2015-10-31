@@ -135,9 +135,9 @@ public class Ventana extends JFrame implements Renderizador{
 				}
 				if(estado==1){//aqui es cuando pisa un tile ysale un enemigo que le va bajando vida
 					//funciones a crear:
-					  //PersonajePrincipal cuySinMoverse=inmoviliza_cuy(perA,perB);
+					  //PersonajePrincipal cuySinMoverse=inmoviliza_cuy(perA,perB,Ventana.this.nuevoJuego.getListMapas().get(0));
 					  //activaTerrenoEspecial()
-					  //verifica que otro cuy llego a terreno especial
+					  //verifica que otro cuy llego a terreno especial(if)
 					  //si verificacion es correcta->
 					/*
 					 * 
@@ -150,28 +150,7 @@ public class Ventana extends JFrame implements Renderizador{
 					if(resultado !=-1){
 						if (teclaPres.equals(codigoExtraido)){							
 							
-							estado = -1 ; // Cambio el estado para salir del DUO o Accion.
-							teclaPres = "" ;
-							Ventana.this.nuevoJuego.ImprimirDuo(Ventana.this.nuevoJuego.getListMapas().get(0), nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() , Ventana.this);
-							Ventana.this.repaint();
-							/*
-							Ventana.this.nuevoJuego.ImprimirDuo_t_1(Ventana.this.nuevoJuego.getListMapas().get(0), nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() , Ventana.this);
-							Ventana.this.update((Graphics2D)Ventana.this.getGraphics());
-							try {
-								Thread.sleep(2000);
-							} catch (InterruptedException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							}
-							
-							Ventana.this.nuevoJuego.imprimirDuo_t_2(Ventana.this.nuevoJuego.getListMapas().get(0), nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() , Ventana.this);
-							Ventana.this.repaint();
-							try {
-								Thread.sleep(2000);
-							} catch (InterruptedException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							}
+							haceAccionEspecial();
 						}
 					}else 
 						teclaPres = "";
@@ -179,6 +158,7 @@ public class Ventana extends JFrame implements Renderizador{
 					//JOptionPane.showMessageDialog(null,estado);
 				
 					 */
+					//cambia a estado-1
 					 
 				}
 				if(estado==2){
