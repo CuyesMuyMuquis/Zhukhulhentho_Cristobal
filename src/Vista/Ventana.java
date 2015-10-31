@@ -31,7 +31,7 @@ import Modelo.Mapa;
 import Modelo.Personaje;
 import Modelo.PersonajePrincipal;
 import Modelo.Posicion;
-import Modelo.Serializar;
+
 import Modelo.Serializar2;
 import Modelo.StoredGame;
 
@@ -84,7 +84,7 @@ public class Ventana extends JFrame implements Renderizador{
 			@Override
 			public void keyPressed(KeyEvent e) {
 				
-				if(e.getKeyChar() == 'g'){
+				if(e.getKeyChar() == 'g' || e.getKeyChar() == 'G'){
 					StoredGame game = new StoredGame(Ventana.this.nuevoJuego.getPersonajeA(),Ventana.this.nuevoJuego.getPersonajeB(),getNumeroPantalla());
 					Serializar2 serial = new Serializar2();
 					serial.Guardar(game);
@@ -93,7 +93,12 @@ public class Ventana extends JFrame implements Renderizador{
 				if (getNumeroPantalla() == pantallaActual.TUTORIAL.ordinal() ){
 					
 				// -1 -> no pasa nada. 0 -> duo. 1 -> accionEspecial. 2 -> acabo Nivel. 3 -> has perdido.
-			    // SE DEBE CAMBIAR A:    -1 -> no pasa nada. 0 -> duo. 1 -> acciontriger. 2->accionEspecial 3 -> acabo Nivel. 4 -> has perdido.
+			    // SE DEBE CAMBIAR A:    -1 -> no pasa nada.
+					//					   0 -> duo. 
+					//                    1 -> acciontriger.
+										 // 2->accionEspecial
+										 // 3 -> acabo Nivel.
+										 // 4 -> has perdido.
 				estado=Ventana.this.nuevoJuego.tutorial_recuperaEstActual(nuevoJuego.getPersonajeA() ,nuevoJuego.getPersonajeB() ,Ventana.this.nuevoJuego.getListMapas().get(0));
 				if(estado==-1){
 												//Estado = Ventana.this.nuevoJuego.Tutorial(per1 , per2,e.getKeyChar(), Ventana.this);
@@ -138,7 +143,7 @@ public class Ventana extends JFrame implements Renderizador{
 						}
 					}else 
 						teclaPres = "";
-					
+					System.out.println(estado);
 					//JOptionPane.showMessageDialog(null,estado);
 					
 					
@@ -171,13 +176,16 @@ public class Ventana extends JFrame implements Renderizador{
 					//cambia a estado-1
 					 
 				}
+				
+				if(estado==3){
+					setNumeroPantalla(pantallaActual.PERDIO_JUEGO.ordinal());
+					
+				}
+				estado=Ventana.this.nuevoJuego.tutorial_recuperaEstActual(nuevoJuego.getPersonajeA() ,nuevoJuego.getPersonajeB() ,Ventana.this.nuevoJuego.getListMapas().get(0));
 				if(estado==2){
 					setNumeroPantalla(getNumeroPantalla() + 1);
 				}
-				if(estado==3){
-					setNumeroPantalla(pantallaActual.PERDIO_JUEGO.ordinal());
-				}
-				estado=Ventana.this.nuevoJuego.tutorial_recuperaEstActual(nuevoJuego.getPersonajeA() ,nuevoJuego.getPersonajeB() ,Ventana.this.nuevoJuego.getListMapas().get(0));
+				System.out.println(estado);
 				/*	
 					int direccion = Ventana.this.nuevoJuego.getInterpreteComando().esTeclaValida(e.getKeyChar());	
 					
