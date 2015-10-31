@@ -1,5 +1,6 @@
 package Vista;
 import Modelo.*;
+import javax.swing.Timer;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -615,47 +616,80 @@ public class Juego implements Renderizador{
 
 		System.out.println("PUEDES MOVERTE Y CONTINUAR");
 	}
-	public void ImprimirDuo(Mapa mapa, PersonajePrincipal cuy1, PersonajePrincipal  cuy2){
-		Scanner teclado = new Scanner(System.in);
-		System.out.println("DEBE PRESIONAR WSIKDDLL");
-		String duo1 = "WSIKDDLL" ;
-		String entrada = teclado.nextLine() ;
+	public void imprimirDuo_1(Mapa mapa, PersonajePrincipal cuy1, PersonajePrincipal  cuy2){
 		
-		while ( !duo1.equals(entrada))  {			
+		
+	}
+	public void ImprimirDuo(Mapa mapa, PersonajePrincipal cuy1, PersonajePrincipal  cuy2, JFrame ven){
+//		Scanner teclado = new Scanner(System.in);
+		//System.out.println("DEBE PRESIONAR WSIKDDLL");
+		//String duo1 = "WSIKDDLL" ;
+		//String entrada = teclado.nextLine() ;
+		
+		/*while ( !duo1.equals(entrada))  {			
 			System.out.println("DEBE PRESIONAR WSIKDDLL");
 			cuy1.setVida(cuy1.getVida() -1) ;
 			if (cuy1.getVida() <= 0 ) return ; 
 			entrada = teclado.nextLine() ; 
-		}
+		}*/
 		//DUO - POSICION 1
+		try {
+		    Thread.sleep(1000);                 //1000 milliseconds is one second.
+		} catch(InterruptedException ex) {
+		    Thread.currentThread().interrupt();
+		}
 		cuy2.setPosX(6);
 		cuy2.setPosY(4);
 		cuy1.setPosX(8);
 		cuy1.setPosY(4);		
-		ImprimirMapa(mapa,cuy1,cuy2,ventana);
-		entrada = teclado.nextLine() ;
+		ImprimirMapa(mapa,cuy1,cuy2,ven);
+		ven.repaint();
+		try {
+		    Thread.sleep(1000);                 //1000 milliseconds is one second.
+		} catch(InterruptedException ex) {
+		    Thread.currentThread().interrupt();
+		}
+		
 		//DUO - POSICION 2
 		cuy2.setPosX(7);
 		cuy2.setPosY(4);
 		cuy1.setPosX(7);
 		cuy1.setPosY(5);
-		ImprimirMapa(mapa,cuy1,cuy2,ventana);
-		entrada = teclado.nextLine() ;
+		ImprimirMapa(mapa,cuy1,cuy2,ven);
+		
+		ven.repaint();
+		try {
+		    Thread.sleep(1000);                 //1000 milliseconds is one second.
+		} catch(InterruptedException ex) {
+		    Thread.currentThread().interrupt();
+		}
+		
+		
+//		entrada = teclado.nextLine() ;
+		
 		//DUO - POSICION 3
 		cuy2.setPosX(8);
 		cuy2.setPosY(7);		
 		cuy1.setPosX(8);
 		cuy1.setPosY(8);
-		ImprimirMapa(mapa,cuy1,cuy2,ventana);
-		entrada = teclado.nextLine() ;
+		ImprimirMapa(mapa,cuy1,cuy2,ven);
+		//entrada = teclado.nextLine() ;
+		ven.repaint();
+		
 		
 		//DUO - POSICION 4
 		cuy1.setPosX(9);
 		cuy1.setPosY(8);		
 		cuy2.setPosX(5);
 		cuy2.setPosY(8);
-		ImprimirMapa(mapa,cuy1,cuy2,ventana);
-		entrada = teclado.nextLine() ;
+		ImprimirMapa(mapa,cuy1,cuy2,ven);
+		ven.repaint();
+		try {
+		    Thread.sleep(1000);                 //1000 milliseconds is one second.
+		} catch(InterruptedException ex) {
+		    Thread.currentThread().interrupt();
+		}
+		//entrada = teclado.nextLine() ;
 		System.out.println("PUEDES MOVERTE Y CONTINUAR");
 	}
 	public PersonajePrincipal getPersonajeA() {
@@ -683,10 +717,32 @@ public class Juego implements Renderizador{
 		this.listMapas = listMapas;
 	}
 	
-	public int tutorial_verficaCodigo(int estado,char tecla,PersonajePrincipal per1,PersonajePrincipal per2){
-			
-		
-		return 1;
+	public int estaCodigo(String subCadena,PersonajePrincipal perA,PersonajePrincipal perB, String Combinacion){
+		return Combinacion.indexOf(subCadena);
+	}
+	public String buscaCodigo(int estado,PersonajePrincipal perA,PersonajePrincipal perB,Mapa mapaActual){
+		String cadena = "";
+		ArrayList<AccionesEspeciales> lista = mapaActual.getListaAcciones();
+		for(int i = 0; i < lista.size(); i++){
+			if ( lista.get(i).getTipo() == estado){
+				if( perA.getPosX() == lista.get(i).getPosXCuy1() && perA.getPosY() == lista.get(i).getPosYCuy1() && perB.getPosX() == lista.get(i).getPosXCuy2() && perB.getPosY() == lista.get(i).getPosYCuy2())
+					cadena=lista.get(i).getCombinacion();
+
+				if(perA.getPosX() == lista.get(i).getPosXCuy1() && perA.getPosY() == lista.get(i).getPosYCuy1() && perB.getPosX() == lista.get(i).getPosXCuy2() && perB.getPosY() == lista.get(i).getPosYCuy2())
+					cadena=lista.get(i).getCombinacion();
+				else{
+					if(lista.get(i).getPosXCuy1() == -1 && lista.get(i).getPosYCuy1() == -1 && perB.getPosX() == lista.get(i).getPosXCuy2() && perB.getPosY() == lista.get(i).getPosYCuy2())
+						cadena=lista.get(i).getCombinacion();
+					else{
+						if(perA.getPosX() == lista.get(i).getPosXCuy1() && perA.getPosY() == lista.get(i).getPosYCuy1() && lista.get(i).getPosXCuy2() == -1 && lista.get(i).getPosYCuy2() == -1)
+							cadena=lista.get(i).getCombinacion();
+					}
+
+
+				}
+			}		 		
+		}
+		return cadena;
 	}
 }
 
