@@ -14,6 +14,7 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.Console;
 import java.io.File;
+import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.JDialog;
@@ -38,8 +39,11 @@ import Modelo.StoredGame;
 public class Ventana extends JFrame implements Renderizador{
 	private static final long serialVersionUID = 1L;
 	private static Toolkit tol = Toolkit.getDefaultToolkit ();
-	private static java.awt.Image gif = tol.getImage ("cuy_1.jpg");	
-	private static java.awt.Image gif2 = tol.getImage ("cuy_2.png");
+	
+	private  BufferedImage gif, gif2 ; // = ImageIO.read(new File("cuy_1.jpg"));	
+	
+	
+
 	private  Juego nuevoJuego ;
 	private static final int TILE = 64;
 	private static final int ANCHO_R = 1024 ;
@@ -65,7 +69,7 @@ public class Ventana extends JFrame implements Renderizador{
 	
 	// Nivel1
 	private  Tutorial  tutorial = new Tutorial() ;
-	
+	private Historia_2 historia_2 = new Historia_2(); 
 	 
 	
 	public void eventoTeclado(){
@@ -206,7 +210,13 @@ public class Ventana extends JFrame implements Renderizador{
 	}
 	
 	public Ventana(){
-		
+		try {
+			gif = ImageIO.read(new File("cuy_1.jpg"));
+			gif2 = ImageIO.read(new File("cuy_2.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		configuracionIniciales();		
 		cargarImagenes(this) ;
 		eventoTeclado();
@@ -326,11 +336,10 @@ public class Ventana extends JFrame implements Renderizador{
 	
 				}else if (getNumeroPantalla() == pantallaActual.TUTORIAL.ordinal()){
 					 tutorial.cargarImagen(this);
-					/*
-					imgFondo = ImageIO.read(new File("mapa_tutorial.jpg"));
-					Cuy_1 = ImageIO.read(new File("cuy_1.gif"));
-					cuy_2 = ImageIO.read(new File("cuy_2.gif"));*/
+				
 					
+				}else if (getNumeroPantalla() == pantallaActual.HISTORIA_2.ordinal()){
+					historia_2.cargarImagen(this);					
 				}
 
 		}catch(java.io.IOException e){
@@ -368,20 +377,17 @@ public class Ventana extends JFrame implements Renderizador{
 				//nivel_1.bufferStrategy = bufferStrategy;
 				Graphics2D graph2D = (Graphics2D)bufferStrategy.getDrawGraphics();				
 				graph2D.drawImage( tutorial.imgFondo ,0, ALTO_BARRA_MENU,this);
-				//graph2D.drawImage( tutorial.cuy_1  ,per1.getPosY()*TILE   ,ALTO_BARRA_MENU + per1.getPosX()*TILE,this);
-				//graph2D.drawImage( tutorial.cuy_2  ,per2.getPosY()*TILE   ,ALTO_BARRA_MENU + per2.getPosX()*TILE,this);
-			    
+			
 				
 		        graph2D.drawImage ( gif ,nuevoJuego.getPersonajeA().getPosY()*TILE   ,ALTO_BARRA_MENU + nuevoJuego.getPersonajeA() .getPosX()*TILE, this);		   
 		        graph2D.drawImage (gif2 ,nuevoJuego.getPersonajeB() .getPosY()*TILE   ,ALTO_BARRA_MENU + nuevoJuego.getPersonajeB().getPosX()*TILE, this);
 		        
 		        
-		        
-				/*for(int j = 0 ; j<12; j++)
-				for(int i = 0 ; i<16; i++){
-					//graph2D.drawImage( tutorial.cuy_2,0,ALTO_BARRA_MENU + i*TILE,this);
-					graph2D.drawImage( tutorial.cuy_2, i*TILE,ALTO_BARRA_MENU + j*TILE,this);
-				}*/				
+		    	bufferStrategy.show();	
+			}else if (getNumeroPantalla() == pantallaActual.HISTORIA_2.ordinal()){
+				Graphics2D graph2D = (Graphics2D)bufferStrategy.getDrawGraphics();				
+				graph2D.drawImage( historia_2.imgFondo ,0, ALTO_BARRA_MENU,this);
+				
 				bufferStrategy.show();	
 			}
 
