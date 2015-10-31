@@ -89,25 +89,29 @@ public class Ventana extends JFrame implements Renderizador{
 				if(estado==-1){
 												//Estado = Ventana.this.nuevoJuego.Tutorial(per1 , per2,e.getKeyChar(), Ventana.this);
 					Ventana.this.nuevoJuego.realizaAccion(per1,per2,e.getKeyChar(),Ventana.this);
-					estado=Ventana.this.nuevoJuego.tutorial_recuperaEstActual(per1,per2,Ventana.this.nuevoJuego.getListMapas().get(0));
+					
 				}
 				if(estado == 0){
 					System.out.println("DUO");
 					//imprimeEnPantallaLateral(estado) <------CARLO DE SHIT TU HACES ESTO
+					teclaPres=teclaPres+e.getKeyChar();					
+					String codigoExtraido = Ventana.this.nuevoJuego.buscaCodigo(estado,per1, per2,  Ventana.this.nuevoJuego.getListMapas().get(0));
+					//JOptionPane.showMessageDialog(null,teclaPres);
+					int resultado = Ventana.this.nuevoJuego.estaCodigo(teclaPres,per1,per2, codigoExtraido);
 					
-					Ventana.this.nuevoJuego.tutorial_verficaCodigo(estado,e.getKeyChar(),per1,per2);					
-					teclaPres=teclaPres+e.getKeyChar();
+					//JOptionPane.showMessageDialog(null,codigoExtraido);
+					if(resultado !=-1){
+						if (teclaPres.equals(codigoExtraido)){							
+							
+							estado = -1 ; // Cambio el estado para salir del DUO o Accion.
+							teclaPres = "" ;
+							Ventana.this.nuevoJuego.ImprimirDuo( Ventana.this.nuevoJuego.getListMapas().get(0), per1, per2, Ventana.this);
+						}
+					}else 
+						teclaPres = "";
 					
-					JOptionPane.showMessageDialog(null,teclaPres);
-					////////////////////////////////////
-					////////////////////////////////////
-					////////////////////////////////////
-					////////////////FALTA FALTA FALTA
-					////////////////////////////////////
-					////////////////////////////////////
-					////////////////////////////////////
-					////////////////////////////////////
-					////////////////////////////////////
+					//JOptionPane.showMessageDialog(null,estado);
+					
 					
 				}
 				if(estado==1){
@@ -119,6 +123,7 @@ public class Ventana extends JFrame implements Renderizador{
 				if(estado==3){
 					numeroPantalla = pantallaActual.PERDIO_JUEGO.ordinal();
 				}
+				estado=Ventana.this.nuevoJuego.tutorial_recuperaEstActual(per1,per2,Ventana.this.nuevoJuego.getListMapas().get(0));
 				/*	
 					int direccion = Ventana.this.nuevoJuego.getInterpreteComando().esTeclaValida(e.getKeyChar());	
 					
