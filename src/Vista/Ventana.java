@@ -45,8 +45,6 @@ public class Ventana extends JFrame implements Renderizador{
 	private static final int ALTO = 768  ;
 	private boolean limpiar; 
 	private static int numeroPantalla = 0;
-	private PersonajePrincipal per1 ;
-	private PersonajePrincipal per2 ;
 	private int estado=-1;
 	private String teclaPres="";
 	private enum pantallaActual {
@@ -85,19 +83,20 @@ public class Ventana extends JFrame implements Renderizador{
 				if (numeroPantalla == pantallaActual.TUTORIAL.ordinal() ){
 					
 				// -1 -> no pasa nada. 0 -> duo. 1 -> accionEspecial. 2 -> acabo Nivel. 3 -> has perdido.
-				estado=Ventana.this.nuevoJuego.tutorial_recuperaEstActual(per1,per2,Ventana.this.nuevoJuego.getListMapas().get(0));
+				estado=Ventana.this.nuevoJuego.tutorial_recuperaEstActual(nuevoJuego.getPersonajeA() ,nuevoJuego.getPersonajeB() ,Ventana.this.nuevoJuego.getListMapas().get(0));
 				if(estado==-1){
 												//Estado = Ventana.this.nuevoJuego.Tutorial(per1 , per2,e.getKeyChar(), Ventana.this);
-					Ventana.this.nuevoJuego.realizaAccion(per1,per2,e.getKeyChar(),Ventana.this);
+					Ventana.this.nuevoJuego.realizaAccion(nuevoJuego.getPersonajeA()  ,nuevoJuego.getPersonajeB() ,e.getKeyChar(),Ventana.this);
+					Ventana.this.repaint();
 					
 				}
 				if(estado == 0){
 					System.out.println("DUO");
 					//imprimeEnPantallaLateral(estado) <------CARLO DE SHIT TU HACES ESTO
 					teclaPres=teclaPres+e.getKeyChar();					
-					String codigoExtraido = Ventana.this.nuevoJuego.buscaCodigo(estado,per1, per2,  Ventana.this.nuevoJuego.getListMapas().get(0));
+					String codigoExtraido = Ventana.this.nuevoJuego.buscaCodigo(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() ,  Ventana.this.nuevoJuego.getListMapas().get(0));
 					//JOptionPane.showMessageDialog(null,teclaPres);
-					int resultado = Ventana.this.nuevoJuego.estaCodigo(teclaPres,per1,per2, codigoExtraido);
+					int resultado = Ventana.this.nuevoJuego.estaCodigo(teclaPres,nuevoJuego.getPersonajeB() ,nuevoJuego.getPersonajeB() , codigoExtraido);
 					
 					//JOptionPane.showMessageDialog(null,codigoExtraido);
 					if(resultado !=-1){
@@ -105,7 +104,7 @@ public class Ventana extends JFrame implements Renderizador{
 							
 							estado = -1 ; // Cambio el estado para salir del DUO o Accion.
 							teclaPres = "" ;
-							Ventana.this.nuevoJuego.ImprimirDuo( Ventana.this.nuevoJuego.getListMapas().get(0), per1, per2, Ventana.this);
+							Ventana.this.nuevoJuego.ImprimirDuo( Ventana.this.nuevoJuego.getListMapas().get(0), nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() , Ventana.this);
 						}
 					}else 
 						teclaPres = "";
@@ -123,7 +122,7 @@ public class Ventana extends JFrame implements Renderizador{
 				if(estado==3){
 					numeroPantalla = pantallaActual.PERDIO_JUEGO.ordinal();
 				}
-				estado=Ventana.this.nuevoJuego.tutorial_recuperaEstActual(per1,per2,Ventana.this.nuevoJuego.getListMapas().get(0));
+				estado=Ventana.this.nuevoJuego.tutorial_recuperaEstActual(nuevoJuego.getPersonajeA() ,nuevoJuego.getPersonajeB() ,Ventana.this.nuevoJuego.getListMapas().get(0));
 				/*	
 					int direccion = Ventana.this.nuevoJuego.getInterpreteComando().esTeclaValida(e.getKeyChar());	
 					
@@ -136,7 +135,7 @@ public class Ventana extends JFrame implements Renderizador{
 						}
 					*/	
 					  //if(Ventana.this.nuevoJuego.getInterpreteComando().movimientoValido(per1, per2, direccion, mapa))
-					  repaint();
+					  
 				}				
 			}
 		});
@@ -204,8 +203,7 @@ public class Ventana extends JFrame implements Renderizador{
 							nuevoJuego = new Juego(10, 50,40);
 							nuevoJuego.setearVentana(Ventana.this);
 							
-							per1 = nuevoJuego.getPersonajeA() ;
-							per2 = nuevoJuego.getPersonajeB() ; 
+							 
 							
 						}
 						if (e.getY() >= 400 && e.getY() <= 460 ){
@@ -303,8 +301,8 @@ public class Ventana extends JFrame implements Renderizador{
 				//graph2D.drawImage( tutorial.cuy_2  ,per2.getPosY()*TILE   ,ALTO_BARRA_MENU + per2.getPosX()*TILE,this);
 			    
 				
-		        graph2D.drawImage ( gif ,per1.getPosY()*TILE   ,ALTO_BARRA_MENU + per1.getPosX()*TILE, this);		   
-		        graph2D.drawImage (gif2 ,per2.getPosY()*TILE   ,ALTO_BARRA_MENU + per2.getPosX()*TILE, this);
+		        graph2D.drawImage ( gif ,nuevoJuego.getPersonajeA().getPosY()*TILE   ,ALTO_BARRA_MENU + nuevoJuego.getPersonajeA() .getPosX()*TILE, this);		   
+		        graph2D.drawImage (gif2 ,nuevoJuego.getPersonajeB() .getPosY()*TILE   ,ALTO_BARRA_MENU + nuevoJuego.getPersonajeB().getPosX()*TILE, this);
 		        
 		        
 		        

@@ -278,14 +278,9 @@ public class Juego implements Renderizador{
 	
 	
 	public void iniciarPersonajes(){
-		PersonajePrincipal cuy1 = new PersonajePrincipal("Cristobal", 10, 190, 4 , 0, 'A', true, false);
- 	    //System.out.print(cuy1.getEstadoActual());
- 	    
- 	    PersonajePrincipal cuy2 = new PersonajePrincipal("Hermana", 10, 190,9, 0, 'B', true, false);
- 	    //System.out.print(cuy2.getEstadoActual());
- 	    
-		setPersonajeA(cuy1)  ; //Xq igualamos aquí? si igual nunca usamos personajeA ni personajeB
-		setPersonajeB(cuy2) ; 
+		
+		setPersonajeA(new PersonajePrincipal("Cristobal", 10, 190, 4 , 0, 'A', true, false))  ;
+		setPersonajeB(new PersonajePrincipal("Hermana", 10, 190,9, 0, 'B', true, false)) ; 
 		
 	}
 	
@@ -620,7 +615,7 @@ public class Juego implements Renderizador{
 		
 		
 	}
-	public void ImprimirDuo(Mapa mapa, PersonajePrincipal cuy1, PersonajePrincipal  cuy2, JFrame ven){
+	public void ImprimirDuo(Mapa mapa, PersonajePrincipal cuy2, PersonajePrincipal  cuy1, JFrame ven){
 //		Scanner teclado = new Scanner(System.in);
 		//System.out.println("DEBE PRESIONAR WSIKDDLL");
 		//String duo1 = "WSIKDDLL" ;
@@ -633,22 +628,20 @@ public class Juego implements Renderizador{
 			entrada = teclado.nextLine() ; 
 		}*/
 		//DUO - POSICION 1
-		try {
-		    Thread.sleep(1000);                 //1000 milliseconds is one second.
-		} catch(InterruptedException ex) {
-		    Thread.currentThread().interrupt();
-		}
+	
 		cuy2.setPosX(6);
 		cuy2.setPosY(4);
 		cuy1.setPosX(8);
 		cuy1.setPosY(4);		
 		ImprimirMapa(mapa,cuy1,cuy2,ven);
 		ven.repaint();
-		try {
-		    Thread.sleep(1000);                 //1000 milliseconds is one second.
-		} catch(InterruptedException ex) {
-		    Thread.currentThread().interrupt();
+	     try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			
+			e.printStackTrace();
 		}
+		
 		
 		//DUO - POSICION 2
 		cuy2.setPosX(7);
@@ -656,14 +649,7 @@ public class Juego implements Renderizador{
 		cuy1.setPosX(7);
 		cuy1.setPosY(5);
 		ImprimirMapa(mapa,cuy1,cuy2,ven);
-		
-		ven.repaint();
-		try {
-		    Thread.sleep(1000);                 //1000 milliseconds is one second.
-		} catch(InterruptedException ex) {
-		    Thread.currentThread().interrupt();
-		}
-		
+	
 		
 //		entrada = teclado.nextLine() ;
 		
@@ -674,7 +660,7 @@ public class Juego implements Renderizador{
 		cuy1.setPosY(8);
 		ImprimirMapa(mapa,cuy1,cuy2,ven);
 		//entrada = teclado.nextLine() ;
-		ven.repaint();
+		
 		
 		
 		//DUO - POSICION 4
@@ -683,12 +669,7 @@ public class Juego implements Renderizador{
 		cuy2.setPosX(5);
 		cuy2.setPosY(8);
 		ImprimirMapa(mapa,cuy1,cuy2,ven);
-		ven.repaint();
-		try {
-		    Thread.sleep(1000);                 //1000 milliseconds is one second.
-		} catch(InterruptedException ex) {
-		    Thread.currentThread().interrupt();
-		}
+	
 		//entrada = teclado.nextLine() ;
 		System.out.println("PUEDES MOVERTE Y CONTINUAR");
 	}
