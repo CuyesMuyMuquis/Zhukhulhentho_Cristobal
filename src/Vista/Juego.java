@@ -2,6 +2,7 @@ package Vista;
 import Modelo.*;
 import javax.swing.Timer;
 
+import java.awt.Graphics2D;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -611,8 +612,13 @@ public class Juego implements Renderizador{
 
 		System.out.println("PUEDES MOVERTE Y CONTINUAR");
 	}
-	public void imprimirDuo_1(Mapa mapa, PersonajePrincipal cuy1, PersonajePrincipal  cuy2){
-		
+	
+	public void imprimirDuo_t_2(Mapa mapa, PersonajePrincipal cuy1, PersonajePrincipal  cuy2, JFrame ven){
+		cuy2.setPosX(7);
+		cuy2.setPosY(4);
+		cuy1.setPosX(7);
+		cuy1.setPosY(5);
+		ImprimirMapa(mapa,cuy1,cuy2,ven);
 		
 	}
 	public void ImprimirDuo(Mapa mapa, PersonajePrincipal cuy2, PersonajePrincipal  cuy1, JFrame ven){
@@ -634,31 +640,34 @@ public class Juego implements Renderizador{
 		cuy1.setPosX(8);
 		cuy1.setPosY(4);		
 		ImprimirMapa(mapa,cuy1,cuy2,ven);
-		
-	     try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			
-			e.printStackTrace();
+		ven.update((Graphics2D)ven.getGraphics());
+		//ven.repaint();
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
-	     ven.repaint();
-	    ven.invalidate();
-	     JOptionPane.showMessageDialog(null, "Mensake");
-	     try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				
-				e.printStackTrace();
-			}
 		
 		
-		//DUO - POSICION 2
-		cuy2.setPosX(7);
+		
+		
+	
+	cuy2.setPosX(7);
 		cuy2.setPosY(4);
 		cuy1.setPosX(7);
 		cuy1.setPosY(5);
 		ImprimirMapa(mapa,cuy1,cuy2,ven);
-	
+		
+		ven.update((Graphics2D)ven.getGraphics());
+		//ven.repaint();
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 		
 //		entrada = teclado.nextLine() ;
 		
@@ -670,7 +679,14 @@ public class Juego implements Renderizador{
 		ImprimirMapa(mapa,cuy1,cuy2,ven);
 		//entrada = teclado.nextLine() ;
 		
-		
+		ven.update((Graphics2D)ven.getGraphics());
+		//ven.repaint();
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
 		//DUO - POSICION 4
 		cuy1.setPosX(9);
@@ -679,8 +695,19 @@ public class Juego implements Renderizador{
 		cuy2.setPosY(8);
 		ImprimirMapa(mapa,cuy1,cuy2,ven);
 	
+		ven.update((Graphics2D)ven.getGraphics());
+		//ven.repaint();
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		
 		//entrada = teclado.nextLine() ;
 		System.out.println("PUEDES MOVERTE Y CONTINUAR");
+		
 	}
 	public PersonajePrincipal getPersonajeA() {
 		return personajeA;
