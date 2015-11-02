@@ -87,6 +87,33 @@ public class Ventana extends JFrame implements Renderizador{
 				
 			}
 			
+			public void imprimeEnPantallaLateral(int estado){
+				Graphics2D graph2D = (Graphics2D)bufferStrategy.getDrawGraphics();
+				int vida = nuevoJuego.getPersonajeA().getVida();
+				System.out.println(vida);
+				graph2D.setFont(new Font("Monspaced", Font.BOLD, 26));
+				graph2D.setColor(Color.BLACK);
+				graph2D.drawString("VIDA: ", ANCHO_R+10, 100);
+				graph2D.drawString("" + vida, ANCHO_R+85, 100);
+				
+				if(estado == 0){						
+		                //graph2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		                String combinacion = Ventana.this.nuevoJuego.getListMapas().get(0).getListaAcciones().get(0).getCombinacion();
+		                Font fuente=new Font("Monospaced", Font.BOLD, 26);
+		                graph2D.setFont(fuente);
+		                graph2D.setColor(Color.BLACK);
+		                graph2D.drawString("Debe presionar:", ANCHO_R+10, 150);
+		                fuente.deriveFont(36);	                
+		                graph2D.drawString(combinacion, ANCHO_R+10, 170);
+				}else{
+					graph2D.dispose();
+					
+				}
+				bufferStrategy.show();
+				Ventana.this.repaint();
+			}
+			
+			
 			@Override
 			public void keyPressed(KeyEvent e) {
 				
@@ -108,6 +135,7 @@ public class Ventana extends JFrame implements Renderizador{
 					estado=Ventana.this.nuevoJuego.tutorial_recuperaEstActual(nuevoJuego.getPersonajeA() ,nuevoJuego.getPersonajeB() ,Ventana.this.nuevoJuego.getListMapas().get(0));
 					System.out.println(estado);
 					if(estado==-1){
+						imprimeEnPantallaLateral(estado);
 						//Estado = Ventana.this.nuevoJuego.Tutorial(per1 , per2,e.getKeyChar(), Ventana.this);
 						Ventana.this.nuevoJuego.realizaAccion(nuevoJuego.getPersonajeA()  ,nuevoJuego.getPersonajeB() ,e.getKeyChar(),Ventana.this);
 						Ventana.this.repaint();// acutlizar
@@ -115,7 +143,7 @@ public class Ventana extends JFrame implements Renderizador{
 					}else 
 					if(estado == 0){ // Duo o Acción especial
 						System.out.println("DUO");
-						//imprimeEnPantallaLateral(estado)
+						imprimeEnPantallaLateral(estado);
 						teclaPres=teclaPres+e.getKeyChar();					
 						String codigoExtraido = Ventana.this.nuevoJuego.buscaCodigo(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() ,  Ventana.this.nuevoJuego.getListMapas().get(0));
 						//JOptionPane.showMessageDialog(null,teclaPres);
@@ -386,27 +414,7 @@ public class Ventana extends JFrame implements Renderizador{
 			
 				//nivel_1.bufferStrategy = bufferStrategy;
 				Graphics2D graph2D = (Graphics2D)bufferStrategy.getDrawGraphics();	
-				// IMPRESION BARRA LATERAL
-				if(estado == 0){
-	                //graph2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-	                String combinacion = Ventana.this.nuevoJuego.getListMapas().get(0).getListaAcciones().get(0).getCombinacion();
-	                Font fuente=new Font("Monospaced", Font.BOLD, 26);
-	                graph2D.setFont(fuente);
-	                graph2D.setColor(Color.BLACK);
-	                graph2D.drawString("Debe presionar:", ANCHO_R+10, 150);
-	                fuente.deriveFont(36);	                
-	                graph2D.drawString(combinacion, ANCHO_R+10, 170);
-				}
-				int vida = nuevoJuego.getPersonajeA().getVida();
-				System.out.println(vida);
 				graph2D.drawImage( tutorial.imgFondo ,0, ALTO_BARRA_MENU,this);
-				graph2D.setFont(new Font("Monspaced", Font.BOLD, 26));
-				graph2D.setColor(Color.BLACK);
-				graph2D.drawString("VIDA: ", ANCHO_R+10, 100);
-				graph2D.drawString("" + vida, ANCHO_R+85, 100);
-				
-				
-				
 		        graph2D.drawImage ( gif ,nuevoJuego.getPersonajeA().getPosY()*TILE   ,ALTO_BARRA_MENU + nuevoJuego.getPersonajeA() .getPosX()*TILE, this);		   
 		        graph2D.drawImage (gif2 ,nuevoJuego.getPersonajeB() .getPosY()*TILE   ,ALTO_BARRA_MENU + nuevoJuego.getPersonajeB().getPosX()*TILE, this);
 		        
