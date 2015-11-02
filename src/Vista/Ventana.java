@@ -91,6 +91,7 @@ public class Ventana extends JFrame implements Renderizador{
 				Graphics2D graph2D = (Graphics2D)bufferStrategy.getDrawGraphics();
 				int vida = nuevoJuego.getPersonajeA().getVida();
 				System.out.println(vida);
+				graph2D.clearRect(ANCHO_R+10, 100, 100, 30);
 				graph2D.setFont(new Font("Monspaced", Font.BOLD, 26));
 				graph2D.setColor(Color.BLACK);
 				graph2D.drawString("VIDA: ", ANCHO_R+10, 100);
