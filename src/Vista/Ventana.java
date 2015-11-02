@@ -3,8 +3,10 @@ package Vista;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
@@ -111,9 +113,9 @@ public class Ventana extends JFrame implements Renderizador{
 						Ventana.this.repaint();// acutlizar
 
 					}else 
-					if(estado == 0){
+					if(estado == 0){ // Duo o Acción especial
 						System.out.println("DUO");
-						//imprimeEnPantallaLateral(estado) <------CARLO DE SHIT TU HACES ESTO
+						//imprimeEnPantallaLateral(estado)
 						teclaPres=teclaPres+e.getKeyChar();					
 						String codigoExtraido = Ventana.this.nuevoJuego.buscaCodigo(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() ,  Ventana.this.nuevoJuego.getListMapas().get(0));
 						//JOptionPane.showMessageDialog(null,teclaPres);
@@ -383,9 +385,27 @@ public class Ventana extends JFrame implements Renderizador{
 			}else if (getNumeroPantalla() == pantallaActual.TUTORIAL.ordinal()){
 			
 				//nivel_1.bufferStrategy = bufferStrategy;
-				Graphics2D graph2D = (Graphics2D)bufferStrategy.getDrawGraphics();				
+				Graphics2D graph2D = (Graphics2D)bufferStrategy.getDrawGraphics();	
+				// IMPRESION BARRA LATERAL
+				if(estado == 0){
+	                //graph2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+	                String combinacion = Ventana.this.nuevoJuego.getListMapas().get(0).getListaAcciones().get(0).getCombinacion();
+	                Font fuente=new Font("Monospaced", Font.BOLD, 26);
+	                graph2D.setFont(fuente);
+	                graph2D.setColor(Color.BLACK);
+	                graph2D.drawString("Debe presionar:", ANCHO_R+10, 150);
+	                fuente.deriveFont(36);	                
+	                graph2D.drawString(combinacion, ANCHO_R+10, 170);
+				}
+				int vida = nuevoJuego.getPersonajeA().getVida();
+				System.out.println(vida);
 				graph2D.drawImage( tutorial.imgFondo ,0, ALTO_BARRA_MENU,this);
-			
+				graph2D.setFont(new Font("Monspaced", Font.BOLD, 26));
+				graph2D.setColor(Color.BLACK);
+				graph2D.drawString("VIDA: ", ANCHO_R+10, 100);
+				graph2D.drawString("" + vida, ANCHO_R+85, 100);
+				
+				
 				
 		        graph2D.drawImage ( gif ,nuevoJuego.getPersonajeA().getPosY()*TILE   ,ALTO_BARRA_MENU + nuevoJuego.getPersonajeA() .getPosX()*TILE, this);		   
 		        graph2D.drawImage (gif2 ,nuevoJuego.getPersonajeB() .getPosY()*TILE   ,ALTO_BARRA_MENU + nuevoJuego.getPersonajeB().getPosX()*TILE, this);

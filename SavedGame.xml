@@ -1,10 +1,10 @@
 <Modelo.StoredGame>
   <personajeA>
     <ancho>10</ancho>
-    <alto>10</alto>
+    <alto>190</alto>
     <posicion>
       <fila>5</fila>
-      <columna>8</columna>
+      <columna>4</columna>
     </posicion>
     <letraAsociada>A</letraAsociada>
     <visible>true</visible>
@@ -248,10 +248,10 @@
   </personajeA>
   <personajeB>
     <ancho>10</ancho>
-    <alto>10</alto>
+    <alto>190</alto>
     <posicion>
       <fila>9</fila>
-      <columna>11</columna>
+      <columna>4</columna>
     </posicion>
     <letraAsociada>B</letraAsociada>
     <visible>true</visible>
