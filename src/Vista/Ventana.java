@@ -91,6 +91,7 @@ public class Ventana extends JFrame implements Renderizador{
 				Graphics2D graph2D = (Graphics2D)bufferStrategy.getDrawGraphics();
 				int vida = nuevoJuego.getPersonajeA().getVida();
 				System.out.println(vida);
+				graph2D.clearRect(ANCHO_R+10, 100, 100, 30);
 				graph2D.setFont(new Font("Monspaced", Font.BOLD, 26));
 				graph2D.setColor(Color.BLACK);
 				graph2D.drawString("VIDA: ", ANCHO_R+10, 100);
@@ -106,8 +107,7 @@ public class Ventana extends JFrame implements Renderizador{
 		                fuente.deriveFont(36);	                
 		                graph2D.drawString(combinacion, ANCHO_R+10, 170);
 				}else{
-					graph2D.dispose();
-					
+					graph2D.clearRect(ANCHO_R+10, 120, 250, 56);
 				}
 				bufferStrategy.show();
 				Ventana.this.repaint();
@@ -124,7 +124,7 @@ public class Ventana extends JFrame implements Renderizador{
 				}
 				
 				if (getNumeroPantalla() == pantallaActual.TUTORIAL.ordinal() ){
-
+					imprimeEnPantallaLateral(estado);
 					// -1 -> no pasa nada. 0 -> duo. 1 -> accionEspecial. 2 -> acabo Nivel. 3 -> has perdido.
 					// SE DEBE CAMBIAR A:    -1 -> no pasa nada.
 					//					   0 -> duo. 
@@ -135,7 +135,7 @@ public class Ventana extends JFrame implements Renderizador{
 					estado=Ventana.this.nuevoJuego.tutorial_recuperaEstActual(nuevoJuego.getPersonajeA() ,nuevoJuego.getPersonajeB() ,Ventana.this.nuevoJuego.getListMapas().get(0));
 					System.out.println(estado);
 					if(estado==-1){
-						imprimeEnPantallaLateral(estado);
+						//imprimeEnPantallaLateral(estado);
 						//Estado = Ventana.this.nuevoJuego.Tutorial(per1 , per2,e.getKeyChar(), Ventana.this);
 						Ventana.this.nuevoJuego.realizaAccion(nuevoJuego.getPersonajeA()  ,nuevoJuego.getPersonajeB() ,e.getKeyChar(),Ventana.this);
 						Ventana.this.repaint();// acutlizar
@@ -143,7 +143,7 @@ public class Ventana extends JFrame implements Renderizador{
 					}else 
 					if(estado == 0){ // Duo o Acción especial
 						System.out.println("DUO");
-						imprimeEnPantallaLateral(estado);
+						//imprimeEnPantallaLateral(estado);
 						teclaPres=teclaPres+e.getKeyChar();					
 						String codigoExtraido = Ventana.this.nuevoJuego.buscaCodigo(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() ,  Ventana.this.nuevoJuego.getListMapas().get(0));
 						//JOptionPane.showMessageDialog(null,teclaPres);
