@@ -23,14 +23,12 @@ public class Mapa{
 		if(nivel == 0){ //Tutorial
 			agregarCombinacion(0,  5,5,     9,5,"WSIKDDLL",5);
 			agregarCombinacion(1,  3,12,    9,11,"WDEWW",4);
-			
 			agregarCombinacion(1,  4,12,    9,11,"WDEWW",4);
 			agregarCombinacion(1,  5,12    ,9,11,"WDEWW",4);
+			agregarCombinacion(1,  6,12    ,-1,-1,"WDEWW",4);
 			agregarCombinacion(1,  3,12,    -1,-1,"",4);
-			
 			agregarCombinacion(1,  4,12,    -1,-1,"",4);
 			agregarCombinacion(1,  5,12    ,-1,-1,"",4);
-			
 			agregarCombinacion(1,  6,12    ,9,11,"WDEWW",4);
 		}
 		if(nivel == 1){ //Nivel 1 //Cuy_1  //Cuy_2

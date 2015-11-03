@@ -807,9 +807,9 @@ public class Juego implements Renderizador{
 		}
 		return cadena;
 	}
-	public PersonajePrincipal inmoviliza_cuy(PersonajePrincipal perA,PersonajePrincipal perB,Mapa mapaActual){
+	public int inmoviliza_cuy(PersonajePrincipal perA,PersonajePrincipal perB,Mapa mapaActual){
 			
-		return perA; 
+		return -1; 
 	}
 }
 

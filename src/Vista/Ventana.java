@@ -143,21 +143,20 @@ public class Ventana extends JFrame implements Renderizador{
 					//imprimeEnPantallaLateral(estado);
 					// -1 -> no pasa nada. 0 -> duo. 1 -> accionEspecial. 2 -> acabo Nivel. 3 -> has perdido.
 					// SE DEBE CAMBIAR A:    -1 -> no pasa nada.
-					//					   0 -> duo. 
+					//					  0 -> duo. 
 					//                    1 -> acciontriger.
-					// 					  2->accionEspecial
 					// 					  3 -> acabo Nivel.
 					// 				      4 -> has perdido.
+					////////////////////////////////////////////////////////
 					estado=Ventana.this.nuevoJuego.tutorial_recuperaEstActual(nuevoJuego.getPersonajeA() ,nuevoJuego.getPersonajeB() ,Ventana.this.nuevoJuego.getListMapas().get(0));
 					System.out.println(estado);
+					////////////////////////////////////////////////////////
 					if(estado==-1){
-						//imprimeEnPantallaLateral(estado);
-						//Estado = Ventana.this.nuevoJuego.Tutorial(per1 , per2,e.getKeyChar(), Ventana.this);
 						Ventana.this.nuevoJuego.realizaAccion(nuevoJuego.getPersonajeA()  ,nuevoJuego.getPersonajeB() ,e.getKeyChar(),Ventana.this);
-						Ventana.this.repaint();// acutlizar
+						Ventana.this.repaint();// actualizar
 
 					}else 
-					if(estado == 0){ // Duo o Acción especialz
+					if(estado == 0){ // Duo 
 						System.out.println("DUO");
 						//imprimeEnPantallaLateral(estado);
 						teclaPres=teclaPres+e.getKeyChar();					
@@ -209,33 +208,17 @@ public class Ventana extends JFrame implements Renderizador{
 
 					}else
 					if(estado==1){
-						//HILO DE ENEMIGO
-						//aqui es cuando pisa un tile ysale un enemigo que le va bajando vida
-						//funciones a crear:
-						//PersonajePrincipal cuySinMoverse=inmoviliza_cuy(perA,perB,Ventana.this.nuevoJuego.getListMapas().get(0));
-						//activaTerrenoEspecial()
-						//verifica que otro cuy llego a terreno especial(if)
-						//si verificacion es correcta->
-						/*
-						 * 
-						 * teclaPres=teclaPres+e.getKeyChar();					
-					String codigoExtraido = Ventana.this.nuevoJuego.buscaCodigo(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() ,  Ventana.this.nuevoJuego.getListMapas().get(0));
-					//JOptionPane.showMessageDialog(null,teclaPres);
-					int resultado = Ventana.this.nuevoJuego.estaCodigo(teclaPres,nuevoJuego.getPersonajeB() ,nuevoJuego.getPersonajeB() , codigoExtraido);
-
-					//JOptionPane.showMessageDialog(null,codigoExtraido);
-					if(resultado !=-1){
-						if (teclaPres.equals(codigoExtraido)){							
-
-							haceAccionEspecial();
+						int subEstado=Ventana.this.nuevoJuego.inmoviliza_cuy(nuevoJuego.getPersonajeA() ,nuevoJuego.getPersonajeB() ,Ventana.this.nuevoJuego.getListMapas().get(0));
+						if(subEstado==0){//no se puede mover el cuy 1
+							
 						}
-					}else 
-						teclaPres = "";
-
-					//JOptionPane.showMessageDialog(null,estado);
-
-						 */
-						//cambia a estado-1
+						if(subEstado==1){//no se puede mover el cuy 2
+								
+						}
+						if(subEstado==-1){//el cuy libre se encuentra en una posicion para liberar al otro cuy
+								//aqui se debe cambiar de estado a -1
+						}
+						
 
 					}else
 					if(estado==3){
