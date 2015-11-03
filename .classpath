@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/Users/alulab14.INF.000/Desktop/GitHub/Zhukhulhentho_Cristobal/xpp3_min-1.1.4c.jar"/>
-	<classpathentry kind="lib" path="C:/Users/alulab14.INF.000/Desktop/GitHub/Zhukhulhentho_Cristobal/xstream-1.4.8.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="xpp3_min-1.1.4c.jar"/>
+	<classpathentry kind="lib" path="xstream-1.4.8.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
