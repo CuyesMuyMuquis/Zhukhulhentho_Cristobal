@@ -1,3 +1,4 @@
+import Controlador.ThreadTimer;
 import Vista.Juego;
 import Vista.Ventana;
 
@@ -12,6 +13,7 @@ public class Principal {
  	    nuevoJuego.iniciarPersonajes();
  	    nuevoJuego.PantallaInicial();*/
 		Ventana v = new Ventana() ;
+
 	}
 	
 }

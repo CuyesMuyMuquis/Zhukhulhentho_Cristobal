@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 
 import Controlador.GestorMapas;
 import Controlador.InterpreteComandos;
+import Controlador.ThreadTimer;
 
 public class Juego implements Renderizador{
 
@@ -678,6 +679,8 @@ public class Juego implements Renderizador{
 		}*/
 		//DUO - POSICION 1
 	
+		
+		
 		cuy2.setPosX(6);
 		cuy2.setPosY(4);
 		cuy1.setPosX(8);
@@ -804,9 +807,9 @@ public class Juego implements Renderizador{
 		}
 		return cadena;
 	}
-	public PersonajePrincipal inmoviliza_cuy(PersonajePrincipal perA,PersonajePrincipal perB,Mapa mapaActual){
+	public int inmoviliza_cuy(PersonajePrincipal perA,PersonajePrincipal perB,Mapa mapaActual){
 			
-		return perA; 
+		return -1; 
 	}
 }
 

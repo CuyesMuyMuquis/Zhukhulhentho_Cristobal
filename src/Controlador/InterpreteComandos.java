@@ -87,7 +87,7 @@ public class InterpreteComandos {
 				 if( cuy1.getPosX() == lista.get(i).getPosXCuy1() && cuy1.getPosY() == lista.get(i).getPosYCuy1() && cuy2.getPosX() == lista.get(i).getPosXCuy2() && cuy2.getPosY() == lista.get(i).getPosYCuy2())
 					 estado = 0;
 			 }
-			 else{
+			 else{//aqui selecciona las casillas de estado 1
 				 if(cuy1.getPosX() == lista.get(i).getPosXCuy1() && cuy1.getPosY() == lista.get(i).getPosYCuy1() && cuy2.getPosX() == lista.get(i).getPosXCuy2() && cuy2.getPosY() == lista.get(i).getPosYCuy2())
 					 estado = 1;
 				 else{
