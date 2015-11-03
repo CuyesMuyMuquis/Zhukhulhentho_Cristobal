@@ -13,7 +13,6 @@ import javax.swing.JOptionPane;
 
 import Controlador.GestorMapas;
 import Controlador.InterpreteComandos;
-import Controlador.ThreadTimer;
 
 public class Juego implements Renderizador{
 

@@ -58,7 +58,8 @@ public class Ventana extends JFrame implements Renderizador{
 	
 	
 	//INICIO
-	private BufferedImage  imgFondo;	
+	private BufferedImage  imgFondo;
+	private BufferedImage  imgLateral;
 	private BufferStrategy bufferStrategy;	
 	
 	//HISTORIA1 
@@ -71,6 +72,7 @@ public class Ventana extends JFrame implements Renderizador{
 		Graphics2D graph2D = (Graphics2D)bufferStrategy.getDrawGraphics();
 		int vida = PersonajePrincipal.getVida();
 		System.out.println(vida);
+		graph2D.drawImage( imgLateral, ANCHO_R, ALTO_BARRA_MENU , this);
 		graph2D.clearRect(ANCHO_R+85, 74, 100, 28);
 		graph2D.setFont(new Font("Monspaced", Font.BOLD, 26));
 		graph2D.setColor(Color.BLACK);
@@ -368,8 +370,9 @@ public class Ventana extends JFrame implements Renderizador{
 	public  void cargarImagenes(JFrame ventana){
 		try{
 				if (getNumeroPantalla() == pantallaActual.MENU.ordinal()){	
-					//imgFondo = new BufferedImage(100,100, BufferedImage.TYPE_INT_RGB);
-					imgFondo = ImageIO.read(new File("Pantalla_inicio.jpg"));					
+					
+					imgFondo = ImageIO.read(new File("Pantalla_inicio.jpg"));
+					imgLateral = ImageIO.read(new File("barra_informacion.jpg"));
 	
 				}else if (getNumeroPantalla() == pantallaActual.HISTORIA_1.ordinal()){
 					fondoHistoria = ImageIO.read(new File("Historia.jpg"));	
@@ -398,14 +401,12 @@ public class Ventana extends JFrame implements Renderizador{
 			//bufferStrategy.show();	
 		}
 		try{
-			imprimeEnPantallaLateral(estado);
+			imprimeEnPantallaLateral(estado); //Muestra la información en la barra lateral
 			if (getNumeroPantalla() == pantallaActual.MENU.ordinal()){
 
 				Graphics2D graph2D = (Graphics2D)bufferStrategy.getDrawGraphics(); 
 				// Extraigo el graphics de mi bufferStrategy pero lo casteo a Graphics3D
 				graph2D.drawImage(imgFondo, 0, ALTO_BARRA_MENU , this); // Meto la imagen de fondo 	
-
-				//graph2D.drawImage(imgDibujar, posX, 0, null);
 
 				bufferStrategy.show();					 // Lo muestro
 
@@ -418,6 +419,7 @@ public class Ventana extends JFrame implements Renderizador{
 				//nivel_1.bufferStrategy = bufferStrategy;
 				Graphics2D graph2D = (Graphics2D)bufferStrategy.getDrawGraphics();	
 				graph2D.drawImage( tutorial.imgFondo ,0, ALTO_BARRA_MENU,this);
+				//graph2D.drawImage( imgLateral, ANCHO_R, ALTO_BARRA_MENU , this);
 		        graph2D.drawImage ( gif ,nuevoJuego.getPersonajeA().getPosY()*TILE   ,ALTO_BARRA_MENU + nuevoJuego.getPersonajeA() .getPosX()*TILE, this);		   
 		        graph2D.drawImage (gif2 ,nuevoJuego.getPersonajeB() .getPosY()*TILE   ,ALTO_BARRA_MENU + nuevoJuego.getPersonajeB().getPosX()*TILE, this);
 		        
@@ -429,7 +431,7 @@ public class Ventana extends JFrame implements Renderizador{
 				
 				bufferStrategy.show();	
 			}
-
+			
 		}catch(Exception e){
 			System.out.println(e);
 		}
