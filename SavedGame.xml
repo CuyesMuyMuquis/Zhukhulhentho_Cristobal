@@ -3,8 +3,8 @@
     <ancho>10</ancho>
     <alto>190</alto>
     <posicion>
-      <fila>5</fila>
-      <columna>4</columna>
+      <fila>4</fila>
+      <columna>1</columna>
     </posicion>
     <letraAsociada>A</letraAsociada>
     <visible>true</visible>
@@ -251,7 +251,7 @@
     <alto>190</alto>
     <posicion>
       <fila>9</fila>
-      <columna>4</columna>
+      <columna>1</columna>
     </posicion>
     <letraAsociada>B</letraAsociada>
     <visible>true</visible>
