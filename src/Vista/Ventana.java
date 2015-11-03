@@ -67,7 +67,44 @@ public class Ventana extends JFrame implements Renderizador{
 	// Nivel1
 	private  Tutorial  tutorial = new Tutorial() ;
 	private Historia_2 historia_2 = new Historia_2(); 
-	 
+	public void imprimeEnPantallaLateral(int estado){
+		Graphics2D graph2D = (Graphics2D)bufferStrategy.getDrawGraphics();
+		int vida = PersonajePrincipal.getVida();
+		System.out.println(vida);
+		graph2D.clearRect(ANCHO_R+85, 74, 100, 28);
+		graph2D.setFont(new Font("Monspaced", Font.BOLD, 26));
+		graph2D.setColor(Color.BLACK);
+		graph2D.drawString("VIDA: ", ANCHO_R+10, 100);
+		graph2D.drawString("" + vida, ANCHO_R+85, 100);
+		
+		if(estado == 0){						
+                //graph2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+                String combinacion = Ventana.this.nuevoJuego.getListMapas().get(0).getListaAcciones().get(0).getCombinacion();
+                Font fuente=new Font("Monospaced", Font.BOLD, 26);
+                graph2D.setFont(fuente);
+                graph2D.setColor(Color.BLACK);
+                graph2D.drawString("Debe presionar:", ANCHO_R+10, 150);
+                fuente.deriveFont(36);	                
+                graph2D.drawString(combinacion, ANCHO_R+10, 170);
+                //LO que se presiona
+                fuente.deriveFont(26);
+                graph2D.drawString("Has presionado: ", ANCHO_R+10, 200);
+                fuente.deriveFont(36);
+                if( teclaPres == ""){
+                	graph2D.clearRect(ANCHO_R+10, 200, 250, 28);
+                }else{
+                	graph2D.drawString(teclaPres, ANCHO_R+10, 220);
+                }
+                
+                
+		}else{
+			graph2D.clearRect(ANCHO_R+10, 120, 250, 56);
+			graph2D.clearRect(ANCHO_R+10, 170, 250, 56);
+		}
+		
+		//bufferStrategy.show();
+		//Ventana.this.repaint();
+	}
 	
 	public void eventoTeclado(){
 	     this.addKeyListener(new KeyListener() {
@@ -88,43 +125,7 @@ public class Ventana extends JFrame implements Renderizador{
 				}
 			}
 			
-			public void imprimeEnPantallaLateral(int estado){
-				Graphics2D graph2D = (Graphics2D)bufferStrategy.getDrawGraphics();
-				int vida = PersonajePrincipal.getVida();
-				System.out.println(vida);
-				graph2D.clearRect(ANCHO_R+85, 74, 100, 28);
-				graph2D.setFont(new Font("Monspaced", Font.BOLD, 26));
-				graph2D.setColor(Color.BLACK);
-				graph2D.drawString("VIDA: ", ANCHO_R+10, 100);
-				graph2D.drawString("" + vida, ANCHO_R+85, 100);
-				
-				if(estado == 0){						
-		                //graph2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-		                String combinacion = Ventana.this.nuevoJuego.getListMapas().get(0).getListaAcciones().get(0).getCombinacion();
-		                Font fuente=new Font("Monospaced", Font.BOLD, 26);
-		                graph2D.setFont(fuente);
-		                graph2D.setColor(Color.BLACK);
-		                graph2D.drawString("Debe presionar:", ANCHO_R+10, 150);
-		                fuente.deriveFont(36);	                
-		                graph2D.drawString(combinacion, ANCHO_R+10, 170);
-		                //LO que se presiona
-		                fuente.deriveFont(26);
-		                graph2D.drawString("Has presionado: ", ANCHO_R+10, 200);
-		                fuente.deriveFont(36);
-		                if( teclaPres == ""){
-		                	graph2D.clearRect(ANCHO_R+10, 200, 250, 28);
-		                }else{
-		                	graph2D.drawString(teclaPres, ANCHO_R+10, 220);
-		                }
-		                
-		                
-				}else{
-					graph2D.clearRect(ANCHO_R+10, 120, 250, 56);
-					graph2D.clearRect(ANCHO_R+10, 170, 250, 56);
-				}
-				bufferStrategy.show();
-				//Ventana.this.repaint();
-			}
+			
 			
 			
 			@Override
@@ -134,11 +135,12 @@ public class Ventana extends JFrame implements Renderizador{
 					StoredGame game = new StoredGame(Ventana.this.nuevoJuego.getPersonajeA(),Ventana.this.nuevoJuego.getPersonajeB(),getNumeroPantalla());
 					Serializar2 serial = new Serializar2();
 					serial.Guardar(game);
+					return ;
 					//ESCRIBIR MENSAJE DE SE GUARDÓ
 				}
 				
 				if (getNumeroPantalla() == pantallaActual.TUTORIAL.ordinal() ){
-					imprimeEnPantallaLateral(estado);
+					//imprimeEnPantallaLateral(estado);
 					// -1 -> no pasa nada. 0 -> duo. 1 -> accionEspecial. 2 -> acabo Nivel. 3 -> has perdido.
 					// SE DEBE CAMBIAR A:    -1 -> no pasa nada.
 					//					   0 -> duo. 
@@ -155,7 +157,7 @@ public class Ventana extends JFrame implements Renderizador{
 						Ventana.this.repaint();// acutlizar
 
 					}else 
-					if(estado == 0){ // Duo o Acción especial
+					if(estado == 0){ // Duo o Acción especialz
 						System.out.println("DUO");
 						//imprimeEnPantallaLateral(estado);
 						teclaPres=teclaPres+e.getKeyChar();					
@@ -196,9 +198,11 @@ public class Ventana extends JFrame implements Renderizador{
 						}else { //SI se ha equivocado se resetea la teclaPres y se quita 2 puntos de vida
 							teclaPres = "";
 							//EQUIVOCACIÓN DE TECLAS PRESIONADAS
-							quitarVida(e.getKeyChar());							
+							quitarVida(e.getKeyChar());		
+							
 						}
-						imprimeEnPantallaLateral(estado);
+						//imprimeEnPantallaLateral(estado);
+						Ventana.this.repaint();
 							System.out.println(estado);
 
 
@@ -344,6 +348,7 @@ public class Ventana extends JFrame implements Renderizador{
 							Serializar2 serie = new Serializar2();
 							StoredGame game = serie.DesGuardar();
 							nuevoJuego = new Juego(game);
+							PersonajePrincipal.setVida(game.vida);
 							Ventana.this.setNumeroPantalla(game.numMapaActual);
 							System.out.println(game.numMapaActual);
 							Ventana.this.IniciarPantalla();					
@@ -407,9 +412,10 @@ public class Ventana extends JFrame implements Renderizador{
 			Graphics2D graph2D = (Graphics2D)bufferStrategy.getDrawGraphics();			
 			graph2D.clearRect(0, 0, getWidth(), getHeight() );			
 			limpiar = false;
-			bufferStrategy.show();	
+			//bufferStrategy.show();	
 		}
 		try{
+			imprimeEnPantallaLateral(estado);
 			if (getNumeroPantalla() == pantallaActual.MENU.ordinal()){
 
 				Graphics2D graph2D = (Graphics2D)bufferStrategy.getDrawGraphics(); 
