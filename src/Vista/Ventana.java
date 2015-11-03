@@ -17,7 +17,6 @@ import java.awt.image.BufferedImage;
 import java.io.Console;
 import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -249,8 +248,10 @@ public class Ventana extends JFrame implements Renderizador{
 	
 	public Ventana(){
 		try {
-			gif = ImageIO.read(new File("cuy_1.jpg"));
-			gif2 = ImageIO.read(new File("cuy_2.png"));
+			//gif = ImageIO.read(new File("cuy_1.jpg"));
+			//gif2 = ImageIO.read(new File("cuy_2.png"));
+			gif = ImageIO.read(new File("A1.gif"));
+			gif2 = ImageIO.read(new File("B1.gif"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
