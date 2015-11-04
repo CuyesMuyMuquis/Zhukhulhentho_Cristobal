@@ -73,14 +73,16 @@ public class Ventana extends JFrame implements Renderizador{
 		int vida = PersonajePrincipal.getVida();
 		System.out.println(vida);
 		graph2D.drawImage( imgLateral, ANCHO_R, ALTO_BARRA_MENU , this);
-		graph2D.clearRect(ANCHO_R+85, 74, 100, 28);
+		//graph2D.clearRect(ANCHO_R+85, 74, 70, 28);
 		graph2D.setFont(new Font("Monspaced", Font.BOLD, 26));
 		graph2D.setColor(Color.BLACK);
 		graph2D.drawString("VIDA: ", ANCHO_R+10, 100);
 		graph2D.drawString("" + vida, ANCHO_R+85, 100);
 		
-		if(estado == 0){						
-                
+		if(estado == 0){					
+				//graph2D.clearRect(ANCHO_R+10, 120, 250, 56);
+				//graph2D.clearRect(ANCHO_R+10, 170, 250, 56);
+			
                 String combinacion = Ventana.this.nuevoJuego.getListMapas().get(0).getListaAcciones().get(0).getCombinacion();
                 Font fuente=new Font("Monospaced", Font.BOLD, 26);
                 graph2D.setFont(fuente);
@@ -93,16 +95,15 @@ public class Ventana extends JFrame implements Renderizador{
                 graph2D.drawString("Has presionado: ", ANCHO_R+10, 200);
                 fuente.deriveFont(36);
                 if( teclaPres == ""){
-                	graph2D.clearRect(ANCHO_R+10, 200, 250, 28);
+                	//graph2D.clearRect(ANCHO_R+10, 200, 250, 28);
                 }else{
                 	graph2D.drawString(teclaPres, ANCHO_R+10, 220);
-                }
-                
-                
-		}else{
-			graph2D.clearRect(ANCHO_R+10, 120, 250, 56);
-			graph2D.clearRect(ANCHO_R+10, 170, 250, 56);
+                }      
 		}
+		//else{
+			//graph2D.clearRect(ANCHO_R+10, 120, 250, 56);
+			//graph2D.clearRect(ANCHO_R+10, 170, 250, 56);
+		//}
 		
 		//bufferStrategy.show();
 		//Ventana.this.repaint();
