@@ -33,7 +33,7 @@ import Modelo.Posicion;
 
 import Modelo.Serializar2;
 import Modelo.StoredGame;
-import sun.jdbc.odbc.JdbcOdbcTracer;
+
 
 public class Ventana extends JFrame implements Renderizador{
 	private static final long serialVersionUID = 1L;
