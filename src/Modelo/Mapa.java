@@ -8,6 +8,7 @@ public class Mapa{
 	private Celda [][] mapa = new Celda[12][16];
 	private int estadoDuo; 
 	private int contador; 
+	private Enemigo monstruo;
 	
 	public Mapa(){
 		setListaAcciones(new ArrayList<AccionesEspeciales>());
@@ -30,6 +31,7 @@ public class Mapa{
 			agregarCombinacion(1,  4,12,    -1,-1,"",4);
 			agregarCombinacion(1,  5,12    ,-1,-1,"",4);
 			agregarCombinacion(1,  6,12    ,9,11,"WDEWW",4);
+			monstruo = new Enemigo("Bicho",64,64,14,5,'M',true,false);
 		}
 		if(nivel == 1){ //Nivel 1 //Cuy_1  //Cuy_2
 			agregarCombinacion(0,   8,5,    10,5,"IWOELD",5);
