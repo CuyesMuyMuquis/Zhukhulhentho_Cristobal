@@ -2,7 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/Users/Junior/Documents/GitHub/Zhukhulhentho_Cristobal/xpp3_min-1.1.4c.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Junior/Documents/GitHub/Zhukhulhentho_Cristobal/xstream-1.4.8.jar"/>
+	<classpathentry kind="lib" path="xstream-1.4.8.jar"/>
+	<classpathentry kind="lib" path="xpp3_min-1.1.4c.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

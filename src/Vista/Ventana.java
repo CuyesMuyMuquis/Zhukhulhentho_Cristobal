@@ -33,7 +33,6 @@ import Modelo.Posicion;
 
 import Modelo.Serializar2;
 import Modelo.StoredGame;
-import sun.jdbc.odbc.JdbcOdbcTracer;
 
 public class Ventana extends JFrame implements Renderizador{
 	private static final long serialVersionUID = 1L;
@@ -62,16 +61,10 @@ public class Ventana extends JFrame implements Renderizador{
 	//INICIO
 	private BufferedImage  imgFondo;
 	private BufferedImage  imgLateral;
-<<<<<<< HEAD
-	private BufferStrategy bufferStrategy;	
-	private BufferedImage corazon;
-=======
 	private BufferStrategy bufferStrategy;		
 	private BufferedImage corazon;
 	
 	
-	
->>>>>>> refs/remotes/origin/master
 	
 	//HISTORIA1 
 	private BufferedImage fondoHistoria;
@@ -94,25 +87,14 @@ public class Ventana extends JFrame implements Renderizador{
 		graph2D.drawImage( imgLateral, ANCHO_R, ALTO_BARRA_MENU , this);
 		//graph2D.clearRect(ANCHO_R+85, 74, 70, 28);
 		graph2D.drawImage( corazon, ANCHO_R+35, 36 , this);
-<<<<<<< HEAD
-		graph2D.setFont(new Font("Monspaced", Font.BOLD, 26));
-		graph2D.setColor(Color.BLACK);
-=======
 
->>>>>>> refs/remotes/origin/master
 		//graph2D.drawString("VIDA: ", ANCHO_R+10, 100);
 		if( vida == 10){
 			graph2D.drawString("" + vida, ANCHO_R+52, 80);
 		}else{
 			graph2D.drawString("" + vida, ANCHO_R+60, 80);
 		}
-<<<<<<< HEAD
-		
-		
-=======
-		
-		
->>>>>>> refs/remotes/origin/master
+
 		if(estado == 0){					
 				//graph2D.clearRect(ANCHO_R+10, 120, 250, 56);
 				//graph2D.clearRect(ANCHO_R+10, 170, 250, 56);
@@ -272,8 +254,6 @@ public class Ventana extends JFrame implements Renderizador{
 							//SI se ha equivocado se resetea la teclaPres y se quita 2 puntos de vida
 							teclaPres = "";
 							//EQUIVOCACIÓN DE TECLAS PRESIONADAS
-<<<<<<< HEAD
-							quitarVida(e.getKeyChar());		
 							
 						}
 						//imprimeEnPantallaLateral(estado);
@@ -283,7 +263,6 @@ public class Ventana extends JFrame implements Renderizador{
 						
 					}else
 					if(estado==1){
-						int subEstado=Ventana.this.nuevoJuego.inmoviliza_cuy(nuevoJuego.getPersonajeA() ,nuevoJuego.getPersonajeB() ,Ventana.this.nuevoJuego.getListMapas().get(0));
 						if(subEstado==0){//no se puede mover el cuy 1
 							
 						}
@@ -292,10 +271,7 @@ public class Ventana extends JFrame implements Renderizador{
 						}
 						if(subEstado==-1){//el cuy libre se encuentra en una posicion para liberar al otro cuy
 								//aqui se debe cambiar de estado a -1
-=======
-							quitarVida(letra);		
-					
->>>>>>> refs/remotes/origin/master
+
 						}
 						Ventana.this.nuevoJuego.cambiaCaracterEnMapa(Ventana.this.nuevoJuego.getListMapas().get(0));
 					}
@@ -496,12 +472,7 @@ public class Ventana extends JFrame implements Renderizador{
 	
 				}else if (getNumeroPantalla() == pantallaActual.TUTORIAL.ordinal()){
 					 tutorial.cargarImagen(this);
-<<<<<<< HEAD
-					 corazon = ImageIO.read(new File("corazon vida.png"));	
-					 
-=======
-									
->>>>>>> refs/remotes/origin/master
+
 				}else if (getNumeroPantalla() == pantallaActual.HISTORIA_2.ordinal()){
 					historia_2.cargarImagen(this);					
 				}else if (getNumeroPantalla() == pantallaActual.NIVEL_1.ordinal()){
@@ -537,12 +508,9 @@ public class Ventana extends JFrame implements Renderizador{
 				Graphics2D graph2D = (Graphics2D)bufferStrategy.getDrawGraphics(); 
 				// Extraigo el graphics de mi bufferStrategy pero lo casteo a Graphics3D
 				graph2D.drawImage(imgFondo, 0, ALTO_BARRA_MENU , this); // Meto la imagen de fondo 	
-<<<<<<< HEAD
 
-				bufferStrategy.show();	 //Lo muestro
-=======
 				bufferStrategy.show();					 // Lo muestro
->>>>>>> refs/remotes/origin/master
+
 
 			}else if (getNumeroPantalla() == pantallaActual.HISTORIA_1.ordinal()){
 				Graphics2D graph2D = (Graphics2D)bufferStrategy.getDrawGraphics();
