@@ -25,6 +25,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import Controlador.ThreadTimer;
+
 import java.awt.Toolkit;
 import Modelo.Mapa;
 import Modelo.Personaje;
@@ -64,7 +67,7 @@ public class Ventana extends JFrame implements Renderizador{
 	private BufferedImage  imgLateral;
 	private BufferStrategy bufferStrategy;		
 	private BufferedImage corazon;
-	
+	private ThreadTimer timer;
 	
 	
 	
@@ -145,7 +148,56 @@ public class Ventana extends JFrame implements Renderizador{
 			Ventana.this.nuevoJuego.realizaAccion(nuevoJuego.getPersonajeA()  ,nuevoJuego.getPersonajeB() ,letra,Ventana.this,Ventana.this.nuevoJuego.getListMapas().get(1));
 			Ventana.this.repaint();// actualizar
 		}else if(estado == 0){ 
+			timer.setearQuitarVida(2);
+			timer.activarBajaVidas();
+			System.out.println("DUO");
+			//imprimeEnPantallaLateral(estado);
+			teclaPres=teclaPres+letra;					
+			String codigoExtraido = Ventana.this.nuevoJuego.buscaCodigo(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() ,  Ventana.this.nuevoJuego.getListMapas().get(0));
+			//JOptionPane.showMessageDialog(null,teclaPres);
+			int resultado = Ventana.this.nuevoJuego.estaCodigo(teclaPres,nuevoJuego.getPersonajeB() ,nuevoJuego.getPersonajeB() , codigoExtraido);
 			
+			//AGREGAR HILO DE ERROR
+			//AGREGAR HILO DE TIEMPO
+			
+			//JOptionPane.showMessageDialog(null,codigoExtraido);
+			if(resultado !=-1){
+				if (teclaPres.equals(codigoExtraido)){							
+					timer.desactivarBajaVidas();
+					estado = -1 ; // Cambio el estado para salir del DUO o Accion.
+					teclaPres = "" ;
+					Ventana.this.nuevoJuego.ImprimirDuo1_1(Ventana.this.nuevoJuego.getListMapas().get(0), nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() , Ventana.this);
+					Ventana.this.repaint();
+					/*
+				Ventana.this.nuevoJuego.ImprimirDuo_t_1(Ventana.this.nuevoJuego.getListMapas().get(0), nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() , Ventana.this);
+				Ventana.this.update((Graphics2D)Ventana.this.getGraphics());
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
+				Ventana.this.nuevoJuego.imprimirDuo_t_2(Ventana.this.nuevoJuego.getListMapas().get(0), nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() , Ventana.this);
+				Ventana.this.repaint();
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}*/
+				}
+			}else { //SI se ha equivocado se resetea la teclaPres y se quita 2 puntos de vida
+				teclaPres = "";
+				//EQUIVOCACIÓN DE TECLAS PRESIONADAS
+				quitarVida(letra);						
+			}
+			//imprimeEnPantallaLateral(estado);
+			Ventana.this.repaint();
+				System.out.println(estado);
+
+
+
 		}else if(estado==1){
 				
 		}else if(estado==3){
@@ -156,6 +208,7 @@ public class Ventana extends JFrame implements Renderizador{
 	public void Ventana_Nivel_2(char letra){
 		estado=Ventana.this.nuevoJuego.tutorial_recuperaEstActual(nuevoJuego.getPersonajeA() ,nuevoJuego.getPersonajeB() ,Ventana.this.nuevoJuego.getListMapas().get(1));
 		if(estado==-1){
+			timer.desactivarBajaVidas();
 			Ventana.this.nuevoJuego.realizaAccion(nuevoJuego.getPersonajeA()  ,nuevoJuego.getPersonajeB() ,letra,Ventana.this,Ventana.this.nuevoJuego.getListMapas().get(1));
 			Ventana.this.repaint();// actualizar
 		}else if(estado == 0){ 
@@ -180,9 +233,12 @@ public class Ventana extends JFrame implements Renderizador{
 		System.out.println(estado);
 		////////////////////////////////////////////////////////
 		if(estado==-1){
+			timer.desactivarBajaVidas();
 			Ventana.this.nuevoJuego.realizaAccion(nuevoJuego.getPersonajeA()  ,nuevoJuego.getPersonajeB() ,letra,Ventana.this,Ventana.this.nuevoJuego.getListMapas().get(0));
 			Ventana.this.repaint();// actualizar
 		}else if(estado == 0){ // Duo 
+			timer.setearQuitarVida(2);
+			timer.activarBajaVidas();
 			System.out.println("DUO");
 			//imprimeEnPantallaLateral(estado);
 			teclaPres=teclaPres+letra;					
@@ -196,7 +252,7 @@ public class Ventana extends JFrame implements Renderizador{
 			//JOptionPane.showMessageDialog(null,codigoExtraido);
 			if(resultado !=-1){
 				if (teclaPres.equals(codigoExtraido)){							
-					
+					timer.desactivarBajaVidas();
 					estado = -1 ; // Cambio el estado para salir del DUO o Accion.
 					teclaPres = "" ;
 					Ventana.this.nuevoJuego.ImprimirDuo(Ventana.this.nuevoJuego.getListMapas().get(0), nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() , Ventana.this);
@@ -232,6 +288,8 @@ public class Ventana extends JFrame implements Renderizador{
 
 
 		}else if(estado==1){
+			timer.setearQuitarVida(1);
+			timer.activarBajaVidas();
 			int subEstado=Ventana.this.nuevoJuego.inmoviliza_cuy(nuevoJuego.getPersonajeA() ,nuevoJuego.getPersonajeB() ,Ventana.this.nuevoJuego.getListMapas().get(0));
 			if(subEstado==0){//no se puede mover el cuy 1
 				if(letra!='w'&&letra!='W'&&letra!='a'&&letra!='A'&&letra!='s'&&letra!='S'&& letra!='d'&&letra!='D'){
@@ -249,6 +307,7 @@ public class Ventana extends JFrame implements Renderizador{
 			}
 			if(subEstado==-1){//el cuy libre se encuentra en una posicion para liberar al otro cuy
 				//SI TIENE EXITO
+					timer.desactivarBajaVidas();
 					System.out.println("Accion");
 					//imprimeEnPantallaLateral(estado);
 					teclaPres=teclaPres+letra ; 					
@@ -348,6 +407,8 @@ public class Ventana extends JFrame implements Renderizador{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		timer  = new ThreadTimer(this) ;
+		timer.start();
 		configuracionIniciales();		
 		cargarImagenes(this) ;
 		eventoTeclado();
