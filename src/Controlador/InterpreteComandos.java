@@ -79,22 +79,27 @@ public class InterpreteComandos {
 			}
 		}
 	 
+	 
 	 public int VerificaEstado(Mapa mapaActual, PersonajePrincipal cuy1, PersonajePrincipal cuy2){
 		 int estado = -1;
 		 ArrayList<AccionesEspeciales> lista = mapaActual.getListaAcciones();
 		 for(int i = 0; i < lista.size(); i++){
 			 if ( lista.get(i).getTipo() == 0){
-				 if( cuy1.getPosX() == lista.get(i).getPosXCuy1() && cuy1.getPosY() == lista.get(i).getPosYCuy1() && cuy2.getPosX() == lista.get(i).getPosXCuy2() && cuy2.getPosY() == lista.get(i).getPosYCuy2())
+				 if( cuy1.getPosX() == lista.get(i).getPosXCuy1() && cuy1.getPosY() == lista.get(i).getPosYCuy1() && cuy2.getPosX() == lista.get(i).getPosXCuy2() && cuy2.getPosY() == lista.get(i).getPosYCuy2()
+						 &mapaActual.obtenerCaracter(cuy1.getPosX(), cuy1.getPosY())=='D'&&mapaActual.obtenerCaracter(cuy2.getPosX(), cuy2.getPosY())=='D')
 					 estado = 0;
 			 }
 			 else{//aqui selecciona las casillas de estado 1
-				 if(cuy1.getPosX() == lista.get(i).getPosXCuy1() && cuy1.getPosY() == lista.get(i).getPosYCuy1() && cuy2.getPosX() == lista.get(i).getPosXCuy2() && cuy2.getPosY() == lista.get(i).getPosYCuy2())
+				 if(cuy1.getPosX() == lista.get(i).getPosXCuy1() && cuy1.getPosY() == lista.get(i).getPosYCuy1() && cuy2.getPosX() == lista.get(i).getPosXCuy2() && cuy2.getPosY() == lista.get(i).getPosYCuy2()
+						 &&(mapaActual.obtenerCaracter(cuy2.getPosX(), cuy2.getPosY())=='C'||mapaActual.obtenerCaracter(cuy1.getPosX(), cuy1.getPosY())=='C'))
 					 estado = 1;
 				 else{
-					 if(lista.get(i).getPosXCuy1() == -1 && lista.get(i).getPosYCuy1() == -1 && cuy2.getPosX() == lista.get(i).getPosXCuy2() && cuy2.getPosY() == lista.get(i).getPosYCuy2())
+					 if(lista.get(i).getPosXCuy1() == -1 && lista.get(i).getPosYCuy1() == -1 && cuy2.getPosX() == lista.get(i).getPosXCuy2() && cuy2.getPosY() == lista.get(i).getPosYCuy2()
+							 &&mapaActual.obtenerCaracter(cuy2.getPosX(), cuy2.getPosY())=='T')
 						 estado = 1;
 					 else{
-						 if(cuy1.getPosX() == lista.get(i).getPosXCuy1() && cuy1.getPosY() == lista.get(i).getPosYCuy1() && lista.get(i).getPosXCuy2() == -1 && lista.get(i).getPosYCuy2() == -1)
+						 if(cuy1.getPosX() == lista.get(i).getPosXCuy1() && cuy1.getPosY() == lista.get(i).getPosYCuy1() && lista.get(i).getPosXCuy2() == -1 && lista.get(i).getPosYCuy2() == -1
+								 &&mapaActual.obtenerCaracter(cuy1.getPosX(), cuy1.getPosY())=='T')
 							 estado = 1;
 					 }
 				 }
@@ -102,4 +107,5 @@ public class InterpreteComandos {
 		 }		 
 		 return estado;
 	 }
+
 }

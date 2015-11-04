@@ -332,6 +332,51 @@ public class Juego implements Renderizador{
 		
 	}
 	
+public void ImprimeAccion(Mapa mapa, PersonajePrincipal cuy2, PersonajePrincipal  cuy1, JFrame ven){
+		
+		cuy1.setPosX(7);
+		cuy1.setPosY(11);		
+		ImprimirMapa(mapa,cuy1,cuy2,ven);
+		ven.update((Graphics2D)ven.getGraphics());
+		//ven.repaint();
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		cuy1.setPosX(5);
+		cuy1.setPosY(13);
+		ImprimirMapa(mapa,cuy1,cuy2,ven);
+		ven.update((Graphics2D)ven.getGraphics());
+		//ven.repaint();
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		
+//		entrada = teclado.nextLine() ;
+		
+		//DUO - POSICION 3
+		cuy1.setPosX(8);
+		cuy1.setPosY(13);		
+		ImprimirMapa(mapa,cuy1,cuy2,ven);
+		//entrada = teclado.nextLine() ;
+		
+		ven.update((Graphics2D)ven.getGraphics());
+		//ven.repaint();
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		System.out.println("PUEDES MOVERTE Y CONTINUAR");
+	}
+
 	
 	public void ImprimirMapa(Mapa mapa, PersonajePrincipal cuy1, PersonajePrincipal cuy2, JFrame vent){
 		int flagDuo=0, flagAccA=0, flagAccB=0, flagNuevoEnemigo=0, esp=0;
@@ -782,22 +827,53 @@ public class Juego implements Renderizador{
 	public int estaCodigo(String subCadena,PersonajePrincipal perA,PersonajePrincipal perB, String Combinacion){
 		return Combinacion.indexOf(subCadena);
 	}
+	public int inmoviliza_cuy(PersonajePrincipal perA,PersonajePrincipal perB,Mapa mapaActual){
+		ArrayList<AccionesEspeciales> lista=mapaActual.getListaAcciones();
+		
+		for(int i=0;i<lista.size();i++){
+			if(lista.get(i).getTipo()==1){
+				if(perA.getPosX()==lista.get(i).getPosXCuy1()&&perA.getPosY()==lista.get(i).getPosYCuy1()
+				   &&perB.getPosX()==lista.get(i).getPosXCuy2()&&perB.getPosY()==lista.get(i).getPosYCuy2()){
+					return -1;//aqui detecto que ya est a punto de liberar al cuy
+						//es decir ambos cuys estan posicionados PARA HACER LA ACCION
+				}
+				if(perA.getPosX()==lista.get(i).getPosXCuy1()&&perA.getPosY()==lista.get(i).getPosYCuy1()
+					&&lista.get(i).getPosXCuy2()==-1&&lista.get(i).getPosYCuy2()==-1){
+					return 0;
+				}
+				if(perB.getPosX()==lista.get(i).getPosXCuy2()&&perB.getPosY()==lista.get(i).getPosYCuy2()
+						&&lista.get(i).getPosXCuy1()==-1&&lista.get(i).getPosYCuy1()==-1){
+						return 1;
+					}
+			}
+			
+		}
+		return -1; 
+	}
+
 	public String buscaCodigo(int estado,PersonajePrincipal perA,PersonajePrincipal perB,Mapa mapaActual){
 		String cadena = "";
 		ArrayList<AccionesEspeciales> lista = mapaActual.getListaAcciones();
 		for(int i = 0; i < lista.size(); i++){
 			if ( lista.get(i).getTipo() == estado){
-				if( perA.getPosX() == lista.get(i).getPosXCuy1() && perA.getPosY() == lista.get(i).getPosYCuy1() && perB.getPosX() == lista.get(i).getPosXCuy2() && perB.getPosY() == lista.get(i).getPosYCuy2())
+				if( perA.getPosX() == lista.get(i).getPosXCuy1() && perA.getPosY() == lista.get(i).getPosYCuy1() && perB.getPosX() == lista.get(i).getPosXCuy2() && perB.getPosY() == lista.get(i).getPosYCuy2()){
 					cadena=lista.get(i).getCombinacion();
-
-				if(perA.getPosX() == lista.get(i).getPosXCuy1() && perA.getPosY() == lista.get(i).getPosYCuy1() && perB.getPosX() == lista.get(i).getPosXCuy2() && perB.getPosY() == lista.get(i).getPosYCuy2())
+					return cadena;
+				}
+				if(perA.getPosX() == lista.get(i).getPosXCuy1() && perA.getPosY() == lista.get(i).getPosYCuy1() && perB.getPosX() == lista.get(i).getPosXCuy2() && perB.getPosY() == lista.get(i).getPosYCuy2()){
 					cadena=lista.get(i).getCombinacion();
+					return cadena;
+				}
 				else{
-					if(lista.get(i).getPosXCuy1() == -1 && lista.get(i).getPosYCuy1() == -1 && perB.getPosX() == lista.get(i).getPosXCuy2() && perB.getPosY() == lista.get(i).getPosYCuy2())
+					if(lista.get(i).getPosXCuy1() == -1 && lista.get(i).getPosYCuy1() == -1 && perB.getPosX() == lista.get(i).getPosXCuy2() && perB.getPosY() == lista.get(i).getPosYCuy2()){
 						cadena=lista.get(i).getCombinacion();
+						return cadena;
+					}
 					else{
-						if(perA.getPosX() == lista.get(i).getPosXCuy1() && perA.getPosY() == lista.get(i).getPosYCuy1() && lista.get(i).getPosXCuy2() == -1 && lista.get(i).getPosYCuy2() == -1)
+						if(perA.getPosX() == lista.get(i).getPosXCuy1() && perA.getPosY() == lista.get(i).getPosYCuy1() && lista.get(i).getPosXCuy2() == -1 && lista.get(i).getPosYCuy2() == -1){
 							cadena=lista.get(i).getCombinacion();
+							return cadena;
+						}
 					}
 
 
@@ -805,10 +881,23 @@ public class Juego implements Renderizador{
 			}		 		
 		}
 		return cadena;
+
 	}
-	public int inmoviliza_cuy(PersonajePrincipal perA,PersonajePrincipal perB,Mapa mapaActual){
-			
-		return -1; 
+	public void cambiaCaracterEnMapa(Mapa mapaActual){
+		ArrayList<AccionesEspeciales> lista=mapaActual.getListaAcciones();
+		for(int i=0;i<lista.size();i++){
+			if(lista.get(i).getTipo()==1){
+				if(lista.get(i).getPosXCuy1()==-1&&lista.get(i).getPosYCuy1()==-1){
+					mapaActual.establecerCaracter(lista.get(i).getPosXCuy2(), lista.get(i).getPosYCuy2(), 'S');
+					}
+				if(lista.get(i).getPosXCuy2()==-1&&lista.get(i).getPosYCuy2()==-1){
+					mapaActual.establecerCaracter(lista.get(i).getPosXCuy1(), lista.get(i).getPosYCuy1(), 'N');
+					}
+				
+			}
+		}
+		
 	}
+
 }
 

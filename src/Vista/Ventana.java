@@ -62,7 +62,11 @@ public class Ventana extends JFrame implements Renderizador{
 	//INICIO
 	private BufferedImage  imgFondo;
 	private BufferedImage  imgLateral;
-	private BufferStrategy bufferStrategy;	
+	private BufferStrategy bufferStrategy;		
+	private BufferedImage corazon;
+	
+	
+	
 	
 	//HISTORIA1 
 	private BufferedImage fondoHistoria;
@@ -78,17 +82,26 @@ public class Ventana extends JFrame implements Renderizador{
 	
 	public void imprimeEnPantallaLateral(int estado){
 		Graphics2D graph2D = (Graphics2D)bufferStrategy.getDrawGraphics();
+		graph2D.setFont(new Font("Monspaced", Font.BOLD, 26));
+		graph2D.setColor(Color.BLACK);
 		int vida = PersonajePrincipal.getVida();
 		System.out.println(vida);
 		graph2D.drawImage( imgLateral, ANCHO_R, ALTO_BARRA_MENU , this);
-		graph2D.clearRect(ANCHO_R+85, 74, 100, 28);
-		graph2D.setFont(new Font("Monspaced", Font.BOLD, 26));
-		graph2D.setColor(Color.BLACK);
-		graph2D.drawString("VIDA: ", ANCHO_R+10, 100);
-		graph2D.drawString("" + vida, ANCHO_R+85, 100);
+		//graph2D.clearRect(ANCHO_R+85, 74, 70, 28);
+		graph2D.drawImage( corazon, ANCHO_R+35, 36 , this);
+
+		//graph2D.drawString("VIDA: ", ANCHO_R+10, 100);
+		if( vida == 10){
+			graph2D.drawString("" + vida, ANCHO_R+52, 80);
+		}else{
+			graph2D.drawString("" + vida, ANCHO_R+60, 80);
+		}
 		
-		if(estado == 0){						
-                
+		
+		if(estado == 0){					
+				//graph2D.clearRect(ANCHO_R+10, 120, 250, 56);
+				//graph2D.clearRect(ANCHO_R+10, 170, 250, 56);
+			
                 String combinacion = Ventana.this.nuevoJuego.getListMapas().get(0).getListaAcciones().get(0).getCombinacion();
                 Font fuente=new Font("Monospaced", Font.BOLD, 26);
                 graph2D.setFont(fuente);
@@ -101,16 +114,15 @@ public class Ventana extends JFrame implements Renderizador{
                 graph2D.drawString("Has presionado: ", ANCHO_R+10, 200);
                 fuente.deriveFont(36);
                 if( teclaPres == ""){
-                	graph2D.clearRect(ANCHO_R+10, 200, 250, 28);
+                	//graph2D.clearRect(ANCHO_R+10, 200, 250, 28);
                 }else{
                 	graph2D.drawString(teclaPres, ANCHO_R+10, 220);
-                }
-                
-                
-		}else{
-			graph2D.clearRect(ANCHO_R+10, 120, 250, 56);
-			graph2D.clearRect(ANCHO_R+10, 170, 250, 56);
+                }      
 		}
+		//else{
+			//graph2D.clearRect(ANCHO_R+10, 120, 250, 56);
+			//graph2D.clearRect(ANCHO_R+10, 170, 250, 56);
+		//}
 		
 		//bufferStrategy.show();
 		//Ventana.this.repaint();
@@ -205,20 +217,55 @@ public class Ventana extends JFrame implements Renderizador{
 
 
 		}else if(estado==1){
-			//int subEstado=Ventana.this.nuevoJuego.inmoviliza_cuy(nuevoJuego.getPersonajeA() ,nuevoJuego.getPersonajeB() ,Ventana.this.nuevoJuego.getListMapas().get(0));
-			/*System.out.println(subEstado);
--			if(subEstado==0){//no se puede mover el cuy 1
-				System.out.println(subEstado);	
+			int subEstado=Ventana.this.nuevoJuego.inmoviliza_cuy(nuevoJuego.getPersonajeA() ,nuevoJuego.getPersonajeB() ,Ventana.this.nuevoJuego.getListMapas().get(0));
+			if(subEstado==0){//no se puede mover el cuy 1
+				if(letra!='w'&&letra!='W'&&letra!='a'&&letra!='A'&&letra!='s'&&letra!='S'&& letra!='d'&&letra!='D'){
+					Ventana.this.nuevoJuego.realizaAccion(nuevoJuego.getPersonajeA()  ,nuevoJuego.getPersonajeB() , letra ,Ventana.this,Ventana.this.nuevoJuego.getListMapas().get(0));
+					Ventana.this.repaint();// acutlizar
+				}
 			}
 			if(subEstado==1){//no se puede mover el cuy 2
-				System.out.println(subEstado);
-			}			
+					if(letra!='i'&& letra!='I'&&letra!='j'&&letra!='J'&& letra!='k'&&letra!='K'&& letra!='l'&& letra!='L'){
+						Ventana.this.nuevoJuego.realizaAccion(nuevoJuego.getPersonajeA()  ,nuevoJuego.getPersonajeB() , letra ,Ventana.this,Ventana.this.nuevoJuego.getListMapas().get(0));
+						
+						Ventana.this.repaint();// acutlizar
+					}
+				
+			}
 			if(subEstado==-1){//el cuy libre se encuentra en una posicion para liberar al otro cuy
-					//aqui se debe cambiar de estado a -1
-				System.out.println(subEstado);
-			}*/			
-			nuevoJuego.getPersonajeA().setPosY(nuevoJuego.getPersonajeA().getPosY() + 1 );
+				//SI TIENE EXITO
+					System.out.println("Accion");
+					//imprimeEnPantallaLateral(estado);
+					teclaPres=teclaPres+letra ; 					
+					String codigoExtraido = Ventana.this.nuevoJuego.buscaCodigo(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() ,  Ventana.this.nuevoJuego.getListMapas().get(0));
+					//JOptionPane.showMessageDialog(null,teclaPres);
+					System.out.println(codigoExtraido);
+					int resultado = Ventana.this.nuevoJuego.estaCodigo(teclaPres,nuevoJuego.getPersonajeB() ,nuevoJuego.getPersonajeB() , codigoExtraido);
+				
+					//AGREGAR HILO DE ERROR
+					//AGREGAR HILO DE TIEMPO
+				
+					//JOptionPane.showMessageDialog(null,codigoExtraido);
+					if(resultado !=-1){
+						if (teclaPres.equals(codigoExtraido)){
+							estado = -1 ; // Cambio el estado para salir del DUO o Accion.
+							teclaPres = "" ;
+							Ventana.this.nuevoJuego.ImprimeAccion(Ventana.this.nuevoJuego.getListMapas().get(0), nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() , Ventana.this);
+							Ventana.this.repaint();
+						}
+						}else {
+							//SI se ha equivocado se resetea la teclaPres y se quita 2 puntos de vida
+							teclaPres = "";
+							//EQUIVOCACIÓN DE TECLAS PRESIONADAS
+							quitarVida(letra);		
+					
+						}
+						Ventana.this.nuevoJuego.cambiaCaracterEnMapa(Ventana.this.nuevoJuego.getListMapas().get(0));
+					}
+		
+
 		}else if(estado==3){
+			//nuevoJuego.getPersonajeA().setPosY(nuevoJuego.getPersonajeA().getPosY() + 1 );
 			setNumeroPantalla(pantallaActual.PERDIO_JUEGO.ordinal());
 			JOptionPane.showMessageDialog(null,"Adios");
 			Ventana.this.IniciarPantalla();
@@ -276,6 +323,8 @@ public class Ventana extends JFrame implements Renderizador{
 		try {
 			gif = ImageIO.read(new File("A1.gif"));
 			gif2 = ImageIO.read(new File("B1.gif"));
+			corazon = ImageIO.read(new File("corazon vida.png"));
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -375,7 +424,12 @@ public class Ventana extends JFrame implements Renderizador{
 				}else if (getNumeroPantalla() == pantallaActual.NIVEL_1.ordinal()){
 					
 				}else if (getNumeroPantalla() == pantallaActual.HISTORIA_3.ordinal()){
-					
+					nuevoJuego.getPersonajeA().setPosX(9);
+					nuevoJuego.getPersonajeA().setPosY(0);
+					nuevoJuego.getPersonajeB().setPosX(1);
+					nuevoJuego.getPersonajeB().setPosY(0);
+					setNumeroPantalla(getNumeroPantalla() + 1) ;
+					IniciarPantalla();
 				}else if (getNumeroPantalla() == pantallaActual.NIVEL_2.ordinal()){
 					
 				}
@@ -442,7 +496,6 @@ public class Ventana extends JFrame implements Renderizador{
 				Graphics2D graph2D = (Graphics2D)bufferStrategy.getDrawGraphics(); 
 				// Extraigo el graphics de mi bufferStrategy pero lo casteo a Graphics3D
 				graph2D.drawImage(imgFondo, 0, ALTO_BARRA_MENU , this); // Meto la imagen de fondo 	
-
 				bufferStrategy.show();					 // Lo muestro
 
 			}else if (getNumeroPantalla() == pantallaActual.HISTORIA_1.ordinal()){
@@ -471,7 +524,41 @@ public class Ventana extends JFrame implements Renderizador{
 			    graph2D.drawImage ( gif ,nuevoJuego.getPersonajeA().getPosY()*TILE   ,ALTO_BARRA_MENU + nuevoJuego.getPersonajeA() .getPosX()*TILE, this);		   
 		        graph2D.drawImage (gif2 ,nuevoJuego.getPersonajeB() .getPosY()*TILE   ,ALTO_BARRA_MENU + nuevoJuego.getPersonajeB().getPosX()*TILE, this);		    
 				bufferStrategy.show();
+				
+			}else if (getNumeroPantalla() == pantallaActual.HISTORIA_2.ordinal()){
+				Graphics2D graph2D = (Graphics2D)bufferStrategy.getDrawGraphics();				
+				graph2D.drawImage( historia_2.imgFondo ,0, ALTO_BARRA_MENU,this);					  		    		    
+				bufferStrategy.show();
+				
+			}else if (getNumeroPantalla() == pantallaActual.NIVEL_1.ordinal()){
+				Graphics2D graph2D = (Graphics2D)bufferStrategy.getDrawGraphics();				
+				graph2D.drawImage( nivel_1.imgFondo ,0, ALTO_BARRA_MENU,this);			
+				bufferStrategy.show();								
+				
+			}else if (getNumeroPantalla() == pantallaActual.HISTORIA_3.ordinal()){
+				Graphics2D graph2D = (Graphics2D)bufferStrategy.getDrawGraphics();				
+				graph2D.drawImage( historia_3.imgFondo ,0, ALTO_BARRA_MENU,this);					  		    		    
+				bufferStrategy.show();
+				
+			}else if (getNumeroPantalla() == pantallaActual.NIVEL_2.ordinal()){
+				Graphics2D graph2D = (Graphics2D)bufferStrategy.getDrawGraphics();				
+				graph2D.drawImage( nivel_2.imgFondo ,0, ALTO_BARRA_MENU,this);					  		    		    
+				bufferStrategy.show();
+				
+			}else if (getNumeroPantalla() == pantallaActual.PERDIO_JUEGO.ordinal()){
+				Graphics2D graph2D = (Graphics2D)bufferStrategy.getDrawGraphics();				
+				graph2D.drawImage( perdio_juego.imgFondo ,0, ALTO_BARRA_MENU,this);					  		    		    
+				bufferStrategy.show();
+				
+			}else if (getNumeroPantalla() == pantallaActual.FIN_DEL_JUEGO.ordinal()){
+				Graphics2D graph2D = (Graphics2D)bufferStrategy.getDrawGraphics();				
+				graph2D.drawImage( fin_del_juego.imgFondo ,0, ALTO_BARRA_MENU,this);					  		    		    
+				bufferStrategy.show();
 			}
+			
+			
+			
+			
 			
 		}catch(Exception e){
 			System.out.println(e);
