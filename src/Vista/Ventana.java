@@ -71,6 +71,11 @@ public class Ventana extends JFrame implements Renderizador{
 	private  Tutorial  tutorial = new Tutorial() ;
 	private Historia_2 historia_2 = new Historia_2();
 	private Nivel_1 nivel_1 = new Nivel_1();
+	private Historia_3 historia_3 = new Historia_3();
+	private Nivel_2 nivel_2 = new Nivel_2();
+	private Perdio_juego perdio_juego = new Perdio_juego();
+	private Fin_del_juego fin_del_juego  = new Fin_del_juego();
+	
 	public void imprimeEnPantallaLateral(int estado){
 		Graphics2D graph2D = (Graphics2D)bufferStrategy.getDrawGraphics();
 		int vida = PersonajePrincipal.getVida();
@@ -126,11 +131,9 @@ public class Ventana extends JFrame implements Renderizador{
 		if(estado==-1){
 			Ventana.this.nuevoJuego.realizaAccion(nuevoJuego.getPersonajeA()  ,nuevoJuego.getPersonajeB() ,letra,Ventana.this,Ventana.this.nuevoJuego.getListMapas().get(1));
 			Ventana.this.repaint();// actualizar
-		}else 
-		if(estado == 0){ 
+		}else if(estado == 0){ 
 			
-		}else
-		if(estado==1){
+		}else if(estado==1){
 				
 		}else if(estado==3){
 				setNumeroPantalla(pantallaActual.PERDIO_JUEGO.ordinal());
@@ -152,8 +155,7 @@ public class Ventana extends JFrame implements Renderizador{
 		if(estado==-1){
 			Ventana.this.nuevoJuego.realizaAccion(nuevoJuego.getPersonajeA()  ,nuevoJuego.getPersonajeB() ,letra,Ventana.this,Ventana.this.nuevoJuego.getListMapas().get(0));
 			Ventana.this.repaint();// actualizar
-		}else 
-		if(estado == 0){ // Duo 
+		}else if(estado == 0){ // Duo 
 			System.out.println("DUO");
 			//imprimeEnPantallaLateral(estado);
 			teclaPres=teclaPres+letra;					
@@ -202,8 +204,7 @@ public class Ventana extends JFrame implements Renderizador{
 
 
 
-		}else
-		if(estado==1){
+		}else if(estado==1){
 			//int subEstado=Ventana.this.nuevoJuego.inmoviliza_cuy(nuevoJuego.getPersonajeA() ,nuevoJuego.getPersonajeB() ,Ventana.this.nuevoJuego.getListMapas().get(0));
 			/*System.out.println(subEstado);
 -			if(subEstado==0){//no se puede mover el cuy 1
@@ -217,9 +218,10 @@ public class Ventana extends JFrame implements Renderizador{
 				System.out.println(subEstado);
 			}*/			
 			nuevoJuego.getPersonajeA().setPosY(nuevoJuego.getPersonajeA().getPosY() + 1 );
-		}else
-		if(estado==3){
+		}else if(estado==3){
 			setNumeroPantalla(pantallaActual.PERDIO_JUEGO.ordinal());
+			JOptionPane.showMessageDialog(null,"Adios");
+			Ventana.this.IniciarPantalla();
 		}				
 		estado=Ventana.this.nuevoJuego.tutorial_recuperaEstActual(nuevoJuego.getPersonajeA() ,nuevoJuego.getPersonajeB() ,Ventana.this.nuevoJuego.getListMapas().get(0));		
 		if(estado ==2){
@@ -370,7 +372,14 @@ public class Ventana extends JFrame implements Renderizador{
 					nuevoJuego.getPersonajeB().setPosY(0);
 					setNumeroPantalla(getNumeroPantalla() + 1) ;
 					IniciarPantalla();
+				}else if (getNumeroPantalla() == pantallaActual.NIVEL_1.ordinal()){
+					
+				}else if (getNumeroPantalla() == pantallaActual.HISTORIA_3.ordinal()){
+					
+				}else if (getNumeroPantalla() == pantallaActual.NIVEL_2.ordinal()){
+					
 				}
+				
 			}
 		});
 	}
@@ -401,6 +410,14 @@ public class Ventana extends JFrame implements Renderizador{
 					historia_2.cargarImagen(this);					
 				}else if (getNumeroPantalla() == pantallaActual.NIVEL_1.ordinal()){
 					nivel_1.cargarImagen();					
+				}else if (getNumeroPantalla() == pantallaActual.HISTORIA_3.ordinal()){
+					historia_3.cargarImagen();
+				}else if (getNumeroPantalla() == pantallaActual.NIVEL_2.ordinal()){
+					nivel_2.cargarImagen();
+				}else if (getNumeroPantalla() == pantallaActual.PERDIO_JUEGO.ordinal()){
+					perdio_juego.cargarImagen();
+				}else if (getNumeroPantalla() == pantallaActual.FIN_DEL_JUEGO.ordinal()){
+					fin_del_juego.cargarImagen();
 				}
 
 		}catch(java.io.IOException e){
