@@ -215,13 +215,13 @@ public class Juego implements Renderizador{
 		flag=interpreteComando.VerificaEstado(mapa, perA, perB);
 		return flag;
 	}
-	public void realizaAccion(PersonajePrincipal perA,PersonajePrincipal perB,char letra, JFrame vent){
+	public void realizaAccion(PersonajePrincipal perA,PersonajePrincipal perB,char letra, JFrame vent, Mapa mapaActual){
 		int direccion,entero;
 		char entrada;
 		entrada = letra; 				
 		direccion = getInterpreteComando().esTeclaValida(entrada);
 		System.out.println(direccion);
-		if (getInterpreteComando().movimientoValido(perA , perB , direccion , getListMapas().get(0))){
+		if (getInterpreteComando().movimientoValido(perA , perB , direccion , mapaActual)){
 			getInterpreteComando().moverPersonajes(perA, perB, direccion);		
 		}		
 		ImprimirMapa(getListMapas().get(0), perA, perB, vent);
