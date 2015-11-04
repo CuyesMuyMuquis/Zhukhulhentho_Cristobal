@@ -153,6 +153,20 @@ public class Ventana extends JFrame implements Renderizador{
 		}
 		
 	}
+	public void Ventana_Nivel_2(char letra){
+		estado=Ventana.this.nuevoJuego.tutorial_recuperaEstActual(nuevoJuego.getPersonajeA() ,nuevoJuego.getPersonajeB() ,Ventana.this.nuevoJuego.getListMapas().get(1));
+		if(estado==-1){
+			Ventana.this.nuevoJuego.realizaAccion(nuevoJuego.getPersonajeA()  ,nuevoJuego.getPersonajeB() ,letra,Ventana.this,Ventana.this.nuevoJuego.getListMapas().get(1));
+			Ventana.this.repaint();// actualizar
+		}else if(estado == 0){ 
+			
+		}else if(estado==1){
+				
+		}else if(estado==3){
+				setNumeroPantalla(pantallaActual.PERDIO_JUEGO.ordinal());
+		}
+		
+	}
 	public void Ventana_Tutorial(char letra ){
 		//imprimeEnPantallaLateral(estado);
 		// -1 -> no pasa nada. 0 -> duo. 1 -> accionEspecial. 2 -> acabo Nivel. 3 -> has perdido.
@@ -315,7 +329,10 @@ public class Ventana extends JFrame implements Renderizador{
 					Ventana_Tutorial(letra);					
 				}else if (getNumeroPantalla() == pantallaActual.NIVEL_1.ordinal()){
 					Ventana_Nivel_1(letra);
-				}  			
+				}
+				else if(getNumeroPantalla() == pantallaActual.NIVEL_2.ordinal()){
+					Ventana_Nivel_2(letra);
+				}
 			}
 	     });
 		

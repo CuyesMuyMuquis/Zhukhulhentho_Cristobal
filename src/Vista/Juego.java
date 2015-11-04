@@ -377,7 +377,59 @@ public void ImprimeAccion(Mapa mapa, PersonajePrincipal cuy2, PersonajePrincipal
 		System.out.println("PUEDES MOVERTE Y CONTINUAR");
 	}
 
+public void ImprimeAccion2_1(Mapa mapa, PersonajePrincipal cuy2, PersonajePrincipal  cuy1, JFrame ven){
 	
+	cuy2.setPosX(3);
+	cuy2.setPosY(4);		
+	ImprimirMapa(mapa,cuy1,cuy2,ven);
+	ven.update((Graphics2D)ven.getGraphics());
+	//ven.repaint();
+	try {
+		Thread.sleep(1000);
+	} catch (InterruptedException e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	}
+	cuy2.setPosX(3);
+	cuy2.setPosY(5);
+	ImprimirMapa(mapa,cuy1,cuy2,ven);
+	ven.update((Graphics2D)ven.getGraphics());
+	//ven.repaint();
+	try {
+		Thread.sleep(1000);
+	} catch (InterruptedException e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	}
+	System.out.println("PUEDES MOVERTE Y CONTINUAR");
+}
+public void ImprimeAccion2_2(Mapa mapa, PersonajePrincipal cuy2, PersonajePrincipal  cuy1, JFrame ven){
+	
+	cuy1.setPosX(9);
+	cuy1.setPosY(4);		
+	ImprimirMapa(mapa,cuy1,cuy2,ven);
+	ven.update((Graphics2D)ven.getGraphics());
+	//ven.repaint();
+	try {
+		Thread.sleep(1000);
+	} catch (InterruptedException e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	}
+	cuy1.setPosX(9);
+	cuy1.setPosY(5);
+	ImprimirMapa(mapa,cuy1,cuy2,ven);
+	ven.update((Graphics2D)ven.getGraphics());
+	//ven.repaint();
+	try {
+		Thread.sleep(1000);
+	} catch (InterruptedException e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	}
+	
+	System.out.println("PUEDES MOVERTE Y CONTINUAR");
+}
 	public void ImprimirMapa(Mapa mapa, PersonajePrincipal cuy1, PersonajePrincipal cuy2, JFrame vent){
 		int flagDuo=0, flagAccA=0, flagAccB=0, flagNuevoEnemigo=0, esp=0;
 		
@@ -707,6 +759,235 @@ public void ImprimeAccion(Mapa mapa, PersonajePrincipal cuy2, PersonajePrincipal
 		cuy1.setPosX(7);
 		cuy1.setPosY(5);
 		ImprimirMapa(mapa,cuy1,cuy2,ven);
+		
+	}
+	public void ImprimirDuo1_1(Mapa mapa, PersonajePrincipal cuy2, PersonajePrincipal  cuy1, JFrame ven){
+//		Scanner teclado = new Scanner(System.in);
+		//System.out.println("DEBE PRESIONAR WSIKDDLL");
+		//String duo1 = "WSIKDDLL" ;
+		//String entrada = teclado.nextLine() ;
+		
+		/*while ( !duo1.equals(entrada))  {			
+			System.out.println("DEBE PRESIONAR WSIKDDLL");
+			cuy1.setVida(cuy1.getVida() -1) ;
+			if (cuy1.getVida() <= 0 ) return ; 
+			entrada = teclado.nextLine() ; 
+		}*/
+		//DUO - POSICION 1
+	
+		
+		
+		cuy2.setPosX(9);
+		cuy2.setPosY(5);
+		cuy1.setPosX(9);
+		cuy1.setPosY(5);		
+		ImprimirMapa(mapa,cuy1,cuy2,ven);
+		ven.update((Graphics2D)ven.getGraphics());
+		//ven.repaint();
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		
+		
+		
+	
+		cuy2.setPosX(9);
+		cuy2.setPosY(7);
+		cuy1.setPosX(9);
+		cuy1.setPosY(7);
+		ImprimirMapa(mapa,cuy1,cuy2,ven);
+		
+		ven.update((Graphics2D)ven.getGraphics());
+		//ven.repaint();
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		
+//		entrada = teclado.nextLine() ;
+		
+		//DUO - POSICION 3
+		cuy2.setPosX(7);
+		cuy2.setPosY(7);		
+		cuy1.setPosX(11);
+		cuy1.setPosY(7);
+		ImprimirMapa(mapa,cuy1,cuy2,ven);
+		//entrada = teclado.nextLine() ;
+		
+		ven.update((Graphics2D)ven.getGraphics());
+		//ven.repaint();
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		//entrada = teclado.nextLine() ;
+		System.out.println("PUEDES MOVERTE Y CONTINUAR");
+		
+	}
+	public void ImprimirDuo1_2(Mapa mapa, PersonajePrincipal cuy2, PersonajePrincipal  cuy1, JFrame ven){
+//		Scanner teclado = new Scanner(System.in);
+		//System.out.println("DEBE PRESIONAR WSIKDDLL");
+		//String duo1 = "WSIKDDLL" ;
+		//String entrada = teclado.nextLine() ;
+		
+		/*while ( !duo1.equals(entrada))  {			
+			System.out.println("DEBE PRESIONAR WSIKDDLL");
+			cuy1.setVida(cuy1.getVida() -1) ;
+			if (cuy1.getVida() <= 0 ) return ; 
+			entrada = teclado.nextLine() ; 
+		}*/
+		//DUO - POSICION 1
+	
+		
+		
+		cuy2.setPosX(9);
+		cuy2.setPosY(11);
+		cuy1.setPosX(9);
+		cuy1.setPosY(11);		
+		ImprimirMapa(mapa,cuy1,cuy2,ven);
+		ven.update((Graphics2D)ven.getGraphics());
+		//ven.repaint();
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		
+		
+		
+	
+	    cuy2.setPosX(7);
+		cuy2.setPosY(11);
+		cuy1.setPosX(7);
+		cuy1.setPosY(11);
+		ImprimirMapa(mapa,cuy1,cuy2,ven);
+		
+		ven.update((Graphics2D)ven.getGraphics());
+		//ven.repaint();
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		
+//		entrada = teclado.nextLine() ;
+		
+		//DUO - POSICION 3
+		cuy2.setPosX(5);
+		cuy2.setPosY(11);		
+		cuy1.setPosX(5);
+		cuy1.setPosY(11);
+		ImprimirMapa(mapa,cuy1,cuy2,ven);
+		//entrada = teclado.nextLine() ;
+		
+		ven.update((Graphics2D)ven.getGraphics());
+		//ven.repaint();
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		//DUO - POSICION 4
+		cuy1.setPosX(2);
+		cuy1.setPosY(12);		
+		cuy2.setPosX(2);
+		cuy2.setPosY(12);
+		ImprimirMapa(mapa,cuy1,cuy2,ven);
+	
+		ven.update((Graphics2D)ven.getGraphics());
+		//ven.repaint();
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		//DUO - POSICION 5
+				cuy1.setPosX(0);
+				cuy1.setPosY(12);		
+				cuy2.setPosX(4);
+				cuy2.setPosY(12);
+				ImprimirMapa(mapa,cuy1,cuy2,ven);
+			
+				ven.update((Graphics2D)ven.getGraphics());
+				//ven.repaint();
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+		
+		//entrada = teclado.nextLine() ;
+		System.out.println("PUEDES MOVERTE Y CONTINUAR");
+		
+	}
+	public void ImprimirDuo2(Mapa mapa, PersonajePrincipal cuy2, PersonajePrincipal  cuy1, JFrame ven){
+//		Scanner teclado = new Scanner(System.in);
+		//System.out.println("DEBE PRESIONAR WSIKDDLL");
+		//String duo1 = "WSIKDDLL" ;
+		//String entrada = teclado.nextLine() ;
+		
+		/*while ( !duo1.equals(entrada))  {			
+			System.out.println("DEBE PRESIONAR WSIKDDLL");
+			cuy1.setVida(cuy1.getVida() -1) ;
+			if (cuy1.getVida() <= 0 ) return ; 
+			entrada = teclado.nextLine() ; 
+		}*/
+		//DUO - POSICION 1
+	
+		
+		
+		cuy2.setPosX(6);
+		cuy2.setPosY(10);
+		cuy1.setPosX(6);
+		cuy1.setPosY(10);		
+		ImprimirMapa(mapa,cuy1,cuy2,ven);
+		ven.update((Graphics2D)ven.getGraphics());
+		//ven.repaint();
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		
+		
+		
+	
+	    cuy2.setPosX(5);
+		cuy2.setPosY(13);
+		cuy1.setPosX(5);
+		cuy1.setPosY(13);
+		ImprimirMapa(mapa,cuy1,cuy2,ven);
+		
+		ven.update((Graphics2D)ven.getGraphics());
+		//ven.repaint();
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		//entrada = teclado.nextLine() ;
+		System.out.println("PUEDES MOVERTE Y CONTINUAR");
 		
 	}
 	public void ImprimirDuo(Mapa mapa, PersonajePrincipal cuy2, PersonajePrincipal  cuy1, JFrame ven){
