@@ -98,11 +98,11 @@ public class Ventana extends JFrame implements Renderizador{
 		}
 		
 		
-		if(estado == 0){					
+		if(estado == 0||estado==1){					
 				//graph2D.clearRect(ANCHO_R+10, 120, 250, 56);
 				//graph2D.clearRect(ANCHO_R+10, 170, 250, 56);
 			
-                String combinacion = Ventana.this.nuevoJuego.getListMapas().get(0).getListaAcciones().get(0).getCombinacion();
+                String combinacion = Ventana.this.nuevoJuego.getListMapas().get(0).getListaAcciones().get(estado).getCombinacion();
                 Font fuente=new Font("Monospaced", Font.BOLD, 26);
                 graph2D.setFont(fuente);
                 graph2D.setColor(Color.BLACK);
@@ -118,6 +118,7 @@ public class Ventana extends JFrame implements Renderizador{
                 }else{
                 	graph2D.drawString(teclaPres, ANCHO_R+10, 220);
                 }      
+                System.out.println("Aca deberia imprimir"+teclaPres);
 		}
 		//else{
 			//graph2D.clearRect(ANCHO_R+10, 120, 250, 56);
