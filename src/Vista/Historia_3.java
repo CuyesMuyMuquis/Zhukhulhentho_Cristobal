@@ -10,6 +10,6 @@ public class Historia_3 {
 
 	public BufferedImage  imgFondo;		
 	public void cargarImagen() throws IOException{
-		imgFondo = ImageIO.read(new File("mapa_nivel_1.jpg"));	
+		imgFondo = ImageIO.read(new File("historia3.png"));	
 	}
 }

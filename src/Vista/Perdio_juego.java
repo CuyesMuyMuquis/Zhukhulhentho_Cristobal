@@ -10,6 +10,6 @@ public class Perdio_juego {
 
 	public BufferedImage  imgFondo;		
 	public void cargarImagen() throws IOException{
-		imgFondo = ImageIO.read(new File("mapa_nivel_1.jpg"));	
+		imgFondo = ImageIO.read(new File("game_over.jpg"));	
 	}	
 }

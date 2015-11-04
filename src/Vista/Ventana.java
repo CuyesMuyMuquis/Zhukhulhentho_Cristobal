@@ -457,7 +457,7 @@ public class Ventana extends JFrame implements Renderizador{
 					imgLateral = ImageIO.read(new File("barra_informacion.jpg"));
 	
 				}else if (getNumeroPantalla() == pantallaActual.HISTORIA_1.ordinal()){
-					fondoHistoria = ImageIO.read(new File("Historia.jpg"));	
+					fondoHistoria = ImageIO.read(new File("historia1.png"));	
 	
 				}else if (getNumeroPantalla() == pantallaActual.TUTORIAL.ordinal()){
 					 tutorial.cargarImagen(this);

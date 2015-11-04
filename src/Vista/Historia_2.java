@@ -13,7 +13,7 @@ public class Historia_2 {
 	public BufferedImage  imgFondo;	
 
 	public void cargarImagen(JFrame vent) throws IOException{
-		imgFondo = ImageIO.read(new File("Historia_2.jpg"));		
+		imgFondo = ImageIO.read(new File("historia2.png"));		
 	}
 
 }
