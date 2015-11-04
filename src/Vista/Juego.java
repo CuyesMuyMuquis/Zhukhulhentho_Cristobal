@@ -224,7 +224,7 @@ public class Juego implements Renderizador{
 		if (getInterpreteComando().movimientoValido(perA , perB , direccion , mapaActual)){
 			getInterpreteComando().moverPersonajes(perA, perB, direccion);		
 		}		
-		ImprimirMapa(getListMapas().get(0), perA, perB, vent);
+		ImprimirMapa(mapaActual, perA, perB, vent);
 	}
 	public int Tutorial(PersonajePrincipal perA , PersonajePrincipal perB, char letra, JFrame vent){
 		int entero, direccion;

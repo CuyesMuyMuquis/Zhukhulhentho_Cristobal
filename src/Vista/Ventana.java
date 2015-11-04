@@ -54,6 +54,7 @@ public class Ventana extends JFrame implements Renderizador{
 	private static final int ALTO = 768  ;
 	private boolean limpiar; 
 	private static int numeroPantalla = 0;
+	private static int numDuo=1;
 	private int estado=-1;
 	private String teclaPres="";
 	private enum pantallaActual {
@@ -143,6 +144,7 @@ public class Ventana extends JFrame implements Renderizador{
 		serial.Guardar(game);		
 	}
 	public void Ventana_Nivel_1(char letra){
+		numDuo=1;
 		estado=Ventana.this.nuevoJuego.tutorial_recuperaEstActual(nuevoJuego.getPersonajeA() ,nuevoJuego.getPersonajeB() ,Ventana.this.nuevoJuego.getListMapas().get(1));
 		if(estado==-1){
 			Ventana.this.nuevoJuego.realizaAccion(nuevoJuego.getPersonajeA()  ,nuevoJuego.getPersonajeB() ,letra,Ventana.this,Ventana.this.nuevoJuego.getListMapas().get(1));
@@ -153,7 +155,7 @@ public class Ventana extends JFrame implements Renderizador{
 			System.out.println("DUO");
 			//imprimeEnPantallaLateral(estado);
 			teclaPres=teclaPres+letra;					
-			String codigoExtraido = Ventana.this.nuevoJuego.buscaCodigo(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() ,  Ventana.this.nuevoJuego.getListMapas().get(0));
+			String codigoExtraido = Ventana.this.nuevoJuego.buscaCodigo(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() ,  Ventana.this.nuevoJuego.getListMapas().get(1));
 			//JOptionPane.showMessageDialog(null,teclaPres);
 			int resultado = Ventana.this.nuevoJuego.estaCodigo(teclaPres,nuevoJuego.getPersonajeB() ,nuevoJuego.getPersonajeB() , codigoExtraido);
 			
@@ -166,8 +168,17 @@ public class Ventana extends JFrame implements Renderizador{
 					timer.desactivarBajaVidas();
 					estado = -1 ; // Cambio el estado para salir del DUO o Accion.
 					teclaPres = "" ;
+					if(numDuo==1){
 					Ventana.this.nuevoJuego.ImprimirDuo1_1(Ventana.this.nuevoJuego.getListMapas().get(0), nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() , Ventana.this);
 					Ventana.this.repaint();
+					numDuo++;
+					}
+					if(numDuo==2){
+						Ventana.this.nuevoJuego.ImprimirDuo1_2(Ventana.this.nuevoJuego.getListMapas().get(1), nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() , Ventana.this);
+						Ventana.this.repaint();
+						
+						}
+						
 					/*
 				Ventana.this.nuevoJuego.ImprimirDuo_t_1(Ventana.this.nuevoJuego.getListMapas().get(0), nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() , Ventana.this);
 				Ventana.this.update((Graphics2D)Ventana.this.getGraphics());
@@ -206,10 +217,10 @@ public class Ventana extends JFrame implements Renderizador{
 		
 	}
 	public void Ventana_Nivel_2(char letra){
-		estado=Ventana.this.nuevoJuego.tutorial_recuperaEstActual(nuevoJuego.getPersonajeA() ,nuevoJuego.getPersonajeB() ,Ventana.this.nuevoJuego.getListMapas().get(1));
+		estado=Ventana.this.nuevoJuego.tutorial_recuperaEstActual(nuevoJuego.getPersonajeA() ,nuevoJuego.getPersonajeB() ,Ventana.this.nuevoJuego.getListMapas().get(2));
 		if(estado==-1){
 			timer.desactivarBajaVidas();
-			Ventana.this.nuevoJuego.realizaAccion(nuevoJuego.getPersonajeA()  ,nuevoJuego.getPersonajeB() ,letra,Ventana.this,Ventana.this.nuevoJuego.getListMapas().get(1));
+			Ventana.this.nuevoJuego.realizaAccion(nuevoJuego.getPersonajeA()  ,nuevoJuego.getPersonajeB() ,letra,Ventana.this,Ventana.this.nuevoJuego.getListMapas().get(2));
 			Ventana.this.repaint();// actualizar
 		}else if(estado == 0){ 
 			
@@ -495,18 +506,18 @@ public class Ventana extends JFrame implements Renderizador{
 									
 					
 				}else if (getNumeroPantalla() == pantallaActual.HISTORIA_2.ordinal()){
-					nuevoJuego.getPersonajeA().setPosX(10);
+					nuevoJuego.getPersonajeA().setPosX(8);
 					nuevoJuego.getPersonajeA().setPosY(0);
-					nuevoJuego.getPersonajeB().setPosX(8);
+					nuevoJuego.getPersonajeB().setPosX(10);
 					nuevoJuego.getPersonajeB().setPosY(0);
 					setNumeroPantalla(getNumeroPantalla() + 1) ;
 					IniciarPantalla();
 				}else if (getNumeroPantalla() == pantallaActual.NIVEL_1.ordinal()){
 					
 				}else if (getNumeroPantalla() == pantallaActual.HISTORIA_3.ordinal()){
-					nuevoJuego.getPersonajeA().setPosX(9);
+					nuevoJuego.getPersonajeA().setPosX(1);
 					nuevoJuego.getPersonajeA().setPosY(0);
-					nuevoJuego.getPersonajeB().setPosX(1);
+					nuevoJuego.getPersonajeB().setPosX(9);
 					nuevoJuego.getPersonajeB().setPosY(0);
 					setNumeroPantalla(getNumeroPantalla() + 1) ;
 					IniciarPantalla();
