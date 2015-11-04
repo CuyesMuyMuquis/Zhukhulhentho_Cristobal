@@ -8,7 +8,7 @@ public class Mapa{
 	private Celda [][] mapa = new Celda[12][16];
 	private int estadoDuo; 
 	private int contador; 
-	private Enemigo monstruo;
+	private Enemigo monstruo=null;
 	
 	public Mapa(){
 		setListaAcciones(new ArrayList<AccionesEspeciales>());

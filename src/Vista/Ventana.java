@@ -262,8 +262,9 @@ public class Ventana extends JFrame implements Renderizador{
 					
 						}
 						Ventana.this.nuevoJuego.cambiaCaracterEnMapa(Ventana.this.nuevoJuego.getListMapas().get(0));
+						
 					}
-		
+					Ventana.this.repaint();
 
 		}else if(estado==3){
 			//nuevoJuego.getPersonajeA().setPosY(nuevoJuego.getPersonajeA().getPosY() + 1 );
