@@ -6,39 +6,59 @@ import Modelo.PersonajePrincipal;
 
 
 public class ThreadTimer extends Thread{
-	private int quitaVida ;
+
 	private int contador ;
 	private boolean estaAtrapado ; 
-	private JFrame Ventana ;
-	private int estado ; 
-	public ThreadTimer(int quitaVida, JFrame Vent,int estado){
-		super();
-		this.quitaVida = quitaVida ;
+	private boolean matarHilo;
+	private JFrame vent;
+	private int quitarVida ; 
+	
+	public ThreadTimer(JFrame ventana){
+	
+		vent = ventana;
 		contador = 0  ; 
-		estaAtrapado = true ; 
-	    Ventana = Vent ; 
-	    this.estado = estado ; 
+		estaAtrapado = false ;  
+	    matarHilo = false;
+	
 	}
-	public void setEstado(int estado ){
-		this.estado = estado ; 
+
+	public void setearQuitarVida(int quitaVida){
+		this.quitarVida = quitaVida ; 
 	}
+	public void activarBajaVidas(){
+		estaAtrapado = true;
+	}
+	
+	public void desactivarBajaVidas(){
+		estaAtrapado = false;
+	}
+	
 	public void terminar(){
-		if(estaAtrapado) estaAtrapado = false ; 		
+		matarHilo = true;		
 	}
+	
 	public void run(){
 		try{
-			while(true){
+			contador = 0;
+			while(!matarHilo){
 			    ThreadTimer.sleep(1000);
-				while(true){			
+		
+				while(estaAtrapado){
 				    ThreadTimer.sleep(1000);
 					contador++ ;			
-					if (contador %2 == 0 )
+					if (contador % 2 == 0 ){
+						//System.out.println("vida menos");
+						PersonajePrincipal.setVida(PersonajePrincipal.getVida() - quitarVida );
+						vent.update(vent.getGraphics());
+					}
+					if( PersonajePrincipal.getVida() == 0){
+						terminar();
+						desactivarBajaVidas();
+					}
 					
-					
-					if(!estaAtrapado) break ;					
 				}
 			}
-		} catch (InterruptedException e) {				
+		}catch (InterruptedException e) {				
 			e.printStackTrace();
 		}
 		/*while(estaAtrapado){

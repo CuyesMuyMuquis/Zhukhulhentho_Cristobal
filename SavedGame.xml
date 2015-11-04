@@ -493,6 +493,6 @@
     </estados>
     <estadoActual>0</estadoActual>
   </personajeB>
-  <vida>10</vida>
+  <vida>4</vida>
   <numMapaActual>2</numMapaActual>
 </Modelo.StoredGame>

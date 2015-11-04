@@ -25,6 +25,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import Controlador.ThreadTimer;
+
 import java.awt.Toolkit;
 import Modelo.Mapa;
 import Modelo.Personaje;
@@ -42,7 +45,7 @@ public class Ventana extends JFrame implements Renderizador{
 	private  BufferedImage gif, gif2 ; // = ImageIO.read(new File("cuy_1.jpg"));	
 	
 	
-
+	private ThreadTimer timer  ; 
 	private  Juego nuevoJuego ;
 	private static final int TILE = 64;
 	private static final int ANCHO_R = 1024 ;
@@ -164,15 +167,28 @@ public class Ventana extends JFrame implements Renderizador{
 		////////////////////////////////////////////////////////
 		estado=Ventana.this.nuevoJuego.tutorial_recuperaEstActual(nuevoJuego.getPersonajeA() ,nuevoJuego.getPersonajeB() ,Ventana.this.nuevoJuego.getListMapas().get(0));
 		System.out.println(estado);
-		////////////////////////////////////////////////////////
+		
 		if(estado==-1){
+			////////////////////////////////////////////////////////
+			timer.desactivarBajaVidas();
+			////////////////////////////////////////////////////////
 			Ventana.this.nuevoJuego.realizaAccion(nuevoJuego.getPersonajeA()  ,nuevoJuego.getPersonajeB() ,letra,Ventana.this,Ventana.this.nuevoJuego.getListMapas().get(0));
 			Ventana.this.repaint();// actualizar
+			
 		}else if(estado == 0){ // Duo 
 			System.out.println("DUO");
 			//imprimeEnPantallaLateral(estado);
-			teclaPres=teclaPres+letra;					
-			String codigoExtraido = Ventana.this.nuevoJuego.buscaCodigo(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() ,  Ventana.this.nuevoJuego.getListMapas().get(0));
+			teclaPres=teclaPres+letra;
+			//////////////////////////////////////////////7
+			//////////////////////////////////////////////
+			// Inicio del timer
+			timer.setearQuitarVida(2);
+			timer.activarBajaVidas();			
+			//////////////////////////////////////////////7
+			//////////////////////////////////////////////
+
+			
+			String codigoExtraido = Ventana.this.nuevoJuego.buscaCodigo(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() ,  Ventana.this.nuevoJuego.getListMapas().get(0));			
 			//JOptionPane.showMessageDialog(null,teclaPres);
 			int resultado = Ventana.this.nuevoJuego.estaCodigo(teclaPres,nuevoJuego.getPersonajeB() ,nuevoJuego.getPersonajeB() , codigoExtraido);
 			
@@ -183,8 +199,9 @@ public class Ventana extends JFrame implements Renderizador{
 			if(resultado !=-1){
 				if (teclaPres.equals(codigoExtraido)){							
 					
-					estado = -1 ; // Cambio el estado para salir del DUO o Accion.
+					estado = -1 ; // Cambio el estado para salir del DUO o Accion.				
 					teclaPres = "" ;
+					timer.desactivarBajaVidas();
 					Ventana.this.nuevoJuego.ImprimirDuo(Ventana.this.nuevoJuego.getListMapas().get(0), nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() , Ventana.this);
 					Ventana.this.repaint();
 					/*
@@ -218,6 +235,8 @@ public class Ventana extends JFrame implements Renderizador{
 
 
 		}else if(estado==1){
+			timer.setearQuitarVida(1);
+			timer.activarBajaVidas();
 			int subEstado=Ventana.this.nuevoJuego.inmoviliza_cuy(nuevoJuego.getPersonajeA() ,nuevoJuego.getPersonajeB() ,Ventana.this.nuevoJuego.getListMapas().get(0));
 			if(subEstado==0){//no se puede mover el cuy 1
 				if(letra!='w'&&letra!='W'&&letra!='a'&&letra!='A'&&letra!='s'&&letra!='S'&& letra!='d'&&letra!='D'){
@@ -235,9 +254,11 @@ public class Ventana extends JFrame implements Renderizador{
 			}
 			if(subEstado==-1){//el cuy libre se encuentra en una posicion para liberar al otro cuy
 				//SI TIENE EXITO
+					timer.desactivarBajaVidas();
 					System.out.println("Accion");
 					//imprimeEnPantallaLateral(estado);
 					teclaPres=teclaPres+letra ; 					
+					
 					String codigoExtraido = Ventana.this.nuevoJuego.buscaCodigo(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() ,  Ventana.this.nuevoJuego.getListMapas().get(0));
 					//JOptionPane.showMessageDialog(null,teclaPres);
 					System.out.println(codigoExtraido);
@@ -330,6 +351,9 @@ public class Ventana extends JFrame implements Renderizador{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		timer = new ThreadTimer(this);
+		timer.start();
+		
 		configuracionIniciales();		
 		cargarImagenes(this) ;
 		eventoTeclado();
@@ -416,9 +440,9 @@ public class Ventana extends JFrame implements Renderizador{
 									
 					
 				}else if (getNumeroPantalla() == pantallaActual.HISTORIA_2.ordinal()){
-					nuevoJuego.getPersonajeA().setPosX(10);
+					nuevoJuego.getPersonajeA().setPosX(8);
 					nuevoJuego.getPersonajeA().setPosY(0);
-					nuevoJuego.getPersonajeB().setPosX(8);
+					nuevoJuego.getPersonajeB().setPosX(10);
 					nuevoJuego.getPersonajeB().setPosY(0);
 					setNumeroPantalla(getNumeroPantalla() + 1) ;
 					IniciarPantalla();
