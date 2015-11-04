@@ -61,8 +61,7 @@ public class Ventana extends JFrame implements Renderizador{
 	private BufferedImage  imgFondo;
 	private BufferedImage  imgLateral;
 	private BufferStrategy bufferStrategy;	
-	private BufferedImage duoA;
-	private BufferedImage duoB;
+	private BufferedImage corazon;
 	
 	//HISTORIA1 
 	private BufferedImage fondoHistoria;
@@ -76,10 +75,16 @@ public class Ventana extends JFrame implements Renderizador{
 		System.out.println(vida);
 		graph2D.drawImage( imgLateral, ANCHO_R, ALTO_BARRA_MENU , this);
 		//graph2D.clearRect(ANCHO_R+85, 74, 70, 28);
+		graph2D.drawImage( corazon, ANCHO_R+35, 36 , this);
 		graph2D.setFont(new Font("Monspaced", Font.BOLD, 26));
 		graph2D.setColor(Color.BLACK);
-		graph2D.drawString("VIDA: ", ANCHO_R+10, 100);
-		graph2D.drawString("" + vida, ANCHO_R+85, 100);
+		//graph2D.drawString("VIDA: ", ANCHO_R+10, 100);
+		if( vida == 10){
+			graph2D.drawString("" + vida, ANCHO_R+52, 80);
+		}else{
+			graph2D.drawString("" + vida, ANCHO_R+60, 80);
+		}
+		
 		
 		if(estado == 0){					
 				//graph2D.clearRect(ANCHO_R+10, 120, 250, 56);
@@ -381,8 +386,7 @@ public class Ventana extends JFrame implements Renderizador{
 	
 				}else if (getNumeroPantalla() == pantallaActual.TUTORIAL.ordinal()){
 					 tutorial.cargarImagen(this);
-					 duoA = ImageIO.read(new File("Duo A.gif"));
-					 duoB = ImageIO.read(new File("Duo B.gif"));					 
+					 corazon = ImageIO.read(new File("corazon vida.png"));	
 					 
 				}else if (getNumeroPantalla() == pantallaActual.HISTORIA_2.ordinal()){
 					historia_2.cargarImagen(this);					

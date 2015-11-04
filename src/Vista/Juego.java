@@ -3,6 +3,7 @@ import Modelo.*;
 import javax.swing.Timer;
 
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -664,7 +665,7 @@ public class Juego implements Renderizador{
 		ImprimirMapa(mapa,cuy1,cuy2,ven);
 		
 	}
-	public void ImprimirDuo(Mapa mapa, PersonajePrincipal cuy2, PersonajePrincipal  cuy1, JFrame ven){
+	public void ImprimirDuo(Mapa mapa, PersonajePrincipal cuy2, PersonajePrincipal  cuy1 , JFrame ven){
 //		Scanner teclado = new Scanner(System.in);
 		//System.out.println("DEBE PRESIONAR WSIKDDLL");
 		//String duo1 = "WSIKDDLL" ;
