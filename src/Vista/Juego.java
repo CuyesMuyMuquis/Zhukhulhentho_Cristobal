@@ -678,8 +678,6 @@ public class Juego implements Renderizador{
 		}*/
 		//DUO - POSICION 1
 	
-		
-		
 		cuy2.setPosX(6);
 		cuy2.setPosY(4);
 		cuy1.setPosX(8);

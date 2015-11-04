@@ -23,6 +23,7 @@ public class Tutorial  {
 	public void cargarImagen(JFrame vent) throws IOException{
 		//imgFondo = ImageIO.read(new File("mapa_tutorial.jpg"));
 		imgFondo = ImageIO.read(new File("tutorial1-completo.jpg"));
+		
 		//Toolkit tol = vent.getToolkit();
 		//tol = Toolkit.getDefaultToolkit();
 		  // java.awt.Image cuy_1 = tol.getImage ("cuy_1.gif");		        	    

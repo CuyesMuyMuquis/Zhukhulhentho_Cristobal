@@ -61,6 +61,8 @@ public class Ventana extends JFrame implements Renderizador{
 	private BufferedImage  imgFondo;
 	private BufferedImage  imgLateral;
 	private BufferStrategy bufferStrategy;	
+	private BufferedImage duoA;
+	private BufferedImage duoB;
 	
 	//HISTORIA1 
 	private BufferedImage fondoHistoria;
@@ -207,8 +209,7 @@ public class Ventana extends JFrame implements Renderizador{
 						Ventana.this.repaint();
 							System.out.println(estado);
 
-
-
+						
 					}else
 					if(estado==1){
 						int subEstado=Ventana.this.nuevoJuego.inmoviliza_cuy(nuevoJuego.getPersonajeA() ,nuevoJuego.getPersonajeB() ,Ventana.this.nuevoJuego.getListMapas().get(0));
@@ -380,14 +381,14 @@ public class Ventana extends JFrame implements Renderizador{
 	
 				}else if (getNumeroPantalla() == pantallaActual.TUTORIAL.ordinal()){
 					 tutorial.cargarImagen(this);
-				
-					
+					 duoA = ImageIO.read(new File("Duo A.gif"));
+					 duoB = ImageIO.read(new File("Duo B.gif"));					 
+					 
 				}else if (getNumeroPantalla() == pantallaActual.HISTORIA_2.ordinal()){
 					historia_2.cargarImagen(this);					
 				}
 
 		}catch(java.io.IOException e){
-			
 
 		}
 	}
@@ -409,7 +410,7 @@ public class Ventana extends JFrame implements Renderizador{
 				// Extraigo el graphics de mi bufferStrategy pero lo casteo a Graphics3D
 				graph2D.drawImage(imgFondo, 0, ALTO_BARRA_MENU , this); // Meto la imagen de fondo 	
 
-				bufferStrategy.show();					 // Lo muestro
+				bufferStrategy.show();	 //Lo muestro
 
 			}else if (getNumeroPantalla() == pantallaActual.HISTORIA_1.ordinal()){
 				Graphics2D graph2D = (Graphics2D)bufferStrategy.getDrawGraphics();
@@ -417,10 +418,9 @@ public class Ventana extends JFrame implements Renderizador{
 				bufferStrategy.show();		
 			}else if (getNumeroPantalla() == pantallaActual.TUTORIAL.ordinal()){
 			
-				//nivel_1.bufferStrategy = bufferStrategy;
 				Graphics2D graph2D = (Graphics2D)bufferStrategy.getDrawGraphics();	
 				graph2D.drawImage( tutorial.imgFondo ,0, ALTO_BARRA_MENU,this);
-				//graph2D.drawImage( imgLateral, ANCHO_R, ALTO_BARRA_MENU , this);
+
 		        graph2D.drawImage ( gif ,nuevoJuego.getPersonajeA().getPosY()*TILE   ,ALTO_BARRA_MENU + nuevoJuego.getPersonajeA() .getPosX()*TILE, this);		   
 		        graph2D.drawImage (gif2 ,nuevoJuego.getPersonajeB() .getPosY()*TILE   ,ALTO_BARRA_MENU + nuevoJuego.getPersonajeB().getPosX()*TILE, this);
 		        
