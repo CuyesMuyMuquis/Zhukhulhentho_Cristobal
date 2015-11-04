@@ -80,7 +80,7 @@ public class Ventana extends JFrame implements Renderizador{
 		graph2D.drawString("" + vida, ANCHO_R+85, 100);
 		
 		if(estado == 0){						
-                //graph2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+                
                 String combinacion = Ventana.this.nuevoJuego.getListMapas().get(0).getListaAcciones().get(0).getCombinacion();
                 Font fuente=new Font("Monospaced", Font.BOLD, 26);
                 graph2D.setFont(fuente);
