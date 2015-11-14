@@ -34,8 +34,8 @@ public class Mapa{
 			monstruo = new Enemigo("Bicho",64,64,14,5,'M',true,false);
 		}
 		if(nivel == 1){ //Nivel 1 //Cuy_1  //Cuy_2
-			agregarCombinacion(0,   8,5,    10,5,"IWOELD",5);
-			agregarCombinacion(0,   8,10,   10,10,"WUOQEI",5);
+			agregarCombinacion(0,   8,5,    10,5,"IWOELD",5,1);
+			agregarCombinacion(0,   8,10,   10,10,"WUOQEI",5,2);
 		}
 		if(nivel == 2){ //Nivel 2
 			agregarCombinacion(0,   5,9,    7,9, "WQED",3);
@@ -54,7 +54,10 @@ public class Mapa{
 		AccionesEspeciales accionNueva = new AccionesEspeciales(tipo, posXC1, posYC1, posXC2, posYC2, combinacion,tiempo);
 		getListaAcciones().add(accionNueva);
 	}
-	
+	public void agregarCombinacion(int tipo, int posXC1, int posYC1, int posXC2, int posYC2, String combinacion,int tiempo,int numD){
+		AccionesEspeciales accionNueva = new AccionesEspeciales(tipo, posXC1, posYC1, posXC2, posYC2, combinacion,tiempo,numD);
+		getListaAcciones().add(accionNueva);
+	}
 	//funcion 
 	public void establecerCaracter(int i, int j, char x){
 		mapa[i][j].setCaracter(x);

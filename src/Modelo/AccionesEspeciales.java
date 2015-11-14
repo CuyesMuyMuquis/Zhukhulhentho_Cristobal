@@ -9,6 +9,7 @@ public class AccionesEspeciales {
 	private int tiempoMax;
 //	individuales arreglo de combinaciones
 	private String combinacion;
+	private int numDuo;
 	
 	public AccionesEspeciales(int tipo, int posXC1, int posYC1, int posXC2, int posYC2, String combinacion,int tiempo){
 		setTipo(tipo);
@@ -18,8 +19,18 @@ public class AccionesEspeciales {
 		setPosYCuy2(posYC2);
 		setCombinacion(combinacion);
 		setTiempoMax(tiempo);
+		setNumDuo(0);
 	}
-
+	public AccionesEspeciales(int tipo, int posXC1, int posYC1, int posXC2, int posYC2, String combinacion,int tiempo,int nD){
+		setTipo(tipo);
+		setPosXCuy1(posXC1);
+		setPosYCuy1(posYC1);
+		setPosXCuy2(posXC2);
+		setPosYCuy2(posYC2);
+		setCombinacion(combinacion);
+		setTiempoMax(tiempo);
+		setNumDuo(nD);
+	}
 	public int getPosXCuy1() {
 		return posXCuy1;
 	}
@@ -74,6 +85,14 @@ public class AccionesEspeciales {
 
 	private void setTiempoMax(int tiempoMax) {
 		this.tiempoMax = tiempoMax;
+	}
+
+	private int getNumDuo() {
+		return numDuo;
+	}
+
+	private void setNumDuo(int numDuo) {
+		this.numDuo = numDuo;
 	}
 	
 

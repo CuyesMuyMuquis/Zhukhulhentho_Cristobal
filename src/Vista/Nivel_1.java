@@ -12,7 +12,7 @@ public class Nivel_1  {
 	
 	public BufferedImage  imgFondo;		
 	public void cargarImagen() throws IOException{
-		imgFondo = ImageIO.read(new File("mapa_nivel_1.jpg"));	
+		imgFondo = ImageIO.read(new File("nivel1-completo.jpg"));	
 	}
 	
 	

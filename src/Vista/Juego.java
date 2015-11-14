@@ -358,16 +358,13 @@ public void ImprimeAccion(Mapa mapa, PersonajePrincipal cuy2, PersonajePrincipal
 		}
 		
 		
-//		entrada = teclado.nextLine() ;
 		
-		//DUO - POSICION 3
+		
 		cuy1.setPosX(8);
 		cuy1.setPosY(13);		
 		ImprimirMapa(mapa,cuy1,cuy2,ven);
-		//entrada = teclado.nextLine() ;
 		
 		ven.update((Graphics2D)ven.getGraphics());
-		//ven.repaint();
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e1) {
@@ -460,52 +457,6 @@ public void ImprimeAccion2_2(Mapa mapa, PersonajePrincipal cuy2, PersonajePrinci
 			System.out.println();
 		}
 		
-		//la verificacion del duo debe darse en el juego, ya que si la cadena es correcta debera
-				//mandar a otro método de impresión
-		
-		
-		/*
-		if(flagDuo==2){
-			JOptionPane.showMessageDialog(null, "Mensaje", 
-					"Título del Mensaje", JOptionPane.INFORMATION_MESSAGE);
-			
-			System.out.println("AMBOS HERMANOS PUEDEN HACER UN DUO");
-			if(mapa.getEstadoDuo() == 0){
-				ImprimirDuo(mapa, cuy1, cuy2);
-				if (cuy1.getVida() <= 0 ) return ;
-
-			}else if (mapa.getEstadoDuo() == 1){
-
-				if (mapa.getContador() == 0){
-					ImprimirDuo2(mapa, cuy1, cuy2);
-					mapa.setContador( mapa.getContador() + 1 );
-				}
-				else{ 
-					ImprimirDuo3(mapa, cuy1, cuy2);
-				}
-				if (cuy1.getVida() <= 0 ) return ;
-
-			}else if (mapa.getEstadoDuo() == 2){
-				ImprimirDuo4(mapa, cuy1, cuy2);
-				if (cuy1.getVida() <= 0 ) return ;
-			}	
-		}
-		if(flagAccA>0){
-			System.out.println("CRISTOBAL PUEDE HACER UNA ACCION");
-			if(cuy1.getPosX()==9 && cuy1.getPosY()==11) AccionNivel2A(mapa, cuy1, cuy2);
-			else AccionTutorial(mapa, cuy1, cuy2);
-		}
-		if(flagAccB>0){
-			System.out.println("LA HERMANA PUEDE HACER UNA ACCION");
-			AccionNivel2B(mapa, cuy1, cuy2);
-		}
-		if(flagNuevoEnemigo>0 && esp> 50){
-			//ACA HAY UN NUEVO ENEMIGO ESO VALIDA QUE HAYA PISADO EL TRIGGER
-			System.out.println("UN NUEVO ENEMIGO HA APARECIDO");
-			cuy1.setPosY(3);
-			ImprimirAccionNUEVA(mapa, cuy1, cuy2);
-		}
-		*/
 	}
 	
 	public void AccionTutorial(Mapa mapa, PersonajePrincipal cuy1, PersonajePrincipal  cuy2){
@@ -762,20 +713,7 @@ public void ImprimeAccion2_2(Mapa mapa, PersonajePrincipal cuy2, PersonajePrinci
 		
 	}
 	public void ImprimirDuo1_1(Mapa mapa, PersonajePrincipal cuy2, PersonajePrincipal  cuy1, JFrame ven){
-//		Scanner teclado = new Scanner(System.in);
-		//System.out.println("DEBE PRESIONAR WSIKDDLL");
-		//String duo1 = "WSIKDDLL" ;
-		//String entrada = teclado.nextLine() ;
-		
-		/*while ( !duo1.equals(entrada))  {			
-			System.out.println("DEBE PRESIONAR WSIKDDLL");
-			cuy1.setVida(cuy1.getVida() -1) ;
-			if (cuy1.getVida() <= 0 ) return ; 
-			entrada = teclado.nextLine() ; 
-		}*/
-		//DUO - POSICION 1
-	
-		
+
 		
 		cuy2.setPosX(9);
 		cuy2.setPosY(5);
@@ -835,20 +773,7 @@ public void ImprimeAccion2_2(Mapa mapa, PersonajePrincipal cuy2, PersonajePrinci
 		
 	}
 	public void ImprimirDuo1_2(Mapa mapa, PersonajePrincipal cuy2, PersonajePrincipal  cuy1, JFrame ven){
-//		Scanner teclado = new Scanner(System.in);
-		//System.out.println("DEBE PRESIONAR WSIKDDLL");
-		//String duo1 = "WSIKDDLL" ;
-		//String entrada = teclado.nextLine() ;
-		
-		/*while ( !duo1.equals(entrada))  {			
-			System.out.println("DEBE PRESIONAR WSIKDDLL");
-			cuy1.setVida(cuy1.getVida() -1) ;
-			if (cuy1.getVida() <= 0 ) return ; 
-			entrada = teclado.nextLine() ; 
-		}*/
-		//DUO - POSICION 1
-	
-		
+
 		
 		cuy2.setPosX(9);
 		cuy2.setPosY(11);
@@ -1132,6 +1057,7 @@ public void ImprimeAccion2_2(Mapa mapa, PersonajePrincipal cuy2, PersonajePrinci
 		return -1; 
 	}
 
+	
 	public String buscaCodigo(int estado,PersonajePrincipal perA,PersonajePrincipal perB,Mapa mapaActual){
 		String cadena = "";
 		ArrayList<AccionesEspeciales> lista = mapaActual.getListaAcciones();

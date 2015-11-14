@@ -144,7 +144,7 @@ public class Ventana extends JFrame implements Renderizador{
 		serial.Guardar(game);		
 	}
 	public void Ventana_Nivel_1(char letra){
-		numDuo=1;
+		
 		estado=Ventana.this.nuevoJuego.tutorial_recuperaEstActual(nuevoJuego.getPersonajeA() ,nuevoJuego.getPersonajeB() ,Ventana.this.nuevoJuego.getListMapas().get(1));
 		if(estado==-1){
 			Ventana.this.nuevoJuego.realizaAccion(nuevoJuego.getPersonajeA()  ,nuevoJuego.getPersonajeB() ,letra,Ventana.this,Ventana.this.nuevoJuego.getListMapas().get(1));
@@ -172,13 +172,13 @@ public class Ventana extends JFrame implements Renderizador{
 					Ventana.this.nuevoJuego.ImprimirDuo1_1(Ventana.this.nuevoJuego.getListMapas().get(0), nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() , Ventana.this);
 					Ventana.this.repaint();
 					numDuo++;
-					}
+					}else{
 					if(numDuo==2){
 						Ventana.this.nuevoJuego.ImprimirDuo1_2(Ventana.this.nuevoJuego.getListMapas().get(1), nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() , Ventana.this);
 						Ventana.this.repaint();
 						
 						}
-						
+					}
 					/*
 				Ventana.this.nuevoJuego.ImprimirDuo_t_1(Ventana.this.nuevoJuego.getListMapas().get(0), nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() , Ventana.this);
 				Ventana.this.update((Graphics2D)Ventana.this.getGraphics());
@@ -213,8 +213,15 @@ public class Ventana extends JFrame implements Renderizador{
 				
 		}else if(estado==3){
 				setNumeroPantalla(pantallaActual.PERDIO_JUEGO.ordinal());
+		}else if(estado ==2){
+			int t = getNumeroPantalla();
+		    setNumeroPantalla(getNumeroPantalla() + 1);
+			System.out.println(getNumeroPantalla());
+			estado=-1;
+			System.out.println("Estoy afuera");
+			Ventana.this.update(Ventana.this.getGraphics());
+			Ventana.this.IniciarPantalla();
 		}
-		
 	}
 	public void Ventana_Nivel_2(char letra){
 		estado=Ventana.this.nuevoJuego.tutorial_recuperaEstActual(nuevoJuego.getPersonajeA() ,nuevoJuego.getPersonajeB() ,Ventana.this.nuevoJuego.getListMapas().get(2));
