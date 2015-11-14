@@ -26,7 +26,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import Controlador.ThreadTimer;
+import Controlador.*;
 
 import java.awt.Toolkit;
 import Modelo.Mapa;
@@ -56,7 +56,8 @@ public class Ventana extends JFrame implements Renderizador{
 	private static int numeroPantalla = 0;
 	private int estado=-1;
 	private String teclaPres="";
-	private enum pantallaActual {
+	public int tiempo ;
+	public enum pantallaActual {
 	    MENU, HISTORIA_1, TUTORIAL, HISTORIA_2,
 	    NIVEL_1, HISTORIA_3, NIVEL_2,PERDIO_JUEGO,FIN_DEL_JUEGO;
 	}
@@ -83,16 +84,28 @@ public class Ventana extends JFrame implements Renderizador{
 	private Perdio_juego perdio_juego = new Perdio_juego();
 	private Fin_del_juego fin_del_juego  = new Fin_del_juego();
 	
+	public int  TiempoLimite = 10;
+	private int tiempoADibujar;
+	private Hilo2 hilo;
+	synchronized public int aumentarTiempo() {	
+		synchronized(this){
+			
+		tiempo++;		
+		return tiempo;	
+		}			
+	}
 	public void imprimeEnPantallaLateral(int estado){
 		Graphics2D graph2D = (Graphics2D)bufferStrategy.getDrawGraphics();
 		graph2D.setFont(new Font("Monspaced", Font.BOLD, 26));
-		graph2D.setColor(Color.BLACK);
+		graph2D.setColor(Color.WHITE);
 		int vida = PersonajePrincipal.getVida();
 		System.out.println(vida);
 		graph2D.drawImage( imgLateral, ANCHO_R, ALTO_BARRA_MENU , this);
 		//graph2D.clearRect(ANCHO_R+85, 74, 70, 28);
 		graph2D.drawImage( corazon, ANCHO_R+35, 36 , this);
-
+		
+		if (numeroPantalla!=0)
+		graph2D.drawString("TIEMPO "+tiempoADibujar, ANCHO_R+150, 80);
 		//graph2D.drawString("VIDA: ", ANCHO_R+10, 100);
 		if( vida == 10){
 			graph2D.drawString("" + vida, ANCHO_R+52, 80);
@@ -385,13 +398,12 @@ public class Ventana extends JFrame implements Renderizador{
 		
 	}
 
-	private void IniciarPantalla() {	
+	public void IniciarPantalla() {	
 		limpiaPantallaLOL();
 		cargarImagenes(this) ;		
 		createBufferStrategy(2);
 		bufferStrategy = getBufferStrategy();		
-		repaint() ;
-	
+		repaint() ;	
 	}	
 	private  void limpiaPantallaLOL(){
 		limpiar= true;
@@ -408,12 +420,15 @@ public class Ventana extends JFrame implements Renderizador{
 						if (e.getY() >= 300 && e.getY() <= 360 ){
 							//Configurar para tutorial 1 e iniciar juego							
 							//ConfigurarTutorial();
+							
+							//Ventana.this.tiempo = 0;
+							//Ventana.this.dibujarTiempo(0);
+							//Ventana.this.update(Ventana.this.getGraphics());
 							setNumeroPantalla(getNumeroPantalla() + 1);
 							IniciarPantalla();
+							Ventana.this.hilo.start();
 							nuevoJuego = new Juego(10, 50,40);
-							nuevoJuego.setearVentana(Ventana.this);
-												 
-							
+							nuevoJuego.setearVentana(Ventana.this);																					
 						}
 						if (e.getY() >= 400 && e.getY() <= 460 ){
 							
@@ -508,12 +523,13 @@ public class Ventana extends JFrame implements Renderizador{
 	public void paint(Graphics g){		
 		super.paint(g);	
 		Toolkit t = Toolkit.getDefaultToolkit ();
-		if(limpiar) {
+		/*if(limpiar) {
+			
 			Graphics2D graph2D = (Graphics2D)bufferStrategy.getDrawGraphics();			
 			graph2D.clearRect(0, 0, getWidth(), getHeight() );			
 			limpiar = false;
 			//bufferStrategy.show();	
-		}
+		}*/
 		try{
 			imprimeEnPantallaLateral(estado); //Muestra la información en la barra lateral
 			if (getNumeroPantalla() == pantallaActual.MENU.ordinal()){
@@ -613,6 +629,16 @@ public class Ventana extends JFrame implements Renderizador{
 
 	public static void setNumeroPantalla(int numeroPantalla) {
 		Ventana.numeroPantalla = numeroPantalla;
+	}
+	public void dibujarTiempo(int t) {
+		tiempoADibujar = t ;
+		imprimeEnPantallaLateral(estado);
+		this.repaint();
+		
+	}
+	public void setearHilo(Hilo2 hilo2) {
+		hilo = hilo2;
+		
 	}
 
 }

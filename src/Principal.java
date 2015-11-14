@@ -1,3 +1,6 @@
+import javax.swing.JFrame;
+
+import Controlador.Hilo2;
 import Vista.Juego;
 import Vista.Ventana;
 
@@ -7,10 +10,9 @@ public class Principal {
 
 	public static void main(String[] args) {
 		
- 	    /*Juego nuevoJuego = new Juego(10, 50,40) ; 
- 	    nuevoJuego.iniciarPersonajes();
- 	    nuevoJuego.PantallaInicial();*/
 		Ventana v = new Ventana() ;
+		Hilo2  nuevoHilo = new Hilo2(v);
+		
 
 	}
 	
