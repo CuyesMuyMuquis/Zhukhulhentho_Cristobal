@@ -640,7 +640,9 @@ public class Ventana extends JFrame implements Renderizador{
 				
 			}else if (getNumeroPantalla() == pantallaActual.NIVEL_2.ordinal()){
 				Graphics2D graph2D = (Graphics2D)bufferStrategy.getDrawGraphics();				
-				graph2D.drawImage( nivel_2.imgFondo ,0, ALTO_BARRA_MENU,this);					  		    		    
+				graph2D.drawImage( nivel_2.imgFondo ,0, ALTO_BARRA_MENU,this);
+				graph2D.drawImage ( gif ,nuevoJuego.getPersonajeA().getPosY()*TILE   ,ALTO_BARRA_MENU + nuevoJuego.getPersonajeA() .getPosX()*TILE, this);		   
+		        graph2D.drawImage (gif2 ,nuevoJuego.getPersonajeB() .getPosY()*TILE   ,ALTO_BARRA_MENU + nuevoJuego.getPersonajeB().getPosX()*TILE, this);
 				bufferStrategy.show();
 				
 			}else if (getNumeroPantalla() == pantallaActual.PERDIO_JUEGO.ordinal()){
