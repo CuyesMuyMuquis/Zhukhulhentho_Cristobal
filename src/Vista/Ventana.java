@@ -425,6 +425,7 @@ public class Ventana extends JFrame implements Renderizador{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		JOptionPane.showMessageDialog(null, "Jugador1");
 		timer  = new ThreadTimer(this) ;
 		timer.start();
 		configuracionIniciales();		
