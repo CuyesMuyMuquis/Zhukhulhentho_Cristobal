@@ -178,26 +178,7 @@ public class Ventana extends JFrame implements Renderizador{
 						Ventana.this.repaint();
 						
 						}
-					}
-					/*
-				Ventana.this.nuevoJuego.ImprimirDuo_t_1(Ventana.this.nuevoJuego.getListMapas().get(0), nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() , Ventana.this);
-				Ventana.this.update((Graphics2D)Ventana.this.getGraphics());
-				try {
-					Thread.sleep(2000);
-				} catch (InterruptedException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-
-				Ventana.this.nuevoJuego.imprimirDuo_t_2(Ventana.this.nuevoJuego.getListMapas().get(0), nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() , Ventana.this);
-				Ventana.this.repaint();
-				try {
-					Thread.sleep(2000);
-				} catch (InterruptedException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}*/
-				}
+					}				}
 			}else { //SI se ha equivocado se resetea la teclaPres y se quita 2 puntos de vida
 				teclaPres = "";
 				//EQUIVOCACIÓN DE TECLAS PRESIONADAS
@@ -210,7 +191,7 @@ public class Ventana extends JFrame implements Renderizador{
 
 
 		}else if(estado==1){
-				
+					//no contine nada,porque en este nivel no hay acciones especiales
 		}else if(estado==3){
 				setNumeroPantalla(pantallaActual.PERDIO_JUEGO.ordinal());
 		}else if(estado ==2){
@@ -230,9 +211,89 @@ public class Ventana extends JFrame implements Renderizador{
 			Ventana.this.nuevoJuego.realizaAccion(nuevoJuego.getPersonajeA()  ,nuevoJuego.getPersonajeB() ,letra,Ventana.this,Ventana.this.nuevoJuego.getListMapas().get(2));
 			Ventana.this.repaint();// actualizar
 		}else if(estado == 0){ 
+			timer.setearQuitarVida(2);
+			timer.activarBajaVidas();
+			System.out.println("DUO");
+			//imprimeEnPantallaLateral(estado);
+			teclaPres=teclaPres+letra;					
+			String codigoExtraido = Ventana.this.nuevoJuego.buscaCodigo(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() ,  Ventana.this.nuevoJuego.getListMapas().get(2));
+			//JOptionPane.showMessageDialog(null,teclaPres);
+			int resultado = Ventana.this.nuevoJuego.estaCodigo(teclaPres,nuevoJuego.getPersonajeB() ,nuevoJuego.getPersonajeB() , codigoExtraido);
 			
+			//AGREGAR HILO DE ERROR
+			//AGREGAR HILO DE TIEMPO
+			
+			//JOptionPane.showMessageDialog(null,codigoExtraido);
+			if(resultado !=-1){
+				if (teclaPres.equals(codigoExtraido)){							
+					timer.desactivarBajaVidas();
+					estado = -1 ; // Cambio el estado para salir del DUO o Accion.
+					teclaPres = "" ;
+					Ventana.this.nuevoJuego.ImprimirDuo2(Ventana.this.nuevoJuego.getListMapas().get(2), nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() , Ventana.this);
+					Ventana.this.repaint();
+				}
+			}else { //SI se ha equivocado se resetea la teclaPres y se quita 2 puntos de vida
+				teclaPres = "";
+				//EQUIVOCACIÓN DE TECLAS PRESIONADAS
+				quitarVida(letra);						
+			}
+			//imprimeEnPantallaLateral(estado);
+			Ventana.this.repaint();
+				System.out.println(estado);
 		}else if(estado==1){
+			timer.setearQuitarVida(2);
+			timer.activarBajaVidas();
+			int subEstado=Ventana.this.nuevoJuego.inmoviliza_cuy(nuevoJuego.getPersonajeA() ,nuevoJuego.getPersonajeB() ,Ventana.this.nuevoJuego.getListMapas().get(0));
+			if(subEstado==0){//no se puede mover el cuy 1
+				if(letra!='w'&&letra!='W'&&letra!='a'&&letra!='A'&&letra!='s'&&letra!='S'&& letra!='d'&&letra!='D'){
+					Ventana.this.nuevoJuego.realizaAccion(nuevoJuego.getPersonajeA()  ,nuevoJuego.getPersonajeB() , letra ,Ventana.this,Ventana.this.nuevoJuego.getListMapas().get(0));
+					Ventana.this.repaint();// acutlizar
+				}
+			}
+			if(subEstado==1){//no se puede mover el cuy 2
+					if(letra!='i'&& letra!='I'&&letra!='j'&&letra!='J'&& letra!='k'&&letra!='K'&& letra!='l'&& letra!='L'){
+						Ventana.this.nuevoJuego.realizaAccion(nuevoJuego.getPersonajeA()  ,nuevoJuego.getPersonajeB() , letra ,Ventana.this,Ventana.this.nuevoJuego.getListMapas().get(0));
+						
+						Ventana.this.repaint();// acutlizar
+					}
 				
+			}
+			if(subEstado==-1){//el cuy libre se encuentra en una posicion para liberar al otro cuy
+				//SI TIENE EXITO
+					timer.desactivarBajaVidas();
+					System.out.println("Accion");
+					//imprimeEnPantallaLateral(estado);
+					teclaPres=teclaPres+letra ; 					
+					String codigoExtraido = Ventana.this.nuevoJuego.buscaCodigo(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() ,  Ventana.this.nuevoJuego.getListMapas().get(0));
+					//JOptionPane.showMessageDialog(null,teclaPres);
+					System.out.println(codigoExtraido);
+					int resultado = Ventana.this.nuevoJuego.estaCodigo(teclaPres,nuevoJuego.getPersonajeB() ,nuevoJuego.getPersonajeB() , codigoExtraido);
+				
+					//AGREGAR HILO DE ERROR
+					//AGREGAR HILO DE TIEMPO
+				
+					//JOptionPane.showMessageDialog(null,codigoExtraido);
+					if(resultado !=-1){
+						if (teclaPres.equals(codigoExtraido)){
+							estado = -1 ; // Cambio el estado para salir del DUO o Accion.
+							teclaPres = "" ;
+							Ventana.this.nuevoJuego.ImprimeAccion(Ventana.this.nuevoJuego.getListMapas().get(0), nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() , Ventana.this);
+							Ventana.this.repaint();
+						}
+						}else {
+							//SI se ha equivocado se resetea la teclaPres y se quita 2 puntos de vida
+							teclaPres = "";
+							//EQUIVOCACIÓN DE TECLAS PRESIONADAS
+							quitarVida(letra);		
+					
+						}
+						Ventana.this.nuevoJuego.cambiaCaracterEnMapa(Ventana.this.nuevoJuego.getListMapas().get(0));
+						
+					}
+					Ventana.this.repaint();
+
+		}else if(estado==2){
+			    setNumeroPantalla(pantallaActual.FIN_DEL_JUEGO.ordinal());
 		}else if(estado==3){
 				setNumeroPantalla(pantallaActual.PERDIO_JUEGO.ordinal());
 		}
