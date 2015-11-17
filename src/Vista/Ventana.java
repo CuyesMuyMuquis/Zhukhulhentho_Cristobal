@@ -68,6 +68,7 @@ public class Ventana extends JFrame implements Renderizador{
 	private BufferedImage  imgLateral;
 	private BufferStrategy bufferStrategy;		
 	private BufferedImage corazon;
+	private BufferedImage mostro;
 	private ThreadTimer timer;
 	
 	
@@ -618,7 +619,7 @@ public class Ventana extends JFrame implements Renderizador{
 	
 				}else if (getNumeroPantalla() == pantallaActual.TUTORIAL.ordinal()){
 					 tutorial.cargarImagen(this);
-									
+					 mostro = ImageIO.read(new File("escarabajo_ataca.gif"));			
 				}else if (getNumeroPantalla() == pantallaActual.HISTORIA_2.ordinal()){
 					historia_2.cargarImagen(this);					
 				}else if (getNumeroPantalla() == pantallaActual.NIVEL_1.ordinal()){
@@ -633,8 +634,7 @@ public class Ventana extends JFrame implements Renderizador{
 					fin_del_juego.cargarImagen();
 				}
 
-		}catch(java.io.IOException e){
-			
+		}catch(java.io.IOException e){			
 
 		}
 	}
@@ -667,6 +667,9 @@ public class Ventana extends JFrame implements Renderizador{
 				Graphics2D graph2D = (Graphics2D)bufferStrategy.getDrawGraphics();	
 				graph2D.drawImage( tutorial.imgFondo ,0, ALTO_BARRA_MENU,this);
 				//graph2D.drawImage( imgLateral, ANCHO_R, ALTO_BARRA_MENU , this);
+				if(estado == 1){
+					graph2D.drawImage(mostro, 13*64, 4*64, this);
+				}
 		        graph2D.drawImage ( gif ,nuevoJuego.getPersonajeA().getPosY()*TILE   ,ALTO_BARRA_MENU + nuevoJuego.getPersonajeA() .getPosX()*TILE, this);		   
 		        graph2D.drawImage (gif2 ,nuevoJuego.getPersonajeB() .getPosY()*TILE   ,ALTO_BARRA_MENU + nuevoJuego.getPersonajeB().getPosX()*TILE, this);
 		        
