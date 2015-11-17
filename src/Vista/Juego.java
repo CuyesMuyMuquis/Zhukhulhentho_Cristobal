@@ -226,6 +226,7 @@ public class Juego implements Renderizador{
 		}		
 		ImprimirMapa(mapaActual, perA, perB, vent);
 	}
+	
 	public int Tutorial(PersonajePrincipal perA , PersonajePrincipal perB, char letra, JFrame vent){
 		int entero, direccion;
 		char entrada ; 
@@ -1023,7 +1024,24 @@ public void ImprimeAccion2_2(Mapa mapa, PersonajePrincipal cuy2, PersonajePrinci
 		}
 		return -1; 
 	}
-
+	public int inmoviliza_cuy2(PersonajePrincipal perA,PersonajePrincipal perB,Mapa mapaActual){
+		ArrayList<AccionesEspeciales> lista=mapaActual.getListaAcciones();
+		
+		for(int i=0;i<lista.size();i++){
+			if(lista.get(i).getTipo()==1){
+				if(perA.getPosX()==lista.get(i).getPosXCuy1()&&perA.getPosY()==lista.get(i).getPosYCuy1()
+					&&lista.get(i).getPosXCuy2()==-1&&lista.get(i).getPosYCuy2()==-1){
+					return 0;
+				}
+				if(perB.getPosX()==lista.get(i).getPosXCuy2()&&perB.getPosY()==lista.get(i).getPosYCuy2()
+						&&lista.get(i).getPosXCuy1()==-1&&lista.get(i).getPosYCuy1()==-1){
+						return 1;
+					}
+			}
+			
+		}
+		return -1; 
+	}
 	
 	public String buscaCodigo(int estado,PersonajePrincipal perA,PersonajePrincipal perB,Mapa mapaActual){
 		String cadena = "";

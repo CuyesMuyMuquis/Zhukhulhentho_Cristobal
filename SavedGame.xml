@@ -3,8 +3,8 @@
     <ancho>10</ancho>
     <alto>190</alto>
     <posicion>
-      <fila>5</fila>
-      <columna>3</columna>
+      <fila>4</fila>
+      <columna>14</columna>
     </posicion>
     <letraAsociada>A</letraAsociada>
     <visible>true</visible>
@@ -250,8 +250,8 @@
     <ancho>10</ancho>
     <alto>190</alto>
     <posicion>
-      <fila>10</fila>
-      <columna>3</columna>
+      <fila>0</fila>
+      <columna>14</columna>
     </posicion>
     <letraAsociada>B</letraAsociada>
     <visible>true</visible>
@@ -493,6 +493,6 @@
     </estados>
     <estadoActual>0</estadoActual>
   </personajeB>
-  <vida>2</vida>
-  <numMapaActual>6</numMapaActual>
+  <vida>5</vida>
+  <numMapaActual>4</numMapaActual>
 </Modelo.StoredGame>
