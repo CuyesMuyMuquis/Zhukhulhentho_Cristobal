@@ -15,9 +15,14 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
+import java.io.BufferedWriter;
 import java.io.Console;
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
 import javax.imageio.ImageIO;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -38,6 +43,7 @@ import Modelo.Serializar2;
 import Modelo.StoredGame;
 
 
+
 public class Ventana extends JFrame implements Renderizador{
 	private static final long serialVersionUID = 1L;
 	private static Toolkit tol = Toolkit.getDefaultToolkit ();
@@ -45,7 +51,8 @@ public class Ventana extends JFrame implements Renderizador{
 	private  BufferedImage gif, gif2 ; // = ImageIO.read(new File("cuy_1.jpg"));	
 	
 	
-
+	static final int MULTIPLAYER  = 2;
+	static final int SINGLEPLAYER = 1;
 	private  Juego nuevoJuego ;
 	private static final int TILE = 64;
 	private static final int ANCHO_R = 1024 ;
@@ -55,6 +62,10 @@ public class Ventana extends JFrame implements Renderizador{
 	private boolean limpiar; 
 	private static int numeroPantalla = 0;
 	private static int numDuo=1;
+	public static int opcionJuego;
+	public static int puerto;
+	public static int puertoDestino;
+	public static String direccion;
 	private int estado=-1;
 	private String teclaPres="";
 	private enum pantallaActual {
@@ -301,6 +312,9 @@ public class Ventana extends JFrame implements Renderizador{
 		estado=Ventana.this.nuevoJuego.tutorial_recuperaEstActual(nuevoJuego.getPersonajeA() ,nuevoJuego.getPersonajeB() ,Ventana.this.nuevoJuego.getListMapas().get(0));
 		System.out.println(estado);
 		////////////////////////////////////////////////////////
+
+		
+		
 		if(estado==-1){
 			timer.desactivarBajaVidas();
 			Ventana.this.nuevoJuego.realizaAccion(nuevoJuego.getPersonajeA()  ,nuevoJuego.getPersonajeB() ,letra,Ventana.this,Ventana.this.nuevoJuego.getListMapas().get(0));
@@ -415,18 +429,32 @@ public class Ventana extends JFrame implements Renderizador{
 					return ;					
 				}				
 				if (getNumeroPantalla() == pantallaActual.TUTORIAL.ordinal() ){
-					Ventana_Tutorial(letra);					
+					if (opcionJuego == MULTIPLAYER )
+						Ventana_Tutorial(letra,direccion, puertoDestino);
+					else if (opcionJuego == SINGLEPLAYER )
+						Ventana_Tutorial(letra);					
 				}else if (getNumeroPantalla() == pantallaActual.NIVEL_1.ordinal()){
-					Ventana_Nivel_1(letra);
+					if (opcionJuego == MULTIPLAYER )
+						Ventana_Nivel_1(letra,direccion, puertoDestino);
+					else if (opcionJuego == SINGLEPLAYER )
+						Ventana_Nivel_1(letra);
 				}
 				else if(getNumeroPantalla() == pantallaActual.NIVEL_2.ordinal()){
-					Ventana_Nivel_2(letra);
+					if (opcionJuego == MULTIPLAYER )
+						Ventana_Nivel_2(letra, direccion, puertoDestino);
+					else if (opcionJuego == SINGLEPLAYER )
+						Ventana_Nivel_2(letra);
+						
 				}
+				
+				
 			}
 	     });
 		
 	}
 	
+
+
 	public Ventana(){
 		try {
 			gif = ImageIO.read(new File("A1.gif"));
@@ -702,4 +730,353 @@ public class Ventana extends JFrame implements Renderizador{
 		Ventana.numeroPantalla = numeroPantalla;
 	}
 
+	
+	public void eventoTecladoMultijadorCliente(char letra ){					
+		
+		if( letra == 'g' ||letra == 'G'){
+			salvarJuego();
+			JOptionPane.showMessageDialog(null, "El juego se ha guardado");
+			return ;					
+		}				
+		if (getNumeroPantalla() == pantallaActual.TUTORIAL.ordinal() ){
+			Ventana_Tutorial(letra);					
+		}else if (getNumeroPantalla() == pantallaActual.NIVEL_1.ordinal()){
+			Ventana_Nivel_1(letra);
+		}
+		else if(getNumeroPantalla() == pantallaActual.NIVEL_2.ordinal()){
+			Ventana_Nivel_2(letra);
+		}
+		
+	}
+	protected void Ventana_Nivel_2(char letra, String direccion2, int puertoDestino2) {
+		estado=Ventana.this.nuevoJuego.tutorial_recuperaEstActual(nuevoJuego.getPersonajeA() ,nuevoJuego.getPersonajeB() ,Ventana.this.nuevoJuego.getListMapas().get(2));
+		////////////////////////////////////////////////////////
+		//////////////////////////////////////////////////////
+		//////////////////////////////////////////////////////
+		//////////////IMPORTANTE 			//////////////////
+		//////////////////////////////////////////////////////
+		//////////////////////////////////////////////////////
+		enviarMensaje(direccion2 , puertoDestino2 , letra);
+		////////////////////////////////////////////////////////
+		//////////////////////////////////////////////////////
+		//////////////////////////////////////////////////////
+		//////////////////////////////////////////////////////
+		//////////////////////////////////////////////////////
+		//////////////////////////////////////////////////////
+		if(estado==-1){
+			timer.desactivarBajaVidas();
+			Ventana.this.nuevoJuego.realizaAccion(nuevoJuego.getPersonajeA()  ,nuevoJuego.getPersonajeB() ,letra,Ventana.this,Ventana.this.nuevoJuego.getListMapas().get(2));
+			Ventana.this.repaint();// actualizar
+		}else if(estado == 0){ 
+			timer.setearQuitarVida(2);
+			timer.activarBajaVidas();
+			System.out.println("DUO");
+			
+			teclaPres=teclaPres+letra;					
+			String codigoExtraido = Ventana.this.nuevoJuego.buscaCodigo(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() ,  Ventana.this.nuevoJuego.getListMapas().get(2));
+			
+			int resultado = Ventana.this.nuevoJuego.estaCodigo(teclaPres,nuevoJuego.getPersonajeB() ,nuevoJuego.getPersonajeB() , codigoExtraido);
+			if(resultado !=-1){
+				if (teclaPres.equals(codigoExtraido)){							
+					timer.desactivarBajaVidas();
+					estado = -1 ; // Cambio el estado para salir del DUO o Accion.
+					teclaPres = "" ;
+					Ventana.this.nuevoJuego.ImprimirDuo2(Ventana.this.nuevoJuego.getListMapas().get(2), nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() , Ventana.this);
+					Ventana.this.repaint();
+				}
+			}else { //SI se ha equivocado se resetea la teclaPres y se quita 2 puntos de vida
+				teclaPres = "";
+				//EQUIVOCACIÓN DE TECLAS PRESIONADAS
+				quitarVida(letra);						
+			}
+			//imprimeEnPantallaLateral(estado);
+			Ventana.this.repaint();
+				System.out.println(estado);
+				
+		}else if(estado==1){
+			timer.setearQuitarVida(2);
+			timer.activarBajaVidas();
+			int subEstado=Ventana.this.nuevoJuego.inmoviliza_cuy2(nuevoJuego.getPersonajeA() ,nuevoJuego.getPersonajeB() ,Ventana.this.nuevoJuego.getListMapas().get(2));
+			if(subEstado==0){//no se puede mover el cuy 1(el cuy 2 debe hacer su accion especial)
+				teclaPres=teclaPres+letra;					
+				String codigoExtraido = Ventana.this.nuevoJuego.buscaCodigo(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() ,  Ventana.this.nuevoJuego.getListMapas().get(2));
+				
+				int resultado = Ventana.this.nuevoJuego.estaCodigo(teclaPres,nuevoJuego.getPersonajeB() ,nuevoJuego.getPersonajeB() , codigoExtraido);
+				if(resultado !=-1){
+					if (teclaPres.equals(codigoExtraido)){							
+						timer.desactivarBajaVidas();
+						estado = -1 ; // Cambio el estado para salir del DUO o Accion.
+						teclaPres = "" ;
+						Ventana.this.nuevoJuego.ImprimeAccion2_1(Ventana.this.nuevoJuego.getListMapas().get(2), nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() , Ventana.this);
+						Ventana.this.repaint();
+					}
+				}else { //SI se ha equivocado se resetea la teclaPres y se quita 2 puntos de vida
+					teclaPres = "";
+					//EQUIVOCACIÓN DE TECLAS PRESIONADAS
+					quitarVida(letra);						
+				}
+			}
+			if(subEstado==1){//no se puede mover el cuy 2(el cuy 1 debe hacer su accion especial)
+				teclaPres=teclaPres+letra;					
+				String codigoExtraido = Ventana.this.nuevoJuego.buscaCodigo(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() ,  Ventana.this.nuevoJuego.getListMapas().get(2));
+				
+				int resultado = Ventana.this.nuevoJuego.estaCodigo(teclaPres,nuevoJuego.getPersonajeB() ,nuevoJuego.getPersonajeB() , codigoExtraido);
+				if(resultado !=-1){
+					if (teclaPres.equals(codigoExtraido)){							
+						timer.desactivarBajaVidas();
+						estado = -1 ; // Cambio el estado para salir del DUO o Accion.
+						teclaPres = "" ;
+						Ventana.this.nuevoJuego.ImprimeAccion2_2(Ventana.this.nuevoJuego.getListMapas().get(2), nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() , Ventana.this);
+						Ventana.this.repaint();
+					}
+				}else { //SI se ha equivocado se resetea la teclaPres y se quita 2 puntos de vida
+					teclaPres = "";
+					//EQUIVOCACIÓN DE TECLAS PRESIONADAS
+					quitarVida(letra);						
+				}	
+				
+			}
+			
+			Ventana.this.repaint();
+
+		}else if(estado==2){
+			    setNumeroPantalla(pantallaActual.FIN_DEL_JUEGO.ordinal());
+		}else if(estado==3){
+				setNumeroPantalla(pantallaActual.PERDIO_JUEGO.ordinal());
+		}
+		
+		
+	}
+
+	protected void Ventana_Nivel_1(char letra, String direccion2, int puertoDestino2) {
+		estado=Ventana.this.nuevoJuego.tutorial_recuperaEstActual(nuevoJuego.getPersonajeA() ,nuevoJuego.getPersonajeB() ,Ventana.this.nuevoJuego.getListMapas().get(1));
+		////////////////////////////////////////////////////////
+		//////////////////////////////////////////////////////
+		//////////////////////////////////////////////////////
+		//////////////IMPORTANTE 			//////////////////
+		//////////////////////////////////////////////////////
+		//////////////////////////////////////////////////////
+		enviarMensaje(direccion2 , puertoDestino2 , letra);
+		////////////////////////////////////////////////////////
+		//////////////////////////////////////////////////////
+		//////////////////////////////////////////////////////
+		//////////////////////////////////////////////////////
+		//////////////////////////////////////////////////////
+		//////////////////////////////////////////////////////
+		if(estado==-1){
+			Ventana.this.nuevoJuego.realizaAccion(nuevoJuego.getPersonajeA()  ,nuevoJuego.getPersonajeB() ,letra,Ventana.this,Ventana.this.nuevoJuego.getListMapas().get(1));
+			Ventana.this.repaint();// actualizar
+		}else if(estado == 0){ 
+			timer.setearQuitarVida(2);
+			timer.activarBajaVidas();
+			System.out.println("DUO");
+			//imprimeEnPantallaLateral(estado);
+			teclaPres=teclaPres+letra;					
+			String codigoExtraido = Ventana.this.nuevoJuego.buscaCodigo(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() ,  Ventana.this.nuevoJuego.getListMapas().get(1));
+			//JOptionPane.showMessageDialog(null,teclaPres);
+			int resultado = Ventana.this.nuevoJuego.estaCodigo(teclaPres,nuevoJuego.getPersonajeB() ,nuevoJuego.getPersonajeB() , codigoExtraido);
+			
+			//AGREGAR HILO DE ERROR
+			//AGREGAR HILO DE TIEMPO
+			
+			//JOptionPane.showMessageDialog(null,codigoExtraido);
+			if(resultado !=-1){
+				if (teclaPres.equals(codigoExtraido)){							
+					timer.desactivarBajaVidas();
+					estado = -1 ; // Cambio el estado para salir del DUO o Accion.
+					teclaPres = "" ;
+					if(numDuo==1){
+					Ventana.this.nuevoJuego.ImprimirDuo1_1(Ventana.this.nuevoJuego.getListMapas().get(0), nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() , Ventana.this);
+					Ventana.this.repaint();
+					numDuo++;
+					}else{
+					if(numDuo==2){
+						Ventana.this.nuevoJuego.ImprimirDuo1_2(Ventana.this.nuevoJuego.getListMapas().get(1), nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() , Ventana.this);
+						Ventana.this.repaint();
+						
+						}
+					}				}
+			}else { //SI se ha equivocado se resetea la teclaPres y se quita 2 puntos de vida
+				teclaPres = "";
+				//EQUIVOCACIÓN DE TECLAS PRESIONADAS
+				quitarVida(letra);						
+			}
+			//imprimeEnPantallaLateral(estado);
+			Ventana.this.repaint();
+				System.out.println(estado);
+
+
+
+		}else if(estado==1){
+					//no contine nada,porque en este nivel no hay acciones especiales
+		}else if(estado==3){
+				setNumeroPantalla(pantallaActual.PERDIO_JUEGO.ordinal());
+		}else if(estado ==2){
+			int t = getNumeroPantalla();
+		    setNumeroPantalla(getNumeroPantalla() + 1);
+			System.out.println(getNumeroPantalla());
+			estado=-1;
+			System.out.println("Estoy afuera");
+			Ventana.this.update(Ventana.this.getGraphics());
+			Ventana.this.IniciarPantalla();
+		}
+		
+	}
+
+	protected void Ventana_Tutorial(char letra, String direccion2, int puertoDestino2) {
+		//imprimeEnPantallaLateral(estado);
+		// -1 -> no pasa nada. 0 -> duo. 1 -> accionEspecial. 2 -> acabo Nivel. 3 -> has perdido.
+		// SE DEBE CAMBIAR A:    -1 -> no pasa nada.
+		//					  0 -> duo. 
+		//                    1 -> acciontriger.
+		// 					  3 -> acabo Nivel.
+		// 				      4 -> has perdido.
+		////////////////////////////////////////////////////////
+		estado=Ventana.this.nuevoJuego.tutorial_recuperaEstActual(nuevoJuego.getPersonajeA() ,nuevoJuego.getPersonajeB() ,Ventana.this.nuevoJuego.getListMapas().get(0));
+		System.out.println(estado);
+		////////////////////////////////////////////////////////
+		//////////////////////////////////////////////////////
+		//////////////////////////////////////////////////////
+		//////////////IMPORTANTE 			//////////////////
+		//////////////////////////////////////////////////////
+		//////////////////////////////////////////////////////
+		enviarMensaje(direccion2 , puertoDestino2 , letra);
+		////////////////////////////////////////////////////////
+		//////////////////////////////////////////////////////
+		//////////////////////////////////////////////////////
+		//////////////////////////////////////////////////////
+		//////////////////////////////////////////////////////
+		//////////////////////////////////////////////////////
+
+		
+		
+		if(estado==-1){
+			timer.desactivarBajaVidas();
+			Ventana.this.nuevoJuego.realizaAccion(nuevoJuego.getPersonajeA()  ,nuevoJuego.getPersonajeB() ,letra,Ventana.this,Ventana.this.nuevoJuego.getListMapas().get(0));
+			Ventana.this.repaint();// actualizar
+		}else if(estado == 0){ // Duo 
+			timer.setearQuitarVida(2);
+			timer.activarBajaVidas();
+			System.out.println("DUO");
+			//imprimeEnPantallaLateral(estado);
+			teclaPres=teclaPres+letra;					
+			String codigoExtraido = Ventana.this.nuevoJuego.buscaCodigo(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() ,  Ventana.this.nuevoJuego.getListMapas().get(0));
+			//JOptionPane.showMessageDialog(null,teclaPres);
+			int resultado = Ventana.this.nuevoJuego.estaCodigo(teclaPres,nuevoJuego.getPersonajeB() ,nuevoJuego.getPersonajeB() , codigoExtraido);
+			
+			//AGREGAR HILO DE ERROR
+			//AGREGAR HILO DE TIEMPO
+			
+			//JOptionPane.showMessageDialog(null,codigoExtraido);
+			if(resultado !=-1){
+				if (teclaPres.equals(codigoExtraido)){							
+					timer.desactivarBajaVidas();
+					estado = -1 ; // Cambio el estado para salir del DUO o Accion.
+					teclaPres = "" ;
+					Ventana.this.nuevoJuego.ImprimirDuo(Ventana.this.nuevoJuego.getListMapas().get(0), nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() , Ventana.this);
+					Ventana.this.repaint();
+				}
+			}else { //SI se ha equivocado se resetea la teclaPres y se quita 2 puntos de vida
+				teclaPres = "";
+				//EQUIVOCACIÓN DE TECLAS PRESIONADAS
+				quitarVida(letra);						
+			}
+			
+			Ventana.this.repaint();
+				System.out.println(estado);
+
+
+
+		}else if(estado==1){
+			timer.setearQuitarVida(1);
+			timer.activarBajaVidas();
+			int subEstado=Ventana.this.nuevoJuego.inmoviliza_cuy(nuevoJuego.getPersonajeA() ,nuevoJuego.getPersonajeB() ,Ventana.this.nuevoJuego.getListMapas().get(0));
+			if(subEstado==0){//no se puede mover el cuy 1
+				if(letra!='w'&&letra!='W'&&letra!='a'&&letra!='A'&&letra!='s'&&letra!='S'&& letra!='d'&&letra!='D'){
+					Ventana.this.nuevoJuego.realizaAccion(nuevoJuego.getPersonajeA()  ,nuevoJuego.getPersonajeB() , letra ,Ventana.this,Ventana.this.nuevoJuego.getListMapas().get(0));
+					Ventana.this.repaint();// acutlizar
+				}
+			}
+			if(subEstado==1){//no se puede mover el cuy 2
+					if(letra!='i'&& letra!='I'&&letra!='j'&&letra!='J'&& letra!='k'&&letra!='K'&& letra!='l'&& letra!='L'){
+						Ventana.this.nuevoJuego.realizaAccion(nuevoJuego.getPersonajeA()  ,nuevoJuego.getPersonajeB() , letra ,Ventana.this,Ventana.this.nuevoJuego.getListMapas().get(0));
+						
+						Ventana.this.repaint();// acutlizar
+					}
+				
+			}
+			if(subEstado==-1){//el cuy libre se encuentra en una posicion para liberar al otro cuy
+				//SI TIENE EXITO
+					timer.desactivarBajaVidas();
+					System.out.println("Accion");
+					teclaPres=teclaPres+letra ; 					
+					String codigoExtraido = Ventana.this.nuevoJuego.buscaCodigo(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() ,  Ventana.this.nuevoJuego.getListMapas().get(0));
+					System.out.println(codigoExtraido);
+					int resultado = Ventana.this.nuevoJuego.estaCodigo(teclaPres,nuevoJuego.getPersonajeB() ,nuevoJuego.getPersonajeB() , codigoExtraido);
+					if(resultado !=-1){
+						if (teclaPres.equals(codigoExtraido)){
+							estado = -1 ; // Cambio el estado para salir del DUO o Accion.
+							teclaPres = "" ;
+							Ventana.this.nuevoJuego.ImprimeAccion(Ventana.this.nuevoJuego.getListMapas().get(0), nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() , Ventana.this);
+							Ventana.this.repaint();
+						}
+						}else {
+							//SI se ha equivocado se resetea la teclaPres y se quita 2 puntos de vida
+							teclaPres = "";
+							//EQUIVOCACIÓN DE TECLAS PRESIONADAS
+							quitarVida(letra);		
+					
+						}
+						Ventana.this.nuevoJuego.cambiaCaracterEnMapa(Ventana.this.nuevoJuego.getListMapas().get(0));
+						
+					}
+					Ventana.this.repaint();
+
+		}else if(estado==3){
+			setNumeroPantalla(pantallaActual.PERDIO_JUEGO.ordinal());
+			JOptionPane.showMessageDialog(null,"Adios");
+			Ventana.this.IniciarPantalla();
+		}				
+		estado=Ventana.this.nuevoJuego.tutorial_recuperaEstActual(nuevoJuego.getPersonajeA() ,nuevoJuego.getPersonajeB() ,Ventana.this.nuevoJuego.getListMapas().get(0));		
+		if(estado ==2){
+			int t = getNumeroPantalla();
+		    setNumeroPantalla(getNumeroPantalla() + 1);
+			System.out.println(getNumeroPantalla());
+			estado=-1;
+			System.out.println("Estoy afuera");
+			Ventana.this.update(Ventana.this.getGraphics());
+			Ventana.this.IniciarPantalla();
+		}
+		
+		System.out.println(estado);
+
+		
+	}
+
+	private void enviarMensaje(String direccion2, int puertoDestino2, char letra) {
+		Socket socket = null;
+		BufferedWriter bWriter= null;
+		try {
+			socket = new Socket(direccion,puerto);
+			bWriter = new BufferedWriter(
+					new OutputStreamWriter(socket.getOutputStream()));
+			bWriter.write(letra);
+			System.out.println( "Se envio letra " + letra);
+			bWriter.flush();
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try{ if (bWriter != null){bWriter.close();} }  catch(Exception e1){e1.printStackTrace();}
+			try{ if (socket != null){socket.close();} }  catch(Exception e1){e1.printStackTrace();}			
+		}
+		
+	}
 }
+
+
+
+
