@@ -335,7 +335,7 @@ public class Juego implements Renderizador{
 public void ImprimeAccion(Mapa mapa, PersonajePrincipal cuy2, PersonajePrincipal  cuy1, JFrame ven){
 		
 		cuy1.setPosX(7);
-		cuy1.setPosY(11);		
+		cuy1.setPosY(11);
 		ImprimirMapa(mapa,cuy1,cuy2,ven);
 		ven.update((Graphics2D)ven.getGraphics());
 		//ven.repaint();

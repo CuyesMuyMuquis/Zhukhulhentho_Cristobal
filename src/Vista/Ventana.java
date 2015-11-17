@@ -77,7 +77,7 @@ public class Ventana extends JFrame implements Renderizador{
 	private BufferedImage fondoHistoria;
 	
 	// Nivel1
-	private  Tutorial  tutorial = new Tutorial() ;
+	private Tutorial  tutorial = new Tutorial() ;
 	private Historia_2 historia_2 = new Historia_2();
 	private Nivel_1 nivel_1 = new Nivel_1();
 	private Historia_3 historia_3 = new Historia_3();
@@ -667,12 +667,12 @@ public class Ventana extends JFrame implements Renderizador{
 				Graphics2D graph2D = (Graphics2D)bufferStrategy.getDrawGraphics();	
 				graph2D.drawImage( tutorial.imgFondo ,0, ALTO_BARRA_MENU,this);
 				//graph2D.drawImage( imgLateral, ANCHO_R, ALTO_BARRA_MENU , this);
-				if(estado == 1){
-					graph2D.drawImage(mostro, 13*64, 4*64, this);
-				}
+
 		        graph2D.drawImage ( gif ,nuevoJuego.getPersonajeA().getPosY()*TILE   ,ALTO_BARRA_MENU + nuevoJuego.getPersonajeA() .getPosX()*TILE, this);		   
 		        graph2D.drawImage (gif2 ,nuevoJuego.getPersonajeB() .getPosY()*TILE   ,ALTO_BARRA_MENU + nuevoJuego.getPersonajeB().getPosX()*TILE, this);
-		        
+				if(estado == 1){
+					graph2D.drawImage(mostro, 13*TILE, 4*TILE, this);
+				}
 		        
 		    	bufferStrategy.show();	
 			}else if (getNumeroPantalla() == pantallaActual.HISTORIA_2.ordinal()){
