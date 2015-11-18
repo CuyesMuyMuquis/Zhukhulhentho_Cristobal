@@ -256,7 +256,8 @@ public class Ventana extends JFrame implements Renderizador{
 		}
 	}
 	public void Ventana_Nivel_2(char letra){
-		estado=Ventana.this.nuevoJuego.tutorial_recuperaEstActual(nuevoJuego.getPersonajeA() ,nuevoJuego.getPersonajeB() ,Ventana.this.nuevoJuego.getListMapas().get(2));	
+		estado=Ventana.this.nuevoJuego.tutorial_recuperaEstActual(nuevoJuego.getPersonajeA() ,nuevoJuego.getPersonajeB() ,Ventana.this.nuevoJuego.getListMapas().get(2));
+		enviarMensaje(direccion, letra, letra);
 		if(estado==-1){
 			timer.desactivarBajaVidas();
 			Ventana.this.nuevoJuego.realizaAccion(nuevoJuego.getPersonajeA()  ,nuevoJuego.getPersonajeB() ,letra,Ventana.this,Ventana.this.nuevoJuego.getListMapas().get(2));
@@ -565,7 +566,8 @@ public class Ventana extends JFrame implements Renderizador{
 	}
 	
 	protected void Ventana_Nivel_2(char letra, String direccion2, int puertoDestino2) {
-		estado=Ventana.this.nuevoJuego.tutorial_recuperaEstActual(nuevoJuego.getPersonajeA() ,nuevoJuego.getPersonajeB() ,Ventana.this.nuevoJuego.getListMapas().get(2));	
+		estado=Ventana.this.nuevoJuego.tutorial_recuperaEstActual(nuevoJuego.getPersonajeA() ,nuevoJuego.getPersonajeB() ,Ventana.this.nuevoJuego.getListMapas().get(2));
+		enviarMensaje(direccion2 , puertoDestino2 , letra);
 		if(estado==-1){
 			timer.desactivarBajaVidas();
 			Ventana.this.nuevoJuego.realizaAccion(nuevoJuego.getPersonajeA()  ,nuevoJuego.getPersonajeB() ,letra,Ventana.this,Ventana.this.nuevoJuego.getListMapas().get(2));
