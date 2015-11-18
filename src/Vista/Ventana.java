@@ -555,7 +555,7 @@ public class Ventana extends JFrame implements Renderizador{
 		if( letra == 'g' ||letra == 'G'){
 			salvarJuego();
 			JOptionPane.showMessageDialog(null, "El juego se ha guardado");
-			return ;					
+			//return ;					
 		}				
 		if (getNumeroPantalla() == pantallaActual.TUTORIAL.ordinal() ){
 			Ventana_Tutorial(letra);					
@@ -572,11 +572,21 @@ public class Ventana extends JFrame implements Renderizador{
 			@Override
 			public void keyPressed(KeyEvent e) {
 				
-				char letra = Character.toUpperCase(e.getKeyChar());								
+				char letra = Character.toUpperCase(e.getKeyChar());	
+				
+				if(letra == 'p' || letra == 'P'){
+					timer.cambiarEstadoPausa();
+					if(timer.estaEnPausa()) 
+						JOptionPane.showMessageDialog(null, "El juego está en pausa");
+					else
+						JOptionPane.showMessageDialog(null, "El juego se ha reanudado");
+				}
+				
+				
 				if( letra == 'g' ||letra == 'G'){
 					salvarJuego();
 					JOptionPane.showMessageDialog(null, "El juego se ha guardado");
-					return ;					
+					//return ;					
 				}				
 				if (getNumeroPantalla() == pantallaActual.TUTORIAL.ordinal() ){
 					if (opcionJuego == MULTIPLAYER )
