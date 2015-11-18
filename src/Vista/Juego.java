@@ -215,6 +215,21 @@ public class Juego implements Renderizador{
 		flag=interpreteComando.VerificaEstado(mapa, perA, perB);
 		return flag;
 	}
+	
+	public int nivel2_recuperaEstActual(PersonajePrincipal perA,PersonajePrincipal perB,Mapa mapa){
+		int flag=-1;
+		if (perA.getPosY() == 15 && perB.getPosY() == 15) {
+			flag =  2 ;
+			return flag;
+		}
+		if(perA.getVida()<=0){
+			flag=3;
+			return flag;
+		}
+		flag=interpreteComando.VerificaEstado2(mapa, perA, perB);
+		return flag;
+	}
+	
 	public void realizaAccion(PersonajePrincipal perA,PersonajePrincipal perB,char letra, JFrame vent, Mapa mapaActual){
 		int direccion,entero;
 		char entrada;
@@ -1090,6 +1105,96 @@ public void ImprimeAccion2_2(Mapa mapa, PersonajePrincipal cuy2, PersonajePrinci
 		return cadena;
 	}
 	
+	public int buscaCodigo2(int estado,PersonajePrincipal perA,PersonajePrincipal perB,Mapa mapaActual){
+		String cadena = "";
+		int posMapa2= 0;
+		ArrayList<AccionesEspeciales> lista = mapaActual.getListaAcciones();
+		for(int i = 0; i < lista.size(); i++){
+			if ( lista.get(i).getTipo() == estado){
+				if( perA.getPosX() == lista.get(i).getPosXCuy1() && perA.getPosY() == lista.get(i).getPosYCuy1() && perB.getPosX() == lista.get(i).getPosXCuy2() && perB.getPosY() == lista.get(i).getPosYCuy2()){
+					cadena=lista.get(i).getCombinacion();
+					if(cadena == "IUOL"){
+						posMapa2 = 1;
+						return posMapa2;
+					}
+					if(cadena == "WQED"){
+						posMapa2 = 0;
+						return posMapa2;
+					}
+					if(cadena == "LDOEQUOE"){
+						posMapa2 = 2;
+						return posMapa2;
+					}
+				}
+				if(perA.getPosX() == lista.get(i).getPosXCuy1() && perA.getPosY() == lista.get(i).getPosYCuy1() && perB.getPosX() == lista.get(i).getPosXCuy2() && perB.getPosY() == lista.get(i).getPosYCuy2()){
+					cadena=lista.get(i).getCombinacion();
+					if(cadena == "IUOL"){
+						posMapa2 = 1;
+						return posMapa2;
+					}
+					if(cadena == "WQED"){
+						posMapa2 = 0;
+						return posMapa2;
+					}
+					if(cadena == "LDOEQUOE"){
+						posMapa2 = 2;
+						return posMapa2;
+					}
+				}
+				else{
+					if(lista.get(i).getPosXCuy1() == -1 && lista.get(i).getPosYCuy1() == -1 && perB.getPosX() == lista.get(i).getPosXCuy2() && perB.getPosY() == lista.get(i).getPosYCuy2()){
+						cadena=lista.get(i).getCombinacion();
+						if(cadena == "IUOL"){
+							posMapa2 = 1;
+							return posMapa2;
+						}
+						if(cadena == "WQED"){
+							posMapa2 = 0;
+							return posMapa2;
+						}
+						if(cadena == "LDOEQUOE"){
+							posMapa2 = 2;
+							return posMapa2;
+						}
+					}
+					else{
+						if(perA.getPosX() == lista.get(i).getPosXCuy1() && perA.getPosY() == lista.get(i).getPosYCuy1() && lista.get(i).getPosXCuy2() == -1 && lista.get(i).getPosYCuy2() == -1){
+							cadena=lista.get(i).getCombinacion();
+							if(cadena == "IUOL"){
+								posMapa2 = 1;
+								return posMapa2;
+							}
+							if(cadena == "WQED"){
+								posMapa2 = 0;
+								return posMapa2;
+							}
+							if(cadena == "LDOEQUOE"){
+								posMapa2 = 2;
+								return posMapa2;
+							}
+						}
+					}
+
+
+				}
+			}		 		
+		}
+		if(cadena == "IUOL"){
+			posMapa2 = 1;
+			return posMapa2;
+		}
+		if(cadena == "WQED"){
+			posMapa2 = 0;
+			return posMapa2;
+		}
+		if(cadena == "LDOEQUOE"){
+			posMapa2 = 2;
+			return posMapa2;
+		}
+		return posMapa2;
+	}
+	
+	
 	public int buscaTiempoEspera(int estado,PersonajePrincipal perA,PersonajePrincipal perB,Mapa mapaActual){
 		int tiempoEspera=0;
 		
@@ -1141,7 +1246,7 @@ public void ImprimeAccion2_2(Mapa mapa, PersonajePrincipal cuy2, PersonajePrinci
 		}
 		
 	}
-	public int inmoviliza_cuy2(PersonajePrincipal perA, PersonajePrincipal perB, Mapa mapa) {
+	public int inmoviliza_cuy2(PersonajePrincipal perA, PersonajePrincipal perB, Mapa mapaActual) {
 	ArrayList<AccionesEspeciales> lista=mapaActual.getListaAcciones();
 		
 		for(int i=0;i<lista.size();i++){
