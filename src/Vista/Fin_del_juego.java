@@ -10,6 +10,6 @@ public class Fin_del_juego {
 
 	public BufferedImage  imgFondo;		
 	public void cargarImagen() throws IOException{
-		imgFondo = ImageIO.read(new File("mapa_nivel_1.jpg"));	
+		imgFondo = ImageIO.read(new File("ganar.png"));	
 	}
 }

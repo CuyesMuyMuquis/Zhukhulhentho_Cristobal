@@ -141,7 +141,7 @@ public class Ventana extends JFrame implements Renderizador{
                 String combinacion = Ventana.this.nuevoJuego.getListMapas().get(mapaReal).getListaAcciones().get(posMapa).getCombinacion();
                 Font fuente=new Font("Monospaced", Font.BOLD, 26);
                 graph2D.setFont(fuente);
-                graph2D.setColor(Color.BLACK);
+                graph2D.setColor(Color.WHITE);
                 graph2D.drawString("Debe presionar:", ANCHO_R+10, 150);
                 fuente.deriveFont(36);	                
                 graph2D.drawString(combinacion, ANCHO_R+10, 170);
@@ -183,6 +183,11 @@ public class Ventana extends JFrame implements Renderizador{
 			Ventana.this.repaint();// actualizar
 			estado=Ventana.this.nuevoJuego.tutorial_recuperaEstActual(nuevoJuego.getPersonajeA() ,nuevoJuego.getPersonajeB() ,Ventana.this.nuevoJuego.getListMapas().get(1));
 		}else if(estado == 0){ 
+			
+		    int segundos = Ventana.this.nuevoJuego.buscaTiempoEspera(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB(), Ventana.this.nuevoJuego.getListMapas().get(1));
+			System.out.print(segundos);
+			timer.TiempoEsperaEnDuo(segundos);
+			
 			timer.setearQuitarVida(2);
 			timer.activarBajaVidas();
 			System.out.println("DUO");
@@ -266,6 +271,11 @@ public class Ventana extends JFrame implements Renderizador{
 		Ventana.this.repaint();// actualizar
 		estado=Ventana.this.nuevoJuego.nivel2_recuperaEstActual(nuevoJuego.getPersonajeA() ,nuevoJuego.getPersonajeB() ,Ventana.this.nuevoJuego.getListMapas().get(2));	
 	}else if(estado == 0){ 
+		
+	    int segundos = Ventana.this.nuevoJuego.buscaTiempoEspera(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB(), Ventana.this.nuevoJuego.getListMapas().get(2));
+		System.out.print(segundos);
+		timer.TiempoEsperaEnDuo(segundos);
+		
 		timer.setearQuitarVida(2);
 		timer.activarBajaVidas();
 		System.out.println("DUO");
@@ -294,6 +304,12 @@ public class Ventana extends JFrame implements Renderizador{
 			System.out.println(estado);
 			
 	}else if(estado==1){
+		//CAMBIO DE LA VIDA
+		timer.SetTipo(estado);
+		int segundos = Ventana.this.nuevoJuego.buscaTiempoEspera(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB(), Ventana.this.nuevoJuego.getListMapas().get(2));
+		System.out.print(segundos);
+		timer.TiempoEsperaEnDuo(segundos);
+		
 		timer.setearQuitarVida(2);
 		timer.activarBajaVidas();
 		int subEstado=Ventana.this.nuevoJuego.inmoviliza_cuy2(nuevoJuego.getPersonajeA() ,nuevoJuego.getPersonajeB() ,Ventana.this.nuevoJuego.getListMapas().get(2));
@@ -306,7 +322,8 @@ public class Ventana extends JFrame implements Renderizador{
 			String codigoExtraido = Ventana.this.nuevoJuego.buscaCodigo(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() ,  Ventana.this.nuevoJuego.getListMapas().get(2));
 			int resultado = Ventana.this.nuevoJuego.estaCodigo(teclaPres,nuevoJuego.getPersonajeB() ,nuevoJuego.getPersonajeB() , codigoExtraido);
 			if(resultado !=-1){
-				if (teclaPres.equals(codigoExtraido)){							
+				if (teclaPres.equals(codigoExtraido)){
+					timer.SetTipo(-1);
 					timer.desactivarBajaVidas();
 					estado = -1 ; // Cambio el estado para salir del DUO o Accion.
 					teclaPres = "" ;
@@ -328,7 +345,8 @@ public class Ventana extends JFrame implements Renderizador{
 			
 			int resultado = Ventana.this.nuevoJuego.estaCodigo(teclaPres,nuevoJuego.getPersonajeB() ,nuevoJuego.getPersonajeB() , codigoExtraido);
 			if(resultado !=-1){
-				if (teclaPres.equals(codigoExtraido)){							
+				if (teclaPres.equals(codigoExtraido)){
+					timer.SetTipo(-1);
 					timer.desactivarBajaVidas();
 					estado = -1 ; // Cambio el estado para salir del DUO o Accion.
 					teclaPres = "" ;
@@ -348,6 +366,14 @@ public class Ventana extends JFrame implements Renderizador{
 
 	}else if(estado==2){
 		    setNumeroPantalla(pantallaActual.FIN_DEL_JUEGO.ordinal());
+		    //int t = getNumeroPantalla();
+		    //setNumeroPantalla(getNumeroPantalla() + 1);
+			System.out.println(getNumeroPantalla());
+			estado=-1;
+			System.out.println("Estoy afuera");
+			Ventana.this.update(Ventana.this.getGraphics());
+			Ventana.this.IniciarPantalla();
+		    
 	}else if(estado==3){
 			setNumeroPantalla(pantallaActual.PERDIO_JUEGO.ordinal());
 	}
