@@ -1,7 +1,7 @@
 <Modelo.StoredGame>
   <personajeA>
     <ancho>10</ancho>
-    <alto>190</alto>
+    <alto>10</alto>
     <posicion>
       <fila>7</fila>
       <columna>7</columna>
@@ -248,7 +248,7 @@
   </personajeA>
   <personajeB>
     <ancho>10</ancho>
-    <alto>190</alto>
+    <alto>10</alto>
     <posicion>
       <fila>11</fila>
       <columna>7</columna>
@@ -493,6 +493,11 @@
     </estados>
     <estadoActual>0</estadoActual>
   </personajeB>
+<<<<<<< HEAD
   <vida>7</vida>
+=======
+  <vida>6</vida>
+>>>>>>> refs/remotes/origin/Carlo4
   <numMapaActual>4</numMapaActual>
+  <posCombinacion>2</posCombinacion>
 </Modelo.StoredGame>

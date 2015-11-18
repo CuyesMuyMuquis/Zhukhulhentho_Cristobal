@@ -51,7 +51,7 @@ public class Ventana extends JFrame implements Renderizador{
 	public static int puerto ;
 	public static String direccion ;
 	public static int opcionJuego ;
-	
+	public static int posMapa = 0;
 	
 	private  BufferedImage gif, gif2 ; // = ImageIO.read(new File("cuy_1.jpg"));	
 	
@@ -81,6 +81,7 @@ public class Ventana extends JFrame implements Renderizador{
 	private BufferedImage  imgLateral;
 	private BufferStrategy bufferStrategy;		
 	private BufferedImage corazon;
+	private BufferedImage mostro;
 	private ThreadTimer timer;
 	
 	
@@ -97,10 +98,11 @@ public class Ventana extends JFrame implements Renderizador{
 	private Perdio_juego perdio_juego = new Perdio_juego();
 	private Fin_del_juego fin_del_juego  = new Fin_del_juego();
 	
-	public void imprimeEnPantallaLateral(int estado){
+	public void imprimeEnPantallaLateral(int estado, int numMapa){
+		int mapaReal = 0;		
 		Graphics2D graph2D = (Graphics2D)bufferStrategy.getDrawGraphics();
 		graph2D.setFont(new Font("Monspaced", Font.BOLD, 26));
-		graph2D.setColor(Color.BLACK);
+		graph2D.setColor(Color.WHITE);
 		int vida = PersonajePrincipal.getVida();
 		System.out.println(vida);
 		graph2D.drawImage( imgLateral, ANCHO_R, ALTO_BARRA_MENU , this);
@@ -114,12 +116,29 @@ public class Ventana extends JFrame implements Renderizador{
 			graph2D.drawString("" + vida, ANCHO_R+60, 80);
 		}
 		
-		
+		if(numMapa == 2){
+			mapaReal = 0;
+		}else{
+			if(numMapa == 3){
+				posMapa = 0;
+			}
+			if(numMapa == 4){
+				mapaReal = 1;
+			}else{
+				if(numMapa == 5){
+					posMapa = 0;
+				}
+				if(numMapa == 6){
+					mapaReal = 2;
+				}
+			}
+		}
+			
 		if(estado == 0||estado==1){					
 				//graph2D.clearRect(ANCHO_R+10, 120, 250, 56);
 				//graph2D.clearRect(ANCHO_R+10, 170, 250, 56);
 			
-                String combinacion = Ventana.this.nuevoJuego.getListMapas().get(0).getListaAcciones().get(estado).getCombinacion();
+                String combinacion = Ventana.this.nuevoJuego.getListMapas().get(mapaReal).getListaAcciones().get(posMapa).getCombinacion();
                 Font fuente=new Font("Monospaced", Font.BOLD, 26);
                 graph2D.setFont(fuente);
                 graph2D.setColor(Color.BLACK);
@@ -152,7 +171,7 @@ public class Ventana extends JFrame implements Renderizador{
 		}
 	}
 	public void salvarJuego(){
-		StoredGame game = new StoredGame(Ventana.this.nuevoJuego.getPersonajeA(),Ventana.this.nuevoJuego.getPersonajeB(),getNumeroPantalla());
+		StoredGame game = new StoredGame(Ventana.this.nuevoJuego.getPersonajeA(),Ventana.this.nuevoJuego.getPersonajeB(),getNumeroPantalla(),posMapa);
 		Serializar2 serial = new Serializar2();
 		serial.Guardar(game);		
 	}
@@ -166,7 +185,6 @@ public class Ventana extends JFrame implements Renderizador{
 			timer.setearQuitarVida(2);
 			timer.activarBajaVidas();
 			System.out.println("DUO");
-			//imprimeEnPantallaLateral(estado);
 			teclaPres=teclaPres+letra;					
 			String codigoExtraido = Ventana.this.nuevoJuego.buscaCodigo(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() ,  Ventana.this.nuevoJuego.getListMapas().get(1));
 			//JOptionPane.showMessageDialog(null,teclaPres);
@@ -184,12 +202,13 @@ public class Ventana extends JFrame implements Renderizador{
 					if(numDuo==1){
 					Ventana.this.nuevoJuego.ImprimirDuo1_1(Ventana.this.nuevoJuego.getListMapas().get(0), nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() , Ventana.this);
 					Ventana.this.repaint();
+					posMapa++;
 					numDuo++;
 					}else{
 					if(numDuo==2){
 						Ventana.this.nuevoJuego.ImprimirDuo1_2(Ventana.this.nuevoJuego.getListMapas().get(1), nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() , Ventana.this);
 						Ventana.this.repaint();
-						
+						posMapa++;
 						}
 					}
 					/*
@@ -216,7 +235,7 @@ public class Ventana extends JFrame implements Renderizador{
 				//EQUIVOCACIÓN DE TECLAS PRESIONADAS
 				quitarVida(letra);						
 			}
-			//imprimeEnPantallaLateral(estado);
+
 			Ventana.this.repaint();
 				System.out.println(estado);
 
@@ -259,13 +278,14 @@ public class Ventana extends JFrame implements Renderizador{
 					teclaPres = "" ;
 					Ventana.this.nuevoJuego.ImprimirDuo2(Ventana.this.nuevoJuego.getListMapas().get(2), nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() , Ventana.this);
 					Ventana.this.repaint();
+					posMapa++;
 				}
 			}else { //SI se ha equivocado se resetea la teclaPres y se quita 2 puntos de vida
 				teclaPres = "";
 				//EQUIVOCACIÓN DE TECLAS PRESIONADAS
 				quitarVida(letra);						
 			}
-			//imprimeEnPantallaLateral(estado);
+
 			Ventana.this.repaint();
 				System.out.println(estado);
 				
@@ -285,6 +305,7 @@ public class Ventana extends JFrame implements Renderizador{
 						teclaPres = "" ;
 						Ventana.this.nuevoJuego.ImprimeAccion2_1(Ventana.this.nuevoJuego.getListMapas().get(2), nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() , Ventana.this);
 						Ventana.this.repaint();
+						posMapa++;
 					}
 				}else { //SI se ha equivocado se resetea la teclaPres y se quita 2 puntos de vida
 					teclaPres = "";
@@ -304,6 +325,7 @@ public class Ventana extends JFrame implements Renderizador{
 						teclaPres = "" ;
 						Ventana.this.nuevoJuego.ImprimeAccion2_2(Ventana.this.nuevoJuego.getListMapas().get(2), nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() , Ventana.this);
 						Ventana.this.repaint();
+						posMapa++;
 					}
 				}else { //SI se ha equivocado se resetea la teclaPres y se quita 2 puntos de vida
 					teclaPres = "";
@@ -341,6 +363,12 @@ public class Ventana extends JFrame implements Renderizador{
 			Ventana.this.nuevoJuego.realizaAccion(nuevoJuego.getPersonajeA()  ,nuevoJuego.getPersonajeB() ,letra,Ventana.this,Ventana.this.nuevoJuego.getListMapas().get(0));
 			Ventana.this.repaint();// actualizar
 		}else if(estado == 0){ // Duo 
+			
+			//Tiempo de espera para completar el duo (en segundos)
+		    int segundos = Ventana.this.nuevoJuego.buscaTiempoEspera(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB(), Ventana.this.nuevoJuego.getListMapas().get(0));
+			System.out.print(segundos);
+			timer.TiempoEsperaEnDuo(segundos);
+			
 			timer.setearQuitarVida(2);
 			timer.activarBajaVidas();
 			System.out.println("DUO");
@@ -361,6 +389,7 @@ public class Ventana extends JFrame implements Renderizador{
 					teclaPres = "" ;
 					Ventana.this.nuevoJuego.ImprimirDuo(Ventana.this.nuevoJuego.getListMapas().get(0), nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() , Ventana.this);
 					Ventana.this.repaint();
+					posMapa++;
 					/*
 				Ventana.this.nuevoJuego.ImprimirDuo_t_1(Ventana.this.nuevoJuego.getListMapas().get(0), nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() , Ventana.this);
 				Ventana.this.update((Graphics2D)Ventana.this.getGraphics());
@@ -392,6 +421,12 @@ public class Ventana extends JFrame implements Renderizador{
 
 
 		}else if(estado==1){
+			timer.SetTipo(estado);
+			//Tiempo de espera para completar la accion (en segundos)
+		    int segundos = Ventana.this.nuevoJuego.buscaTiempoEspera(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB(), Ventana.this.nuevoJuego.getListMapas().get(0));
+			System.out.print("Segundos:"+segundos);
+			timer.TiempoEsperaEnDuo(segundos);
+			
 			timer.setearQuitarVida(1);
 			timer.activarBajaVidas();
 			int subEstado=Ventana.this.nuevoJuego.inmoviliza_cuy(nuevoJuego.getPersonajeA() ,nuevoJuego.getPersonajeB() ,Ventana.this.nuevoJuego.getListMapas().get(0));
@@ -411,7 +446,7 @@ public class Ventana extends JFrame implements Renderizador{
 			}
 			if(subEstado==-1){//el cuy libre se encuentra en una posicion para liberar al otro cuy
 				//SI TIENE EXITO
-					timer.desactivarBajaVidas();
+					
 					System.out.println("Accion");
 					//imprimeEnPantallaLateral(estado);
 					teclaPres=teclaPres+letra ; 					
@@ -426,6 +461,8 @@ public class Ventana extends JFrame implements Renderizador{
 					//JOptionPane.showMessageDialog(null,codigoExtraido);
 					if(resultado !=-1){
 						if (teclaPres.equals(codigoExtraido)){
+							timer.desactivarBajaVidas();
+							timer.SetTipo(-1);
 							estado = -1 ; // Cambio el estado para salir del DUO o Accion.
 							teclaPres = "" ;
 							Ventana.this.nuevoJuego.ImprimeAccion(Ventana.this.nuevoJuego.getListMapas().get(0), nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() , Ventana.this);
@@ -557,7 +594,6 @@ public class Ventana extends JFrame implements Renderizador{
 				//EQUIVOCACIÓN DE TECLAS PRESIONADAS
 				quitarVida(letra);						
 			}
-			//imprimeEnPantallaLateral(estado);
 			Ventana.this.repaint();
 				System.out.println(estado);
 				
@@ -629,7 +665,6 @@ public class Ventana extends JFrame implements Renderizador{
 			timer.setearQuitarVida(2);
 			timer.activarBajaVidas();
 			System.out.println("DUO");
-			//imprimeEnPantallaLateral(estado);
 			teclaPres=teclaPres+letra;					
 			String codigoExtraido = Ventana.this.nuevoJuego.buscaCodigo(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() ,  Ventana.this.nuevoJuego.getListMapas().get(1));
 			//JOptionPane.showMessageDialog(null,teclaPres);
@@ -679,7 +714,6 @@ public class Ventana extends JFrame implements Renderizador{
 				//EQUIVOCACIÓN DE TECLAS PRESIONADAS
 				quitarVida(letra);						
 			}
-			//imprimeEnPantallaLateral(estado);
 			Ventana.this.repaint();
 				System.out.println(estado);
 
@@ -702,7 +736,7 @@ public class Ventana extends JFrame implements Renderizador{
 	}
 
 	public void Ventana_Tutorial(char letra, String direccion2, int puertoDestino) {
-		//imprimeEnPantallaLateral(estado);
+
 		// -1 -> no pasa nada. 0 -> duo. 1 -> accionEspecial. 2 -> acabo Nivel. 3 -> has perdido.
 		// SE DEBE CAMBIAR A:    -1 -> no pasa nada.
 		//					  0 -> duo. 
@@ -727,7 +761,7 @@ public class Ventana extends JFrame implements Renderizador{
 			timer.setearQuitarVida(2);
 			timer.activarBajaVidas();
 			System.out.println("DUO");
-			//imprimeEnPantallaLateral(estado);
+
 			teclaPres=teclaPres+letra;					
 			String codigoExtraido = Ventana.this.nuevoJuego.buscaCodigo(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() ,  Ventana.this.nuevoJuego.getListMapas().get(0));
 			//JOptionPane.showMessageDialog(null,teclaPres);
@@ -768,7 +802,6 @@ public class Ventana extends JFrame implements Renderizador{
 				//EQUIVOCACIÓN DE TECLAS PRESIONADAS
 				quitarVida(letra);						
 			}
-			//imprimeEnPantallaLateral(estado);
 			Ventana.this.repaint();
 				System.out.println(estado);
 
@@ -796,7 +829,7 @@ public class Ventana extends JFrame implements Renderizador{
 				//SI TIENE EXITO
 					timer.desactivarBajaVidas();
 					System.out.println("Accion");
-					//imprimeEnPantallaLateral(estado);
+
 					teclaPres=teclaPres+letra ; 					
 					String codigoExtraido = Ventana.this.nuevoJuego.buscaCodigo(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() ,  Ventana.this.nuevoJuego.getListMapas().get(0));
 					//JOptionPane.showMessageDialog(null,teclaPres);
@@ -965,6 +998,7 @@ public class Ventana extends JFrame implements Renderizador{
 							Serializar2 serie = new Serializar2();
 							StoredGame game = serie.DesGuardar();
 							nuevoJuego = new Juego(game);
+							posMapa = game.posCombinacion;
 							PersonajePrincipal.setVida(game.vida);
 							Ventana.this.setNumeroPantalla(game.numMapaActual);
 							System.out.println(game.numMapaActual);
@@ -1029,7 +1063,7 @@ public class Ventana extends JFrame implements Renderizador{
 	
 				}else if (getNumeroPantalla() == pantallaActual.TUTORIAL.ordinal()){
 					 tutorial.cargarImagen(this);
-									
+					 mostro = ImageIO.read(new File("escarabajo_ataca.gif"));				
 				}else if (getNumeroPantalla() == pantallaActual.HISTORIA_2.ordinal()){
 					historia_2.cargarImagen(this);					
 				}else if (getNumeroPantalla() == pantallaActual.NIVEL_1.ordinal()){
@@ -1038,6 +1072,7 @@ public class Ventana extends JFrame implements Renderizador{
 					historia_3.cargarImagen();
 				}else if (getNumeroPantalla() == pantallaActual.NIVEL_2.ordinal()){
 					nivel_2.cargarImagen();
+					mostro = ImageIO.read(new File("rata_ataca.gif"));	
 				}else if (getNumeroPantalla() == pantallaActual.PERDIO_JUEGO.ordinal()){
 					perdio_juego.cargarImagen();
 				}else if (getNumeroPantalla() == pantallaActual.FIN_DEL_JUEGO.ordinal()){
@@ -1060,7 +1095,7 @@ public class Ventana extends JFrame implements Renderizador{
 			//bufferStrategy.show();	
 		}
 		try{
-			imprimeEnPantallaLateral(estado); //Muestra la información en la barra lateral
+			imprimeEnPantallaLateral(estado, getNumeroPantalla()); //Muestra la información en la barra lateral
 			if (getNumeroPantalla() == pantallaActual.MENU.ordinal()){
 
 				Graphics2D graph2D = (Graphics2D)bufferStrategy.getDrawGraphics(); 
@@ -1080,7 +1115,9 @@ public class Ventana extends JFrame implements Renderizador{
 				//graph2D.drawImage( imgLateral, ANCHO_R, ALTO_BARRA_MENU , this);
 		        graph2D.drawImage ( gif ,nuevoJuego.getPersonajeA().getPosY()*TILE   ,ALTO_BARRA_MENU + nuevoJuego.getPersonajeA() .getPosX()*TILE, this);		   
 		        graph2D.drawImage (gif2 ,nuevoJuego.getPersonajeB() .getPosY()*TILE   ,ALTO_BARRA_MENU + nuevoJuego.getPersonajeB().getPosX()*TILE, this);
-		        
+		        if(estado == 1){
+		        	graph2D.drawImage ( mostro ,13*TILE   ,ALTO_BARRA_MENU + 4*TILE, this);
+		        }
 		        
 		    	bufferStrategy.show();	
 			}else if (getNumeroPantalla() == pantallaActual.HISTORIA_2.ordinal()){
@@ -1115,7 +1152,10 @@ public class Ventana extends JFrame implements Renderizador{
 				graph2D.drawImage( nivel_2.imgFondo ,0, ALTO_BARRA_MENU,this);
 				graph2D.drawImage ( gif ,nuevoJuego.getPersonajeA().getPosY()*TILE   ,ALTO_BARRA_MENU + nuevoJuego.getPersonajeA() .getPosX()*TILE, this);		   
 		        graph2D.drawImage (gif2 ,nuevoJuego.getPersonajeB() .getPosY()*TILE   ,ALTO_BARRA_MENU + nuevoJuego.getPersonajeB().getPosX()*TILE, this);
-				bufferStrategy.show();
+		        if(estado == 1 && posMapa == 2){
+		        	graph2D.drawImage ( mostro ,11*TILE   ,ALTO_BARRA_MENU + 4*TILE, this);
+		        }
+		        bufferStrategy.show();
 				
 			}else if (getNumeroPantalla() == pantallaActual.PERDIO_JUEGO.ordinal()){
 				Graphics2D graph2D = (Graphics2D)bufferStrategy.getDrawGraphics();				

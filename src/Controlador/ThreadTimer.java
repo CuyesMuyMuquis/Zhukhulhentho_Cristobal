@@ -7,21 +7,43 @@ import Modelo.PersonajePrincipal;
 
 public class ThreadTimer extends Thread{
 
-	private int contador ;
 	private boolean estaAtrapado ; 
 	private boolean matarHilo;
+	private int tipo;
 	private JFrame vent;
 	private int quitarVida ; 
+	boolean enPausa;
+	int TiempoEsperaDuo; 
 	
 	public ThreadTimer(JFrame ventana){
 	
 		vent = ventana;
-		contador = 0  ; 
+
 		estaAtrapado = false ;  
 	    matarHilo = false;
+	    enPausa = false;
+	    tipo = -1;
+	    TiempoEsperaDuo = 0;
 	
 	}
 
+	public void SetTipo(int estado){
+		tipo = estado;
+	}
+	
+	public void TiempoEsperaEnDuo(int valor){
+		valor *= 1000;
+		TiempoEsperaDuo = valor;
+	}
+	
+	public void cambiarEstadoPausa(){
+		enPausa=!enPausa;
+	}
+	
+	public boolean estaEnPausa(){
+		return enPausa;
+	}
+	
 	public void setearQuitarVida(int quitaVida){
 		this.quitarVida = quitaVida ; 
 	}
@@ -39,24 +61,38 @@ public class ThreadTimer extends Thread{
 	
 	public void run(){
 		try{
-			contador = 0;
+	
 			while(!matarHilo){
 			    ThreadTimer.sleep(1000);
-		
-				while(estaAtrapado){
-				    ThreadTimer.sleep(1000);
-					contador++ ;			
-					if (contador % 2 == 0 ){
-						//System.out.println("vida menos");
-						PersonajePrincipal.setVida(PersonajePrincipal.getVida() - quitarVida );
-						vent.update(vent.getGraphics());
+				//Al entrar al Duo, Accion o mosntruo
+				if(estaAtrapado){
+			    	ThreadTimer.sleep(TiempoEsperaDuo);
+					if(estaAtrapado){			//while(estaAtrapado){
+					    //ThreadTimer.sleep(1000);			
+						if(tipo == 1){
+							while(estaAtrapado){
+								ThreadTimer.sleep(1000);
+								PersonajePrincipal.setVida(PersonajePrincipal.getVida() - 1 );
+								vent.update(vent.getGraphics());
+								if( PersonajePrincipal.getVida() <= 0){
+									terminar();
+									desactivarBajaVidas();
+								}
+							}
+						}
+							//System.out.println("vida menos");
+							PersonajePrincipal.setVida(PersonajePrincipal.getVida() - quitarVida );
+							vent.update(vent.getGraphics());
+				
+							desactivarBajaVidas();
+						
+						if( PersonajePrincipal.getVida() <= 0){
+							terminar();
+							desactivarBajaVidas();
+						}						
 					}
-					if( PersonajePrincipal.getVida() <= 0){
-						terminar();
-						desactivarBajaVidas();
-					}
-					
-				}
+			    }
+			
 			}
 		}catch (InterruptedException e) {				
 			e.printStackTrace();

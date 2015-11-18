@@ -37,10 +37,11 @@ public class Mapa{
 			agregarCombinacion(0,   8,5,    10,5,"IWOELD",5,1);
 			agregarCombinacion(0,   8,10,   10,10,"WUOQEI",5,2);
 		}
-		if(nivel == 2){ //Nivel 2
+		if(nivel == 2){ //Nivel 2	
 			agregarCombinacion(0,   5,9,    7,9, "WQED",3);
 			agregarCombinacion(1,  -1,-1,   9,3,"IUOL",3);
 			agregarCombinacion(1,   3,3,    -1,-1,"LDOEQUOE",5);
+			
 		}
 		for(int fil=0;fil<12;fil++){
 			for(int col=0;col<16;col++){
