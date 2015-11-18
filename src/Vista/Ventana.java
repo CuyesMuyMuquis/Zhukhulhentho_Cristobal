@@ -271,7 +271,7 @@ public class Ventana extends JFrame implements Renderizador{
 		Ventana.this.repaint();// actualizar
 		estado=Ventana.this.nuevoJuego.nivel2_recuperaEstActual(nuevoJuego.getPersonajeA() ,nuevoJuego.getPersonajeB() ,Ventana.this.nuevoJuego.getListMapas().get(2));	
 	}else if(estado == 0){ 
-		
+		posMapa = Ventana.this.nuevoJuego.buscaCodigo2(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() ,  Ventana.this.nuevoJuego.getListMapas().get(2));
 	    int segundos = Ventana.this.nuevoJuego.buscaTiempoEspera(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB(), Ventana.this.nuevoJuego.getListMapas().get(2));
 		System.out.print(segundos);
 		timer.TiempoEsperaEnDuo(segundos);
@@ -284,7 +284,7 @@ public class Ventana extends JFrame implements Renderizador{
 		String codigoExtraido = Ventana.this.nuevoJuego.buscaCodigo(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() ,  Ventana.this.nuevoJuego.getListMapas().get(2));
 		
 		int resultado = Ventana.this.nuevoJuego.estaCodigo(teclaPres,nuevoJuego.getPersonajeB() ,nuevoJuego.getPersonajeB() , codigoExtraido);
-		posMapa = Ventana.this.nuevoJuego.buscaCodigo2(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() ,  Ventana.this.nuevoJuego.getListMapas().get(2));
+		
 		if(resultado !=-1){
 			if (teclaPres.equals(codigoExtraido)){							
 				timer.desactivarBajaVidas();
@@ -305,6 +305,7 @@ public class Ventana extends JFrame implements Renderizador{
 			
 	}else if(estado==1){
 		//CAMBIO DE LA VIDA
+		posMapa = Ventana.this.nuevoJuego.buscaCodigo2(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() ,  Ventana.this.nuevoJuego.getListMapas().get(2));
 		timer.SetTipo(estado);
 		int segundos = Ventana.this.nuevoJuego.buscaTiempoEspera(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB(), Ventana.this.nuevoJuego.getListMapas().get(2));
 		System.out.print(segundos);
@@ -317,8 +318,9 @@ public class Ventana extends JFrame implements Renderizador{
 		System.out.println(subEstado);
 		System.out.println("==================");
 		if(subEstado==0){//CUY1 HACE ACCION ESPECIAL
+			
 			teclaPres=teclaPres+letra;		
-			posMapa = Ventana.this.nuevoJuego.buscaCodigo2(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() ,  Ventana.this.nuevoJuego.getListMapas().get(2));
+			//posMapa = Ventana.this.nuevoJuego.buscaCodigo2(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() ,  Ventana.this.nuevoJuego.getListMapas().get(2));
 			String codigoExtraido = Ventana.this.nuevoJuego.buscaCodigo(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() ,  Ventana.this.nuevoJuego.getListMapas().get(2));
 			int resultado = Ventana.this.nuevoJuego.estaCodigo(teclaPres,nuevoJuego.getPersonajeB() ,nuevoJuego.getPersonajeB() , codigoExtraido);
 			if(resultado !=-1){
@@ -339,8 +341,9 @@ public class Ventana extends JFrame implements Renderizador{
 			}
 		}
 		if(subEstado==1){//CUY2 debe hacer su accion especial)
+			//posMapa = Ventana.this.nuevoJuego.buscaCodigo2(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() ,  Ventana.this.nuevoJuego.getListMapas().get(2));
 			teclaPres=teclaPres+letra;	
-			posMapa = Ventana.this.nuevoJuego.buscaCodigo2(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() ,  Ventana.this.nuevoJuego.getListMapas().get(2));
+			//posMapa = Ventana.this.nuevoJuego.buscaCodigo2(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() ,  Ventana.this.nuevoJuego.getListMapas().get(2));
 			String codigoExtraido = Ventana.this.nuevoJuego.buscaCodigo(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() ,  Ventana.this.nuevoJuego.getListMapas().get(2));
 			
 			int resultado = Ventana.this.nuevoJuego.estaCodigo(teclaPres,nuevoJuego.getPersonajeB() ,nuevoJuego.getPersonajeB() , codigoExtraido);
@@ -599,102 +602,142 @@ public class Ventana extends JFrame implements Renderizador{
 	}
 	
 	protected void Ventana_Nivel_2(char letra, String direccion2, int puertoDestino2) {
-		estado=Ventana.this.nuevoJuego.tutorial_recuperaEstActual(nuevoJuego.getPersonajeA() ,nuevoJuego.getPersonajeB() ,Ventana.this.nuevoJuego.getListMapas().get(2));
-		enviarMensaje(direccion2 , puertoDestino2 , letra);
-		if(estado==-1){
-			timer.desactivarBajaVidas();
-			Ventana.this.nuevoJuego.realizaAccion(nuevoJuego.getPersonajeA()  ,nuevoJuego.getPersonajeB() ,letra,Ventana.this,Ventana.this.nuevoJuego.getListMapas().get(2));
-			Ventana.this.repaint();// actualizar
-		}else if(estado == 0){ 
-			timer.setearQuitarVida(2);
-			timer.activarBajaVidas();
-			System.out.println("DUO");
+		
+	estado=Ventana.this.nuevoJuego.nivel2_recuperaEstActual(nuevoJuego.getPersonajeA() ,nuevoJuego.getPersonajeB() ,Ventana.this.nuevoJuego.getListMapas().get(2));	
+	enviarMensaje(direccion2 , puertoDestino2 , letra);
+	if(estado==-1){
+		timer.desactivarBajaVidas();
+		Ventana.this.nuevoJuego.realizaAccion(nuevoJuego.getPersonajeA()  ,nuevoJuego.getPersonajeB() ,letra,Ventana.this,Ventana.this.nuevoJuego.getListMapas().get(2));
+		Ventana.this.repaint();// actualizar
+		estado=Ventana.this.nuevoJuego.nivel2_recuperaEstActual(nuevoJuego.getPersonajeA() ,nuevoJuego.getPersonajeB() ,Ventana.this.nuevoJuego.getListMapas().get(2));	
+	}else if(estado == 0){ 
+		posMapa = Ventana.this.nuevoJuego.buscaCodigo2(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() ,  Ventana.this.nuevoJuego.getListMapas().get(2));
+	    int segundos = Ventana.this.nuevoJuego.buscaTiempoEspera(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB(), Ventana.this.nuevoJuego.getListMapas().get(2));
+		System.out.print(segundos);
+		timer.TiempoEsperaEnDuo(segundos);
+		
+		timer.setearQuitarVida(2);
+		timer.activarBajaVidas();
+		System.out.println("DUO");
+		
+		teclaPres=teclaPres+letra;					
+		String codigoExtraido = Ventana.this.nuevoJuego.buscaCodigo(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() ,  Ventana.this.nuevoJuego.getListMapas().get(2));
+		
+		int resultado = Ventana.this.nuevoJuego.estaCodigo(teclaPres,nuevoJuego.getPersonajeB() ,nuevoJuego.getPersonajeB() , codigoExtraido);
+		
+		if(resultado !=-1){
+			if (teclaPres.equals(codigoExtraido)){							
+				timer.desactivarBajaVidas();
+				estado = -1 ; // Cambio el estado para salir del DUO o Accion.
+				teclaPres = "" ;
+				Ventana.this.nuevoJuego.ImprimirDuo2(Ventana.this.nuevoJuego.getListMapas().get(2), nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() , Ventana.this);
+				Ventana.this.repaint();
+				//posMapa++;
+			}
+		}else { //SI se ha equivocado se resetea la teclaPres y se quita 2 puntos de vida
+			teclaPres = "";
+			//EQUIVOCACIÓN DE TECLAS PRESIONADAS
+			quitarVida(letra);						
+		}
+		//imprimeEnPantallaLateral(estado);
+		Ventana.this.repaint();
+			System.out.println(estado);
 			
-			teclaPres=teclaPres+letra;					
+	}else if(estado==1){
+		//CAMBIO DE LA VIDA
+		posMapa = Ventana.this.nuevoJuego.buscaCodigo2(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() ,  Ventana.this.nuevoJuego.getListMapas().get(2));
+		timer.SetTipo(estado);
+		int segundos = Ventana.this.nuevoJuego.buscaTiempoEspera(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB(), Ventana.this.nuevoJuego.getListMapas().get(2));
+		System.out.print(segundos);
+		timer.TiempoEsperaEnDuo(segundos);
+		
+		timer.setearQuitarVida(2);
+		timer.activarBajaVidas();
+		int subEstado=Ventana.this.nuevoJuego.inmoviliza_cuy2(nuevoJuego.getPersonajeA() ,nuevoJuego.getPersonajeB() ,Ventana.this.nuevoJuego.getListMapas().get(2));
+		System.out.println("==================");
+		System.out.println(subEstado);
+		System.out.println("==================");
+		if(subEstado==0){//CUY1 HACE ACCION ESPECIAL
+			
+			teclaPres=teclaPres+letra;		
+			//posMapa = Ventana.this.nuevoJuego.buscaCodigo2(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() ,  Ventana.this.nuevoJuego.getListMapas().get(2));
 			String codigoExtraido = Ventana.this.nuevoJuego.buscaCodigo(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() ,  Ventana.this.nuevoJuego.getListMapas().get(2));
-			
 			int resultado = Ventana.this.nuevoJuego.estaCodigo(teclaPres,nuevoJuego.getPersonajeB() ,nuevoJuego.getPersonajeB() , codigoExtraido);
 			if(resultado !=-1){
-				if (teclaPres.equals(codigoExtraido)){							
+				if (teclaPres.equals(codigoExtraido)){
+					timer.SetTipo(-1);
 					timer.desactivarBajaVidas();
 					estado = -1 ; // Cambio el estado para salir del DUO o Accion.
 					teclaPres = "" ;
-					Ventana.this.nuevoJuego.ImprimirDuo2(Ventana.this.nuevoJuego.getListMapas().get(2), nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() , Ventana.this);
+				
+					Ventana.this.nuevoJuego.ImprimeAccion2_1(Ventana.this.nuevoJuego.getListMapas().get(2), nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() , Ventana.this);
 					Ventana.this.repaint();
+					//posMapa++;
 				}
 			}else { //SI se ha equivocado se resetea la teclaPres y se quita 2 puntos de vida
 				teclaPres = "";
 				//EQUIVOCACIÓN DE TECLAS PRESIONADAS
 				quitarVida(letra);						
 			}
-			Ventana.this.repaint();
-				System.out.println(estado);
-				
-		}else if(estado==1){
-			timer.setearQuitarVida(2);
-			timer.activarBajaVidas();
-			int subEstado=Ventana.this.nuevoJuego.inmoviliza_cuy2(nuevoJuego.getPersonajeA() ,nuevoJuego.getPersonajeB() ,Ventana.this.nuevoJuego.getListMapas().get(2));
-			if(subEstado==0){//no se puede mover el cuy 1(el cuy 2 debe hacer su accion especial)
-				teclaPres=teclaPres+letra;					
-				String codigoExtraido = Ventana.this.nuevoJuego.buscaCodigo(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() ,  Ventana.this.nuevoJuego.getListMapas().get(2));
-				
-				int resultado = Ventana.this.nuevoJuego.estaCodigo(teclaPres,nuevoJuego.getPersonajeB() ,nuevoJuego.getPersonajeB() , codigoExtraido);
-				if(resultado !=-1){
-					if (teclaPres.equals(codigoExtraido)){							
-						timer.desactivarBajaVidas();
-						estado = -1 ; // Cambio el estado para salir del DUO o Accion.
-						teclaPres = "" ;
-						Ventana.this.nuevoJuego.ImprimeAccion2_1(Ventana.this.nuevoJuego.getListMapas().get(2), nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() , Ventana.this);
-						Ventana.this.repaint();
-					}
-				}else { //SI se ha equivocado se resetea la teclaPres y se quita 2 puntos de vida
-					teclaPres = "";
-					//EQUIVOCACIÓN DE TECLAS PRESIONADAS
-					quitarVida(letra);						
-				}
-			}
-			if(subEstado==1){//no se puede mover el cuy 2(el cuy 1 debe hacer su accion especial)
-				teclaPres=teclaPres+letra;					
-				String codigoExtraido = Ventana.this.nuevoJuego.buscaCodigo(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() ,  Ventana.this.nuevoJuego.getListMapas().get(2));
-				
-				int resultado = Ventana.this.nuevoJuego.estaCodigo(teclaPres,nuevoJuego.getPersonajeB() ,nuevoJuego.getPersonajeB() , codigoExtraido);
-				if(resultado !=-1){
-					if (teclaPres.equals(codigoExtraido)){							
-						timer.desactivarBajaVidas();
-						estado = -1 ; // Cambio el estado para salir del DUO o Accion.
-						teclaPres = "" ;
-						Ventana.this.nuevoJuego.ImprimeAccion2_2(Ventana.this.nuevoJuego.getListMapas().get(2), nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() , Ventana.this);
-						Ventana.this.repaint();
-					}
-				}else { //SI se ha equivocado se resetea la teclaPres y se quita 2 puntos de vida
-					teclaPres = "";
-					//EQUIVOCACIÓN DE TECLAS PRESIONADAS
-					quitarVida(letra);						
-				}	
-				
-			}
+		}
+		if(subEstado==1){//CUY2 debe hacer su accion especial)
+			//posMapa = Ventana.this.nuevoJuego.buscaCodigo2(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() ,  Ventana.this.nuevoJuego.getListMapas().get(2));
+			teclaPres=teclaPres+letra;	
+			//posMapa = Ventana.this.nuevoJuego.buscaCodigo2(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() ,  Ventana.this.nuevoJuego.getListMapas().get(2));
+			String codigoExtraido = Ventana.this.nuevoJuego.buscaCodigo(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() ,  Ventana.this.nuevoJuego.getListMapas().get(2));
 			
-			Ventana.this.repaint();
-
-		}else if(estado==2){
-			    setNumeroPantalla(pantallaActual.FIN_DEL_JUEGO.ordinal());
-		}else if(estado==3){
-				setNumeroPantalla(pantallaActual.PERDIO_JUEGO.ordinal());
+			int resultado = Ventana.this.nuevoJuego.estaCodigo(teclaPres,nuevoJuego.getPersonajeB() ,nuevoJuego.getPersonajeB() , codigoExtraido);
+			if(resultado !=-1){
+				if (teclaPres.equals(codigoExtraido)){
+					timer.SetTipo(-1);
+					timer.desactivarBajaVidas();
+					estado = -1 ; // Cambio el estado para salir del DUO o Accion.
+					teclaPres = "" ;
+					Ventana.this.nuevoJuego.ImprimeAccion2_2(Ventana.this.nuevoJuego.getListMapas().get(2), nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() , Ventana.this);
+					Ventana.this.repaint();
+					//posMapa++;
+				}
+			}else { //SI se ha equivocado se resetea la teclaPres y se quita 2 puntos de vida
+				teclaPres = "";
+				//EQUIVOCACIÓN DE TECLAS PRESIONADAS
+				quitarVida(letra);						
+			}	
+			
 		}
 		
-		
+		Ventana.this.repaint();
+
+	}else if(estado==2){
+		    setNumeroPantalla(pantallaActual.FIN_DEL_JUEGO.ordinal());
+		    //int t = getNumeroPantalla();
+		    //setNumeroPantalla(getNumeroPantalla() + 1);
+			System.out.println(getNumeroPantalla());
+			estado=-1;
+			System.out.println("Estoy afuera");
+			Ventana.this.update(Ventana.this.getGraphics());
+			Ventana.this.IniciarPantalla();
+		    
+	}else if(estado==3){
+			setNumeroPantalla(pantallaActual.PERDIO_JUEGO.ordinal());
+	}
 	
 		
 	}
 
 	protected void Ventana_Nivel_1(char letra, String direccion2, int puertoDestino2) {
-
+		
 		estado=Ventana.this.nuevoJuego.tutorial_recuperaEstActual(nuevoJuego.getPersonajeA() ,nuevoJuego.getPersonajeB() ,Ventana.this.nuevoJuego.getListMapas().get(1));
 		enviarMensaje(direccion2 , puertoDestino2 , letra);
 		if(estado==-1){
 			Ventana.this.nuevoJuego.realizaAccion(nuevoJuego.getPersonajeA()  ,nuevoJuego.getPersonajeB() ,letra,Ventana.this,Ventana.this.nuevoJuego.getListMapas().get(1));
 			Ventana.this.repaint();// actualizar
+			estado=Ventana.this.nuevoJuego.tutorial_recuperaEstActual(nuevoJuego.getPersonajeA() ,nuevoJuego.getPersonajeB() ,Ventana.this.nuevoJuego.getListMapas().get(1));
 		}else if(estado == 0){ 
+			
+		    int segundos = Ventana.this.nuevoJuego.buscaTiempoEspera(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB(), Ventana.this.nuevoJuego.getListMapas().get(1));
+			System.out.print(segundos);
+			timer.TiempoEsperaEnDuo(segundos);
+			
 			timer.setearQuitarVida(2);
 			timer.activarBajaVidas();
 			System.out.println("DUO");
@@ -715,12 +758,13 @@ public class Ventana extends JFrame implements Renderizador{
 					if(numDuo==1){
 					Ventana.this.nuevoJuego.ImprimirDuo1_1(Ventana.this.nuevoJuego.getListMapas().get(0), nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() , Ventana.this);
 					Ventana.this.repaint();
+					posMapa++;
 					numDuo++;
 					}else{
 					if(numDuo==2){
 						Ventana.this.nuevoJuego.ImprimirDuo1_2(Ventana.this.nuevoJuego.getListMapas().get(1), nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() , Ventana.this);
 						Ventana.this.repaint();
-						
+						posMapa++;
 						}
 					}
 					/*
@@ -747,6 +791,7 @@ public class Ventana extends JFrame implements Renderizador{
 				//EQUIVOCACIÓN DE TECLAS PRESIONADAS
 				quitarVida(letra);						
 			}
+
 			Ventana.this.repaint();
 				System.out.println(estado);
 
@@ -765,11 +810,10 @@ public class Ventana extends JFrame implements Renderizador{
 			Ventana.this.update(Ventana.this.getGraphics());
 			Ventana.this.IniciarPantalla();
 		}
-		
 	}
 
 	public void Ventana_Tutorial(char letra, String direccion2, int puertoDestino) {
-
+		//imprimeEnPantallaLateral(estado);
 		// -1 -> no pasa nada. 0 -> duo. 1 -> accionEspecial. 2 -> acabo Nivel. 3 -> has perdido.
 		// SE DEBE CAMBIAR A:    -1 -> no pasa nada.
 		//					  0 -> duo. 
@@ -778,23 +822,29 @@ public class Ventana extends JFrame implements Renderizador{
 		// 				      4 -> has perdido.
 		////////////////////////////////////////////////////////
 		estado=Ventana.this.nuevoJuego.tutorial_recuperaEstActual(nuevoJuego.getPersonajeA() ,nuevoJuego.getPersonajeB() ,Ventana.this.nuevoJuego.getListMapas().get(0));
-		System.out.println(estado);
-		////////////////////////////////////////////////////////
+
 		/////////////	IMPORTANTE                  ////////////
 		////////////////////////////////////////////////////////
 		enviarMensaje(direccion2 , puertoDestino , letra);
 		////////////////////////////////////////////////////////
 		////////////////////////////////////////////////////////
+		System.out.println(estado);
 		////////////////////////////////////////////////////////
 		if(estado==-1){
 			timer.desactivarBajaVidas();
-			Ventana.this.nuevoJuego.realizaAccion(nuevoJuego.getPersonajeA()  ,nuevoJuego.getPersonajeB() ,letra,Ventana.this,Ventana.this.nuevoJuego.getListMapas().get(0));			
+			Ventana.this.nuevoJuego.realizaAccion(nuevoJuego.getPersonajeA()  ,nuevoJuego.getPersonajeB() ,letra,Ventana.this,Ventana.this.nuevoJuego.getListMapas().get(0));
 			Ventana.this.repaint();// actualizar
 		}else if(estado == 0){ // Duo 
+			
+			//Tiempo de espera para completar el duo (en segundos)
+		    int segundos = Ventana.this.nuevoJuego.buscaTiempoEspera(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB(), Ventana.this.nuevoJuego.getListMapas().get(0));
+			System.out.print(segundos);
+			timer.TiempoEsperaEnDuo(segundos);
+			
 			timer.setearQuitarVida(2);
 			timer.activarBajaVidas();
 			System.out.println("DUO");
-
+			//imprimeEnPantallaLateral(estado);
 			teclaPres=teclaPres+letra;					
 			String codigoExtraido = Ventana.this.nuevoJuego.buscaCodigo(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() ,  Ventana.this.nuevoJuego.getListMapas().get(0));
 			//JOptionPane.showMessageDialog(null,teclaPres);
@@ -811,6 +861,7 @@ public class Ventana extends JFrame implements Renderizador{
 					teclaPres = "" ;
 					Ventana.this.nuevoJuego.ImprimirDuo(Ventana.this.nuevoJuego.getListMapas().get(0), nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() , Ventana.this);
 					Ventana.this.repaint();
+					posMapa++;
 					/*
 				Ventana.this.nuevoJuego.ImprimirDuo_t_1(Ventana.this.nuevoJuego.getListMapas().get(0), nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() , Ventana.this);
 				Ventana.this.update((Graphics2D)Ventana.this.getGraphics());
@@ -835,12 +886,19 @@ public class Ventana extends JFrame implements Renderizador{
 				//EQUIVOCACIÓN DE TECLAS PRESIONADAS
 				quitarVida(letra);						
 			}
+			//imprimeEnPantallaLateral(estado);
 			Ventana.this.repaint();
 				System.out.println(estado);
 
 
 
 		}else if(estado==1){
+			timer.SetTipo(estado);
+			//Tiempo de espera para completar la accion (en segundos)
+		    int segundos = Ventana.this.nuevoJuego.buscaTiempoEspera(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB(), Ventana.this.nuevoJuego.getListMapas().get(0));
+			System.out.print("Segundos:"+segundos);
+			timer.TiempoEsperaEnDuo(segundos);
+			
 			timer.setearQuitarVida(1);
 			timer.activarBajaVidas();
 			int subEstado=Ventana.this.nuevoJuego.inmoviliza_cuy(nuevoJuego.getPersonajeA() ,nuevoJuego.getPersonajeB() ,Ventana.this.nuevoJuego.getListMapas().get(0));
@@ -860,9 +918,9 @@ public class Ventana extends JFrame implements Renderizador{
 			}
 			if(subEstado==-1){//el cuy libre se encuentra en una posicion para liberar al otro cuy
 				//SI TIENE EXITO
-					timer.desactivarBajaVidas();
+					
 					System.out.println("Accion");
-
+					//imprimeEnPantallaLateral(estado);
 					teclaPres=teclaPres+letra ; 					
 					String codigoExtraido = Ventana.this.nuevoJuego.buscaCodigo(estado,nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() ,  Ventana.this.nuevoJuego.getListMapas().get(0));
 					//JOptionPane.showMessageDialog(null,teclaPres);
@@ -875,6 +933,8 @@ public class Ventana extends JFrame implements Renderizador{
 					//JOptionPane.showMessageDialog(null,codigoExtraido);
 					if(resultado !=-1){
 						if (teclaPres.equals(codigoExtraido)){
+							timer.desactivarBajaVidas();
+							timer.SetTipo(-1);
 							estado = -1 ; // Cambio el estado para salir del DUO o Accion.
 							teclaPres = "" ;
 							Ventana.this.nuevoJuego.ImprimeAccion(Ventana.this.nuevoJuego.getListMapas().get(0), nuevoJuego.getPersonajeA() , nuevoJuego.getPersonajeB() , Ventana.this);
@@ -924,9 +984,7 @@ public class Ventana extends JFrame implements Renderizador{
 		//if(Ventana.this.nuevoJuego.getInterpreteComando().movimientoValido(per1, per2, direccion, mapa))
 
 		
-
-		
-	}
+		}
 
 	private void enviarMensaje(String direccion, int puerto, char letra) {
 		

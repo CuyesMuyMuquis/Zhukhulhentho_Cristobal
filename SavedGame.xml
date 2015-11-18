@@ -1,7 +1,7 @@
 <Modelo.StoredGame>
   <personajeA>
     <ancho>10</ancho>
-    <alto>10</alto>
+    <alto>190</alto>
     <posicion>
       <fila>5</fila>
       <columna>14</columna>
@@ -248,10 +248,10 @@
   </personajeA>
   <personajeB>
     <ancho>10</ancho>
-    <alto>10</alto>
+    <alto>190</alto>
     <posicion>
-      <fila>4</fila>
-      <columna>14</columna>
+      <fila>8</fila>
+      <columna>13</columna>
     </posicion>
     <letraAsociada>B</letraAsociada>
     <visible>true</visible>
@@ -494,6 +494,6 @@
     <estadoActual>0</estadoActual>
   </personajeB>
   <vida>10</vida>
-  <numMapaActual>6</numMapaActual>
-  <posCombinacion>0</posCombinacion>
+  <numMapaActual>2</numMapaActual>
+  <posCombinacion>1</posCombinacion>
 </Modelo.StoredGame>
