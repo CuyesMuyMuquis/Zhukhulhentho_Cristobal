@@ -494,9 +494,16 @@
     <estadoActual>0</estadoActual>
   </personajeB>
 <<<<<<< HEAD
+<<<<<<< HEAD
   <vida>7</vida>
 =======
   <vida>6</vida>
+>>>>>>> refs/remotes/origin/Carlo4
+=======
+  <vida>6</vida>
+=======
+  <vida>7</vida>
+>>>>>>> refs/remotes/origin/master
 >>>>>>> refs/remotes/origin/Carlo4
   <numMapaActual>4</numMapaActual>
   <posCombinacion>2</posCombinacion>
