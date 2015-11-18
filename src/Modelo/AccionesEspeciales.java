@@ -79,7 +79,7 @@ public class AccionesEspeciales {
 		this.combinacion = combinacion;
 	}
 
-	private int getTiempoMax() {
+	public int getTiempoMax() {
 		return tiempoMax;
 	}
 

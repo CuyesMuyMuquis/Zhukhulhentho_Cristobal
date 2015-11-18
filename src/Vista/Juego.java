@@ -1088,8 +1088,44 @@ public void ImprimeAccion2_2(Mapa mapa, PersonajePrincipal cuy2, PersonajePrinci
 			}		 		
 		}
 		return cadena;
-
 	}
+	
+	public int buscaTiempoEspera(int estado,PersonajePrincipal perA,PersonajePrincipal perB,Mapa mapaActual){
+		int tiempoEspera=0;
+		
+		ArrayList<AccionesEspeciales> lista = mapaActual.getListaAcciones();
+		
+		for(int i = 0; i < lista.size(); i++){
+			if ( lista.get(i).getTipo() == estado){
+				if( perA.getPosX() == lista.get(i).getPosXCuy1() && perA.getPosY() == lista.get(i).getPosYCuy1() && perB.getPosX() == lista.get(i).getPosXCuy2() && perB.getPosY() == lista.get(i).getPosYCuy2()){
+					tiempoEspera=lista.get(i).getTiempoMax();
+					System.out.println("Segundos 1:"+tiempoEspera);
+					return tiempoEspera;
+				}
+				if(perA.getPosX() == lista.get(i).getPosXCuy1() && perA.getPosY() == lista.get(i).getPosYCuy1() && perB.getPosX() == lista.get(i).getPosXCuy2() && perB.getPosY() == lista.get(i).getPosYCuy2()){
+					tiempoEspera=lista.get(i).getTiempoMax();
+					System.out.println("Segundos 2:"+tiempoEspera);
+					return tiempoEspera;
+				}
+				else{
+					if(lista.get(i).getPosXCuy1() == -1 && lista.get(i).getPosYCuy1() == -1 && perB.getPosX() == lista.get(i).getPosXCuy2() && perB.getPosY() == lista.get(i).getPosYCuy2()){
+						tiempoEspera=lista.get(i).getTiempoMax();
+						System.out.println("Segundos 3:"+tiempoEspera);
+						return tiempoEspera;
+					}
+					else{
+						if(perA.getPosX() == lista.get(i).getPosXCuy1() && perA.getPosY() == lista.get(i).getPosYCuy1() && lista.get(i).getPosXCuy2() == -1 && lista.get(i).getPosYCuy2() == -1){
+							tiempoEspera=lista.get(i).getTiempoMax();
+							System.out.println("Segundos 4:"+tiempoEspera);
+							return tiempoEspera;
+						}
+					}
+				}
+			}		 		
+		}
+		return tiempoEspera;
+	}
+	
 	public void cambiaCaracterEnMapa(Mapa mapaActual){
 		ArrayList<AccionesEspeciales> lista=mapaActual.getListaAcciones();
 		for(int i=0;i<lista.size();i++){

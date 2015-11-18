@@ -12,7 +12,7 @@ public class Principal {
 	public static void main(String[] args) {
 		
 		
-		Ventana.opcionJuego = MULTIPLAYER ; 
+		Ventana.opcionJuego = SINGLEPLAYER ; 
 		Ventana.puerto = 15000 ; 
 		Ventana.puertoDestino =  10000;
 		Ventana.direccion = "192.168.205.201";
