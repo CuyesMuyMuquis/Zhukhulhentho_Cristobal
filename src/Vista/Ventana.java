@@ -985,6 +985,9 @@ public class Ventana extends JFrame implements Renderizador{
 						if (e.getY() >= 300 && e.getY() <= 360 ){
 							//Configurar para tutorial 1 e iniciar juego							
 							//ConfigurarTutorial();
+							
+						//	Ventana_Config_Cico dd = new Ventana_Config_Cico();
+						
 							setNumeroPantalla(getNumeroPantalla() + 1);
 							IniciarPantalla();
 							nuevoJuego = new Juego(10, 50,40);
